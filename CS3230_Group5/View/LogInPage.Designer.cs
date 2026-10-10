@@ -34,6 +34,7 @@
             passwordInput = new TextBox();
             passwordLabel = new Label();
             backButton = new Button();
+            logInButton = new Button();
             SuspendLayout();
             // 
             // logInPageTitle
@@ -91,11 +92,21 @@
             backButton.Text = "<";
             backButton.UseVisualStyleBackColor = true;
             // 
+            // logInButton
+            // 
+            logInButton.Location = new Point(352, 329);
+            logInButton.Name = "logInButton";
+            logInButton.Size = new Size(94, 29);
+            logInButton.TabIndex = 29;
+            logInButton.Text = "Log in";
+            logInButton.UseVisualStyleBackColor = true;
+            // 
             // LogInPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(logInButton);
             Controls.Add(backButton);
             Controls.Add(passwordInput);
             Controls.Add(passwordLabel);
@@ -116,5 +127,6 @@
         private TextBox passwordInput;
         private Label passwordLabel;
         private Button backButton;
+        private Button logInButton;
     }
 }
