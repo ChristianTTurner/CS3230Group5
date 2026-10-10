@@ -63,6 +63,7 @@
             profileLink.TabIndex = 2;
             profileLink.TabStop = true;
             profileLink.Text = "Profile";
+            profileLink.LinkClicked += profileLink_LinkClicked;
             // 
             // addNurseButton
             // 
@@ -73,6 +74,7 @@
             addNurseButton.TabIndex = 3;
             addNurseButton.Text = "+";
             addNurseButton.UseVisualStyleBackColor = true;
+            addNurseButton.Click += addNurseButton_Click;
             // 
             // backButton
             // 
@@ -82,6 +84,7 @@
             backButton.TabIndex = 4;
             backButton.Text = "<";
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // ViewNursesPage
             // 

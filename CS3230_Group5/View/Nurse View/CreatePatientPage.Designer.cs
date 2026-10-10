@@ -65,6 +65,7 @@
             cancelButton.TabIndex = 21;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // createPatientLabel
             // 
@@ -286,6 +287,7 @@
             addPatientButton.TabIndex = 45;
             addPatientButton.Text = "Add";
             addPatientButton.UseVisualStyleBackColor = true;
+            addPatientButton.Click += addPatientButton_Click;
             // 
             // CreatePatientPage
             // 

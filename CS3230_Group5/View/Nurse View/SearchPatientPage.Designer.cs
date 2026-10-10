@@ -32,6 +32,7 @@
             searchPatientTextBox = new TextBox();
             addPatientButton = new Button();
             profileLink = new LinkLabel();
+            backButton = new Button();
             SuspendLayout();
             // 
             // patientList
@@ -60,6 +61,7 @@
             addPatientButton.TabIndex = 2;
             addPatientButton.Text = "+";
             addPatientButton.UseVisualStyleBackColor = true;
+            addPatientButton.Click += addPatientButton_Click;
             // 
             // profileLink
             // 
@@ -71,11 +73,22 @@
             profileLink.TabStop = true;
             profileLink.Text = "Profile";
             // 
+            // backButton
+            // 
+            backButton.Location = new Point(9, 5);
+            backButton.Name = "backButton";
+            backButton.Size = new Size(36, 29);
+            backButton.TabIndex = 29;
+            backButton.Text = "<";
+            backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
+            // 
             // SearchPatientPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(backButton);
             Controls.Add(profileLink);
             Controls.Add(addPatientButton);
             Controls.Add(searchPatientTextBox);
@@ -92,5 +105,6 @@
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
         private LinkLabel profileLink;
+        private Button backButton;
     }
 }

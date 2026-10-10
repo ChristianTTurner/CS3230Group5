@@ -53,6 +53,7 @@
             viewNursesButton.TabIndex = 1;
             viewNursesButton.Text = "View Nurses";
             viewNursesButton.UseVisualStyleBackColor = true;
+            viewNursesButton.Click += viewNursesButton_Click;
             // 
             // viewPatientsButton
             // 
@@ -63,6 +64,7 @@
             viewPatientsButton.TabIndex = 2;
             viewPatientsButton.Text = "View Patients";
             viewPatientsButton.UseVisualStyleBackColor = true;
+            viewPatientsButton.Click += viewPatientsButton_Click;
             // 
             // profileLink
             // 
@@ -74,6 +76,7 @@
             profileLink.TabIndex = 3;
             profileLink.TabStop = true;
             profileLink.Text = "Profile";
+            profileLink.LinkClicked += profileLink_LinkClicked;
             // 
             // NurseHomePage
             // 

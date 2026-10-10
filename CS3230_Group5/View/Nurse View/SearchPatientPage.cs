@@ -14,5 +14,19 @@ namespace CS3230_Group5.View.Nurse_View
         {
             InitializeComponent();
         }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            var nurseHomePage = new View.NurseHomePage();
+            nurseHomePage.Show();
+            this.Hide();
+        }
+
+        private void addPatientButton_Click(object sender, EventArgs e)
+        {
+            var createPatientPage = new View.Nurse_View.CreatePatientPage();
+            createPatientPage.Show();
+            this.Hide();
+        }
     }
 }
