@@ -103,7 +103,7 @@
             Controls.Add(usernameLabel);
             Controls.Add(logInPageTitle);
             Name = "LogInPage";
-            Text = "LogInPage";
+            Text = "Log In";
             ResumeLayout(false);
             PerformLayout();
         }
