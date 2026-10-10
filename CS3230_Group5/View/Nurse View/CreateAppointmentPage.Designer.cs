@@ -117,6 +117,7 @@
             bookAppointmentButton.TabIndex = 16;
             bookAppointmentButton.Text = "Book";
             bookAppointmentButton.UseVisualStyleBackColor = true;
+            bookAppointmentButton.Click += bookAppointmentButton_Click;
             // 
             // reasonTextBox
             // 
@@ -145,6 +146,7 @@
             cancelButton.TabIndex = 19;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // CreateAppointmentPage
             // 

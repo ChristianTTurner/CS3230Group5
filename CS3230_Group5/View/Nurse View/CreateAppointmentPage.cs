@@ -14,5 +14,18 @@ namespace CS3230_Group5.View.Nurse_View
         {
             InitializeComponent();
         }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            var patientProfilePage = new View.Nurse_View.ViewPatientProfile();
+            patientProfilePage.Show();
+            this.Hide();
+        }
+
+        private void bookAppointmentButton_Click(object sender, EventArgs e)
+        {
+            //TODO book appointment
+            //TODO return to patients profile
+        }
     }
 }

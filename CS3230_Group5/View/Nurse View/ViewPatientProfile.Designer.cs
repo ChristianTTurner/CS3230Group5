@@ -56,6 +56,7 @@
             editPatientProfileLink.TabIndex = 1;
             editPatientProfileLink.TabStop = true;
             editPatientProfileLink.Text = "edit";
+            editPatientProfileLink.LinkClicked += editPatientProfileLink_LinkClicked;
             // 
             // patientInfo
             // 
@@ -89,6 +90,7 @@
             setUpAppointmentLink.TabIndex = 4;
             setUpAppointmentLink.TabStop = true;
             setUpAppointmentLink.Text = "Set up Appointment";
+            setUpAppointmentLink.LinkClicked += setUpAppointmentLink_LinkClicked;
             // 
             // backButton
             // 
@@ -98,6 +100,7 @@
             backButton.TabIndex = 5;
             backButton.Text = "<";
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // ViewPatientProfile
             // 
