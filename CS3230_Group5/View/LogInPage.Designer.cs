@@ -91,6 +91,7 @@
             backButton.TabIndex = 28;
             backButton.Text = "<";
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // logInButton
             // 

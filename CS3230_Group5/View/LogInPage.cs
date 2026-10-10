@@ -14,5 +14,12 @@ namespace CS3230_Group5.View
         {
             InitializeComponent();
         }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            Form homePage = new HomePage();
+            homePage.Show();
+            this.Hide();
+        }
     }
 }

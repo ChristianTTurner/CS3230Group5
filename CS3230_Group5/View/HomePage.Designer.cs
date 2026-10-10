@@ -42,6 +42,7 @@
             signInButton.TabIndex = 0;
             signInButton.Text = "SIGN IN";
             signInButton.UseVisualStyleBackColor = true;
+            signInButton.Click += signInButton_Click;
             // 
             // linkLabel1
             // 
