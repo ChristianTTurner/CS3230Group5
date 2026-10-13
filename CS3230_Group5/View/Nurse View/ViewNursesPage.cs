@@ -73,9 +73,35 @@ namespace CS3230_Group5.View.Nurse_View
             this.loadNurses();
         }
 
-        private void profileLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        private void profileLink_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Nurse profile navigation will be implemented later.
+            if (nursesList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "Please select a nurse first.",
+                    "No Nurse Selected",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(nursesList.SelectedItems[0].Text, out int nurseId))
+            {
+                MessageBox.Show("Invalid nurse ID.");
+                return;
+            }
+
+            using var updateNursePage = new UpdateNursePage(nurseId);
+            updateNursePage.ShowDialog();
+
+            loadNurses();
+        }
+
+
+        private void ViewNursesPage_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
