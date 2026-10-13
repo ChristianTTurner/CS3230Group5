@@ -80,5 +80,72 @@ namespace CS3230_Group5.DAL
                 throw;
             }
         }
+
+
+        /// <summary>
+        /// Retrieves a nurse and their address by nurse ID.
+        /// </summary>
+        /// <param name="nurseId">The ID of the nurse to retrieve.</param>
+        /// <returns>The nurse and address, or null if the nurse is not found.</returns>
+        public (Nurse Nurse, Address Address)? GetNurseById(int nurseId)
+        {
+            if (nurseId <= 0)
+                throw new ArgumentOutOfRangeException(
+                    nameof(nurseId), "Nurse ID must be positive.");
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+
+            connection.Open();
+
+            using var command = new MySqlCommand(
+                @"SELECT
+              n.nurse_id,
+              n.first_name,
+              n.last_name,
+              n.date_of_birth,
+              n.address_id AS nurse_address_id,
+              n.phone,
+              n.username,
+              a.address_id AS address_id,
+              a.address1,
+              a.address2,
+              a.city,
+              a.state,
+              a.zip
+          FROM nurse n
+          JOIN address a ON n.address_id = a.address_id
+          WHERE n.nurse_id = @nurseId;",
+                connection);
+
+            command.Parameters.AddWithValue("@nurseId", nurseId);
+
+            using var reader = command.ExecuteReader();
+
+            if (!reader.Read())
+                return null;
+
+            var nurse = new Nurse(
+                reader.GetInt32("nurse_id"),
+                reader.GetString("first_name"),
+                reader.GetString("last_name"),
+                reader.GetDateTime("date_of_birth"),
+                reader.GetInt32("nurse_address_id"),
+                reader.GetString("phone"),
+                reader.GetString("username"));
+
+            var address = new Address(
+                reader.GetInt32("address_id"),
+                reader.GetString("address1"),
+                reader.IsDBNull(reader.GetOrdinal("address2"))
+                    ? null
+                    : reader.GetString("address2"),
+                reader.GetString("city"),
+                reader.GetString("state"),
+                reader.GetString("zip"));
+
+            return (nurse, address);
+        }
+
     }
 }
