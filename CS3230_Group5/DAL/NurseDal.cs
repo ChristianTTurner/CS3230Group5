@@ -147,5 +147,116 @@ namespace CS3230_Group5.DAL
             return (nurse, address);
         }
 
+
+        /// <summary>
+        /// Updates a nurse and their associated address in one transaction.
+        /// </summary>
+        /// <param name="nurse">Updated nurse information, including IDs.</param>
+        /// <param name="address">Updated address information.</param>
+        /// <returns>True if the nurse was updated; otherwise, false.</returns>
+        public bool UpdateNurse(Nurse nurse, Address address)
+        {
+            if (nurse == null)
+                throw new ArgumentNullException(nameof(nurse));
+
+            if (address == null)
+                throw new ArgumentNullException(nameof(address));
+
+            if (!nurse.NurseId.HasValue)
+                throw new ArgumentException(
+                    "Nurse ID is required to update a nurse.", nameof(nurse));
+
+            if (!nurse.AddressId.HasValue)
+                throw new ArgumentException(
+                    "Address ID is required to update a nurse.", nameof(nurse));
+
+            if (!address.AddressId.HasValue)
+                throw new ArgumentException(
+                    "Address ID is required to update an address.", nameof(address));
+
+            if (nurse.AddressId.Value != address.AddressId.Value)
+                throw new ArgumentException(
+                    "The nurse and address IDs must match.");
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                using var addressCommand = new MySqlCommand(
+                    @"UPDATE address
+              SET address1 = @address1,
+                  address2 = @address2,
+                  city = @city,
+                  state = @state,
+                  zip = @zip
+              WHERE address_id = @addressId;",
+                    connection,
+                    transaction);
+
+                addressCommand.Parameters.AddWithValue(
+                    "@address1", address.Address1);
+                addressCommand.Parameters.AddWithValue(
+                    "@address2", (object?)address.Address2 ?? DBNull.Value);
+                addressCommand.Parameters.AddWithValue(
+                    "@city", address.City);
+                addressCommand.Parameters.AddWithValue(
+                    "@state", address.State);
+                addressCommand.Parameters.AddWithValue(
+                    "@zip", address.Zip);
+                addressCommand.Parameters.AddWithValue(
+                    "@addressId", address.AddressId.Value);
+
+                int addressRows = addressCommand.ExecuteNonQuery();
+
+                using var nurseCommand = new MySqlCommand(
+                    @"UPDATE nurse
+              SET first_name = @firstName,
+                  last_name = @lastName,
+                  date_of_birth = @dateOfBirth,
+                  phone = @phone,
+                  username = @username
+              WHERE nurse_id = @nurseId
+                AND address_id = @addressId;",
+                    connection,
+                    transaction);
+
+                nurseCommand.Parameters.AddWithValue(
+                    "@firstName", nurse.FirstName);
+                nurseCommand.Parameters.AddWithValue(
+                    "@lastName", nurse.LastName);
+                nurseCommand.Parameters.AddWithValue(
+                    "@dateOfBirth", nurse.DateOfBirth);
+                nurseCommand.Parameters.AddWithValue(
+                    "@phone", nurse.Phone);
+                nurseCommand.Parameters.AddWithValue(
+                    "@username", nurse.Username);
+                nurseCommand.Parameters.AddWithValue(
+                    "@nurseId", nurse.NurseId.Value);
+                nurseCommand.Parameters.AddWithValue(
+                    "@addressId", nurse.AddressId.Value);
+
+                int nurseRows = nurseCommand.ExecuteNonQuery();
+
+                if (addressRows == 0 || nurseRows == 0)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
     }
 }
