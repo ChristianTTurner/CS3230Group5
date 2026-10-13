@@ -1,4 +1,7 @@
-﻿namespace CS3230_Group5.Model
+﻿
+using System;
+
+namespace CS3230_Group5.Model
 {
     /// <summary>
     /// Represents a nurse with identity and contact information.
@@ -26,9 +29,9 @@
         public DateTime DateOfBirth { get; }
 
         /// <summary>
-        /// Gets the identifier of the nurse's address.
+        /// Gets the identifier of the nurse's address, if assigned.
         /// </summary>
-        public int AddressId { get; }
+        public int? AddressId { get; }
 
         /// <summary>
         /// Gets the nurse's 10-digit phone number.
@@ -43,39 +46,35 @@
         /// <summary>
         /// Initializes a nurse and validates the supplied information.
         /// </summary>
-        public Nurse(int? nurseId, string firstName, string lastName, DateTime? dateOfBirth, int? addressId, string phone, string username)
+        public Nurse(
+            int? nurseId,
+            string firstName,
+            string lastName,
+            DateTime? dateOfBirth,
+            int? addressId,
+            string phone,
+            string username)
         {
             if (nurseId.HasValue && nurseId.Value <= 0)
-            {
                 throw new ArgumentOutOfRangeException(
-                    nameof(nurseId),
-                    "Nurse ID must be positive when provided.");
-            }
+                    nameof(nurseId), "Nurse ID must be positive when provided.");
 
-            if (!addressId.HasValue || addressId.Value <= 0)
-            {
+            if (addressId.HasValue && addressId.Value <= 0)
                 throw new ArgumentOutOfRangeException(
-                    nameof(addressId),
-                    "Address ID must be positive.");
-            }
+                    nameof(addressId), "Address ID must be positive when provided.");
 
             if (!dateOfBirth.HasValue)
-            {
                 throw new ArgumentNullException(nameof(dateOfBirth));
-            }
 
             if (dateOfBirth.Value.Date > DateTime.Today)
-            {
                 throw new ArgumentOutOfRangeException(
-                    nameof(dateOfBirth),
-                    "Date of birth cannot be in the future.");
-            }
+                    nameof(dateOfBirth), "Date of birth cannot be in the future.");
 
             NurseId = nurseId;
             FirstName = validateRequired(firstName, nameof(firstName));
             LastName = validateRequired(lastName, nameof(lastName));
             DateOfBirth = dateOfBirth.Value.Date;
-            AddressId = addressId.Value;
+            AddressId = addressId;
             Phone = validatePhone(phone);
             Username = validateRequired(username, nameof(username));
         }
@@ -83,10 +82,7 @@
         private static string validateRequired(string value, string name)
         {
             if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException(
-                    $"{name} cannot be empty.", name);
-            }
+                throw new ArgumentException($"{name} cannot be empty.", name);
 
             return value.Trim();
         }
@@ -96,20 +92,16 @@
             phone = validateRequired(phone, nameof(phone));
 
             if (phone.Length != 10)
-            {
                 throw new ArgumentException(
                     "Phone number must contain exactly 10 digits.",
                     nameof(phone));
-            }
 
             foreach (char character in phone)
             {
                 if (character < '0' || character > '9')
-                {
                     throw new ArgumentException(
                         "Phone number must contain only digits.",
                         nameof(phone));
-                }
             }
 
             return phone;
