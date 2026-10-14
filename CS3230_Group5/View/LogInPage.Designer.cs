@@ -35,6 +35,7 @@
             passwordLabel = new Label();
             backButton = new Button();
             logInButton = new Button();
+            logInErrorLabel = new Label();
             SuspendLayout();
             // 
             // logInPageTitle
@@ -54,6 +55,7 @@
             usernameInput.Name = "usernameInput";
             usernameInput.Size = new Size(422, 34);
             usernameInput.TabIndex = 25;
+            usernameInput.Leave += usernameInput_Leave;
             // 
             // usernameLabel
             // 
@@ -72,6 +74,7 @@
             passwordInput.Name = "passwordInput";
             passwordInput.Size = new Size(422, 34);
             passwordInput.TabIndex = 27;
+            passwordInput.Leave += passwordInput_Leave;
             // 
             // passwordLabel
             // 
@@ -101,12 +104,25 @@
             logInButton.TabIndex = 29;
             logInButton.Text = "Log in";
             logInButton.UseVisualStyleBackColor = true;
+            logInButton.Click += logInButton_Click;
+            // 
+            // logInErrorLabel
+            // 
+            logInErrorLabel.AutoSize = true;
+            logInErrorLabel.Font = new Font("Segoe UI", 10F);
+            logInErrorLabel.ForeColor = Color.FromArgb(192, 0, 0);
+            logInErrorLabel.Location = new Point(294, 372);
+            logInErrorLabel.Name = "logInErrorLabel";
+            logInErrorLabel.Size = new Size(201, 23);
+            logInErrorLabel.TabIndex = 30;
+            logInErrorLabel.Text = "invalid log in credentials*";
             // 
             // LogInPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(logInErrorLabel);
             Controls.Add(logInButton);
             Controls.Add(backButton);
             Controls.Add(passwordInput);
@@ -129,5 +145,6 @@
         private Label passwordLabel;
         private Button backButton;
         private Button logInButton;
+        private Label logInErrorLabel;
     }
 }
