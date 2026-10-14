@@ -31,7 +31,6 @@
             patientList = new ListView();
             searchPatientTextBox = new TextBox();
             addPatientButton = new Button();
-            profileLink = new LinkLabel();
             backButton = new Button();
             SuspendLayout();
             // 
@@ -63,16 +62,6 @@
             addPatientButton.UseVisualStyleBackColor = true;
             addPatientButton.Click += addPatientButton_Click;
             // 
-            // profileLink
-            // 
-            profileLink.AutoSize = true;
-            profileLink.Location = new Point(736, 9);
-            profileLink.Name = "profileLink";
-            profileLink.Size = new Size(52, 20);
-            profileLink.TabIndex = 3;
-            profileLink.TabStop = true;
-            profileLink.Text = "Profile";
-            // 
             // backButton
             // 
             backButton.Location = new Point(9, 5);
@@ -89,7 +78,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(backButton);
-            Controls.Add(profileLink);
             Controls.Add(addPatientButton);
             Controls.Add(searchPatientTextBox);
             Controls.Add(patientList);
@@ -104,7 +92,6 @@
         private ListView patientList;
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
-        private LinkLabel profileLink;
         private Button backButton;
     }
 }
