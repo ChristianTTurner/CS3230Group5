@@ -30,7 +30,6 @@
         {
             nursesList = new ListView();
             viewNursesLabel = new Label();
-            profileLink = new LinkLabel();
             addNurseButton = new Button();
             backButton = new Button();
             SuspendLayout();
@@ -54,19 +53,6 @@
             viewNursesLabel.Size = new Size(215, 76);
             viewNursesLabel.TabIndex = 1;
             viewNursesLabel.Text = "Nurses";
-            // 
-            // profileLink
-            // 
-            profileLink.AutoSize = true;
-            profileLink.Font = new Font("Segoe UI", 12F);
-            profileLink.Location = new Point(900, 11);
-            profileLink.Margin = new Padding(4, 0, 4, 0);
-            profileLink.Name = "profileLink";
-            profileLink.Size = new Size(82, 32);
-            profileLink.TabIndex = 2;
-            profileLink.TabStop = true;
-            profileLink.Text = "Profile";
-            profileLink.LinkClicked += profileLink_LinkClicked;
             // 
             // addNurseButton
             // 
@@ -98,7 +84,6 @@
             ClientSize = new Size(1000, 562);
             Controls.Add(backButton);
             Controls.Add(addNurseButton);
-            Controls.Add(profileLink);
             Controls.Add(viewNursesLabel);
             Controls.Add(nursesList);
             Margin = new Padding(4, 4, 4, 4);
@@ -113,7 +98,6 @@
 
         private ListView nursesList;
         private Label viewNursesLabel;
-        private LinkLabel profileLink;
         private Button addNurseButton;
         private Button backButton;
     }
