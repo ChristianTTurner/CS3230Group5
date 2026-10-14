@@ -92,5 +92,68 @@ namespace CS3230_Group5.View.Nurse_View
             createPatientPage.Show();
             this.Hide();
         }
+
+        private void patientList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            
+            deletePatientButton.Enabled = patientList.SelectedItems.Count > 0;
+        }
+
+        private void deletePatientButton_Click(object sender, EventArgs e)
+        {
+            if (patientList.SelectedItems.Count == 0)
+                return;
+
+            var selected = patientList.SelectedItems[0];
+            if (!int.TryParse(selected.SubItems[0].Text, out int patientId))
+            {
+                MessageBox.Show("Invalid patient id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Delete patient #{patientId}? This action cannot be undone.", "Confirm delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using var conn = new MySqlConnection(Connection.ConnectionString());
+                conn.Open();
+                using var tran = conn.BeginTransaction();
+
+                int? addressId = null;
+                using (var getAddr = new MySqlCommand("SELECT address_id FROM patient WHERE patient_id = @pid", conn, tran))
+                {
+                    getAddr.Parameters.AddWithValue("@pid", patientId);
+                    var res = getAddr.ExecuteScalar();
+                    if (res != null && res != DBNull.Value)
+                        addressId = Convert.ToInt32(res);
+                }
+
+                using (var del = new MySqlCommand("DELETE FROM patient WHERE patient_id = @pid", conn, tran))
+                {
+                    del.Parameters.AddWithValue("@pid", patientId);
+                    del.ExecuteNonQuery();
+                }
+
+                
+                if (addressId.HasValue)
+                {
+                    using var delAddr = new MySqlCommand("DELETE FROM address WHERE address_id = @aid", conn, tran);
+                    delAddr.Parameters.AddWithValue("@aid", addressId.Value);
+                    delAddr.ExecuteNonQuery();
+                }
+
+                tran.Commit();
+
+                patientList.Items.Remove(selected);
+                deletePatientButton.Enabled = false;
+                MessageBox.Show("Patient deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

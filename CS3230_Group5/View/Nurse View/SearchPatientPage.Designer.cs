@@ -39,9 +39,12 @@
             // 
             patientList.Location = new Point(12, 89);
             patientList.Name = "patientList";
+            patientList.FullRowSelect = true;
+            patientList.MultiSelect = false;
             patientList.Size = new Size(776, 349);
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
+            patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
             // 
             // searchPatientTextBox
             // 
@@ -63,6 +66,18 @@
             addPatientButton.Text = "+";
             addPatientButton.UseVisualStyleBackColor = true;
             addPatientButton.Click += addPatientButton_Click;
+            // 
+            // deletePatientButton
+            // 
+            deletePatientButton = new Button();
+            deletePatientButton.Location = new Point(12, 45);
+            deletePatientButton.Name = "deletePatientButton";
+            deletePatientButton.Size = new Size(75, 27);
+            deletePatientButton.TabIndex = 4;
+            deletePatientButton.Text = "Delete";
+            deletePatientButton.UseVisualStyleBackColor = true;
+            deletePatientButton.Enabled = false;
+            deletePatientButton.Click += deletePatientButton_Click;
             // 
             // profileLink
             // 
@@ -91,6 +106,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(backButton);
             Controls.Add(profileLink);
+            Controls.Add(deletePatientButton);
             Controls.Add(addPatientButton);
             Controls.Add(searchPatientTextBox);
             Controls.Add(patientList);
@@ -105,6 +121,7 @@
         private ListView patientList;
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
+        private Button deletePatientButton;
         private LinkLabel profileLink;
         private Button backButton;
     }
