@@ -50,6 +50,7 @@
             searchPatientTextBox.PlaceholderText = "Patient Name";
             searchPatientTextBox.Size = new Size(653, 27);
             searchPatientTextBox.TabIndex = 1;
+            searchPatientTextBox.TextChanged += searchPatientTextBox_TextChanged;
             // 
             // addPatientButton
             // 

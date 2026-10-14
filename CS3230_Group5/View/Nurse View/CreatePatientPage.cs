@@ -43,27 +43,40 @@ namespace CS3230_Group5.View.Nurse_View
                 var city = patientCity.Text?.Trim();
                 var state = patientState.SelectedItem?.ToString() ?? string.Empty;
                 var zip = patientZip.Text?.Trim();
+                var gender = patientGender.SelectedItem?.ToString() ?? string.Empty;
                 var isActive = patientIsActive.Checked ? 1 : 0;
 
                 using var conn = new MySqlConnection(Connection.ConnectionString());
                 conn.Open();
 
+                // Insert address row and get its id
+                var insertAddressSql = @"INSERT INTO address (address1, address2, city, state, zip)
+                    VALUES (@a1, @a2, @city, @state, @zip)";
+                using var addrCmd = new MySqlCommand(insertAddressSql, conn);
+                addrCmd.Parameters.AddWithValue("@a1", address1);
+                addrCmd.Parameters.AddWithValue("@a2", address2);
+                addrCmd.Parameters.AddWithValue("@city", city);
+                addrCmd.Parameters.AddWithValue("@state", state);
+                addrCmd.Parameters.AddWithValue("@zip", zip);
+                addrCmd.ExecuteNonQuery();
+
+                var getIdCmd = new MySqlCommand("SELECT LAST_INSERT_ID();", conn);
+                var addressIdObj = getIdCmd.ExecuteScalar();
+                var addressId = Convert.ToInt32(addressIdObj);
+
                 var sql = @"INSERT INTO patient
-                    (first_name, last_name, dob, phone, address1, address2, city, state, zip, is_active)
+                    (first_name, last_name, date_of_birth, phone, address_id, gender, active)
                     VALUES
-                    (@first, @last, @dob, @phone, @address1, @address2, @city, @state, @zip, @isActive)";
+                    (@first, @last, @date_of_birth, @phone, @addressId, @gender, @active)";
 
                 using var cmd = new MySqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@first", firstName);
                 cmd.Parameters.AddWithValue("@last", lastName);
-                cmd.Parameters.AddWithValue("@dob", dob);
+                cmd.Parameters.AddWithValue("@date_of_birth", dob);
                 cmd.Parameters.AddWithValue("@phone", phone);
-                cmd.Parameters.AddWithValue("@address1", address1);
-                cmd.Parameters.AddWithValue("@address2", address2);
-                cmd.Parameters.AddWithValue("@city", city);
-                cmd.Parameters.AddWithValue("@state", state);
-                cmd.Parameters.AddWithValue("@zip", zip);
-                cmd.Parameters.AddWithValue("@isActive", isActive);
+                cmd.Parameters.AddWithValue("@addressId", addressId);
+                cmd.Parameters.AddWithValue("@gender", gender);
+                cmd.Parameters.AddWithValue("@active", isActive);
 
                 var rows = cmd.ExecuteNonQuery();
                 if (rows > 0)
