@@ -67,6 +67,18 @@
             addPatientButton.UseVisualStyleBackColor = true;
             addPatientButton.Click += addPatientButton_Click;
             // 
+            // deletePatientButton
+            // 
+            deletePatientButton = new Button();
+            deletePatientButton.Location = new Point(12, 45);
+            deletePatientButton.Name = "deletePatientButton";
+            deletePatientButton.Size = new Size(75, 27);
+            deletePatientButton.TabIndex = 4;
+            deletePatientButton.Text = "Delete";
+            deletePatientButton.UseVisualStyleBackColor = true;
+            deletePatientButton.Enabled = false;
+            deletePatientButton.Click += deletePatientButton_Click;
+            // 
             // backButton
             // 
             backButton.Location = new Point(9, 5);
@@ -97,6 +109,7 @@
         private ListView patientList;
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
+        private Button deletePatientButton;
         private Button backButton;
     }
 }
