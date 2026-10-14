@@ -36,9 +36,10 @@
             // 
             // nursesList
             // 
-            nursesList.Location = new Point(12, 138);
+            nursesList.Location = new Point(15, 172);
+            nursesList.Margin = new Padding(4, 4, 4, 4);
             nursesList.Name = "nursesList";
-            nursesList.Size = new Size(776, 300);
+            nursesList.Size = new Size(969, 374);
             nursesList.TabIndex = 0;
             nursesList.UseCompatibleStateImageBehavior = false;
             // 
@@ -46,18 +47,20 @@
             // 
             viewNursesLabel.AutoSize = true;
             viewNursesLabel.Font = new Font("Segoe UI", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            viewNursesLabel.Location = new Point(12, 43);
+            viewNursesLabel.Location = new Point(15, 54);
+            viewNursesLabel.Margin = new Padding(4, 0, 4, 0);
             viewNursesLabel.Name = "viewNursesLabel";
-            viewNursesLabel.Size = new Size(178, 62);
+            viewNursesLabel.Size = new Size(215, 76);
             viewNursesLabel.TabIndex = 1;
             viewNursesLabel.Text = "Nurses";
             // 
             // addNurseButton
             // 
             addNurseButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            addNurseButton.Location = new Point(182, 58);
+            addNurseButton.Location = new Point(228, 72);
+            addNurseButton.Margin = new Padding(4, 4, 4, 4);
             addNurseButton.Name = "addNurseButton";
-            addNurseButton.Size = new Size(39, 37);
+            addNurseButton.Size = new Size(49, 46);
             addNurseButton.TabIndex = 3;
             addNurseButton.Text = "+";
             addNurseButton.UseVisualStyleBackColor = true;
@@ -65,9 +68,10 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(12, 12);
+            backButton.Location = new Point(15, 15);
+            backButton.Margin = new Padding(4, 4, 4, 4);
             backButton.Name = "backButton";
-            backButton.Size = new Size(32, 29);
+            backButton.Size = new Size(40, 36);
             backButton.TabIndex = 4;
             backButton.Text = "<";
             backButton.UseVisualStyleBackColor = true;
@@ -75,15 +79,17 @@
             // 
             // ViewNursesPage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1000, 562);
             Controls.Add(backButton);
             Controls.Add(addNurseButton);
             Controls.Add(viewNursesLabel);
             Controls.Add(nursesList);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "ViewNursesPage";
             Text = "View Nurses";
+            Load += ViewNursesPage_Load;
             ResumeLayout(false);
             PerformLayout();
         }
