@@ -32,12 +32,13 @@
             viewNursesLabel = new Label();
             addNurseButton = new Button();
             backButton = new Button();
+            profileLink = new LinkLabel();
             SuspendLayout();
             // 
             // nursesList
             // 
             nursesList.Location = new Point(15, 172);
-            nursesList.Margin = new Padding(4, 4, 4, 4);
+            nursesList.Margin = new Padding(4);
             nursesList.Name = "nursesList";
             nursesList.Size = new Size(969, 374);
             nursesList.TabIndex = 0;
@@ -58,7 +59,7 @@
             // 
             addNurseButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             addNurseButton.Location = new Point(228, 72);
-            addNurseButton.Margin = new Padding(4, 4, 4, 4);
+            addNurseButton.Margin = new Padding(4);
             addNurseButton.Name = "addNurseButton";
             addNurseButton.Size = new Size(49, 46);
             addNurseButton.TabIndex = 3;
@@ -69,7 +70,7 @@
             // backButton
             // 
             backButton.Location = new Point(15, 15);
-            backButton.Margin = new Padding(4, 4, 4, 4);
+            backButton.Margin = new Padding(4);
             backButton.Name = "backButton";
             backButton.Size = new Size(40, 36);
             backButton.TabIndex = 4;
@@ -77,16 +78,29 @@
             backButton.UseVisualStyleBackColor = true;
             backButton.Click += backButton_Click;
             // 
+            // profileLink
+            // 
+            profileLink.AutoSize = true;
+            profileLink.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            profileLink.Location = new Point(789, 17);
+            profileLink.Name = "profileLink";
+            profileLink.Size = new Size(181, 30);
+            profileLink.TabIndex = 5;
+            profileLink.TabStop = true;
+            profileLink.Text = "View/Edit Profile";
+            profileLink.LinkClicked += profileLink_LinkClicked;
+            // 
             // ViewNursesPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1000, 562);
+            Controls.Add(profileLink);
             Controls.Add(backButton);
             Controls.Add(addNurseButton);
             Controls.Add(viewNursesLabel);
             Controls.Add(nursesList);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "ViewNursesPage";
             Text = "View Nurses";
             Load += ViewNursesPage_Load;
@@ -100,5 +114,6 @@
         private Label viewNursesLabel;
         private Button addNurseButton;
         private Button backButton;
+        private LinkLabel profileLink;
     }
 }
