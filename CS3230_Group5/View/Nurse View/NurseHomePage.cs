@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -10,6 +9,11 @@ namespace CS3230_Group5.View
 {
     public partial class NurseHomePage : Form
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int SignedInID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool IsAdmin { get; set; }
+
         public NurseHomePage()
         {
             InitializeComponent();

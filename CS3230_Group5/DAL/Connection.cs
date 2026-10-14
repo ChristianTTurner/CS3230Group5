@@ -14,8 +14,8 @@ namespace CS3230_Group5.DAL
                 Server = "localhost",
                 Port = 3307,
                 Database = "cs3230f26_g5",
-                UserID = Environment.GetEnvironmentVariable("CS3230_DB_USER"),
-                Password = Environment.GetEnvironmentVariable("CS3230_DB_PASSWORD")
+                UserID = "cs3230f26_g5",
+                Password = "xS4!IKEf9}O9kF_f.@Gm"
             };
 
             if (string.IsNullOrWhiteSpace(builder.UserID) ||
