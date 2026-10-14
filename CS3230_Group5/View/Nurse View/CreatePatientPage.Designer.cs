@@ -50,7 +50,7 @@
             patientState = new ComboBox();
             patientZip = new TextBox();
             patientZipLabel = new Label();
-            patientIsActive = new RadioButton();
+            patientIsActive = new CheckBox();
             addPatientButton = new Button();
             patientGenderLabel = new Label();
             patientGender = new ComboBox();
@@ -319,7 +319,7 @@
             // 
             patientGender.Font = new Font("Segoe UI", 12F);
             patientGender.FormattingEnabled = true;
-            patientGender.Items.AddRange(new object[] { "Male", "Female", "Other", "Prefer not to say" });
+            patientGender.Items.AddRange(new object[] { "Male", "Female", "Other" });
             patientGender.Location = new Point(282, 243);
             patientGender.Margin = new Padding(3, 2, 3, 2);
             patientGender.Name = "patientGender";
@@ -393,7 +393,7 @@
         private ComboBox patientGender;
         private TextBox patientZip;
         private Label patientZipLabel;
-        private RadioButton patientIsActive;
+        private CheckBox patientIsActive;
         private Button addPatientButton;
     }
 }

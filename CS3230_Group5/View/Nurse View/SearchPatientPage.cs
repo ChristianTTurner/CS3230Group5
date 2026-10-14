@@ -10,15 +10,41 @@ using MySqlConnector;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /// <summary>
+    /// The SearchPatientPage class represents a form that allows users to search for patients in the database. It provides functionality to display a list 
+    /// of patients, search for patients by name, and perform actions such as adding, editing, or deleting patient records.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class SearchPatientPage : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SearchPatientPage"/> class.
+        /// </summary>
         public SearchPatientPage()
         {
             InitializeComponent();
             PopulatePatientList(null);
         }
 
-        private void PopulatePatientList(string filter = null)
+        private void patientList_DoubleClick(object sender, EventArgs e)
+        {
+            if (patientList.SelectedItems.Count == 0)
+                return;
+
+            var selected = patientList.SelectedItems[0];
+            if (!int.TryParse(selected.SubItems[0].Text, out int patientId))
+            {
+                MessageBox.Show("Invalid patient id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var editForm = new CreatePatientPage();
+            editForm.LoadForEdit(patientId);
+            editForm.Show();
+            this.Hide();
+        }
+
+        private void PopulatePatientList(string? filter = null)
         {
             try
             {

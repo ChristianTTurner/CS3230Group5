@@ -45,6 +45,7 @@
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
             patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
+            patientList.DoubleClick += patientList_DoubleClick;
             // 
             // searchPatientTextBox
             // 
