@@ -38,18 +38,20 @@
             // 
             nurseHomePageTitle.AutoSize = true;
             nurseHomePageTitle.Font = new Font("Segoe UI Semibold", 31.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            nurseHomePageTitle.Location = new Point(25, 128);
+            nurseHomePageTitle.Location = new Point(31, 160);
+            nurseHomePageTitle.Margin = new Padding(4, 0, 4, 0);
             nurseHomePageTitle.Name = "nurseHomePageTitle";
-            nurseHomePageTitle.Size = new Size(743, 72);
+            nurseHomePageTitle.Size = new Size(879, 86);
             nurseHomePageTitle.TabIndex = 0;
             nurseHomePageTitle.Text = "Nurse @ Healthcare Provider";
             // 
             // viewNursesButton
             // 
             viewNursesButton.Font = new Font("Segoe UI", 20F);
-            viewNursesButton.Location = new Point(168, 256);
+            viewNursesButton.Location = new Point(210, 320);
+            viewNursesButton.Margin = new Padding(4, 4, 4, 4);
             viewNursesButton.Name = "viewNursesButton";
-            viewNursesButton.Size = new Size(227, 91);
+            viewNursesButton.Size = new Size(284, 114);
             viewNursesButton.TabIndex = 1;
             viewNursesButton.Text = "View Nurses";
             viewNursesButton.UseVisualStyleBackColor = true;
@@ -58,9 +60,10 @@
             // viewPatientsButton
             // 
             viewPatientsButton.Font = new Font("Segoe UI", 20F);
-            viewPatientsButton.Location = new Point(416, 256);
+            viewPatientsButton.Location = new Point(520, 320);
+            viewPatientsButton.Margin = new Padding(4, 4, 4, 4);
             viewPatientsButton.Name = "viewPatientsButton";
-            viewPatientsButton.Size = new Size(227, 91);
+            viewPatientsButton.Size = new Size(284, 114);
             viewPatientsButton.TabIndex = 2;
             viewPatientsButton.Text = "View Patients";
             viewPatientsButton.UseVisualStyleBackColor = true;
@@ -70,9 +73,10 @@
             // 
             profileLink.AutoSize = true;
             profileLink.Font = new Font("Segoe UI", 18F);
-            profileLink.Location = new Point(686, 9);
+            profileLink.Location = new Point(858, 11);
+            profileLink.Margin = new Padding(4, 0, 4, 0);
             profileLink.Name = "profileLink";
-            profileLink.Size = new Size(102, 41);
+            profileLink.Size = new Size(122, 48);
             profileLink.TabIndex = 3;
             profileLink.TabStop = true;
             profileLink.Text = "Profile";
@@ -80,13 +84,14 @@
             // 
             // NurseHomePage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1000, 562);
             Controls.Add(profileLink);
             Controls.Add(viewPatientsButton);
             Controls.Add(viewNursesButton);
             Controls.Add(nurseHomePageTitle);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "NurseHomePage";
             Text = "Home Page";
             ResumeLayout(false);
