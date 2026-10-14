@@ -38,9 +38,13 @@
             // 
             patientList.Location = new Point(12, 89);
             patientList.Name = "patientList";
+            patientList.FullRowSelect = true;
+            patientList.MultiSelect = false;
             patientList.Size = new Size(776, 349);
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
+            patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
+            patientList.DoubleClick += patientList_DoubleClick;
             // 
             // searchPatientTextBox
             // 
@@ -49,6 +53,7 @@
             searchPatientTextBox.PlaceholderText = "Patient Name";
             searchPatientTextBox.Size = new Size(653, 27);
             searchPatientTextBox.TabIndex = 1;
+            searchPatientTextBox.TextChanged += searchPatientTextBox_TextChanged;
             // 
             // addPatientButton
             // 
