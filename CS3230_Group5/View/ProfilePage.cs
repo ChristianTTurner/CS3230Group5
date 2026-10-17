@@ -52,7 +52,7 @@ namespace CS3230_Group5.View
             {
                 if (reader.GetInt16(adminIdOrdinal) != 0)
                 {
-                    accountNameLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
+                    profileLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
                     accountInfo.Text = "Admin ID: " + reader.GetInt16(adminIdOrdinal) +
                         "\n DOB: " + reader.GetDateOnly(dobOrdinal) +
                         "\n Phone Number: " + reader.GetChar(phoneOrdinal);
@@ -82,7 +82,7 @@ namespace CS3230_Group5.View
             {
                 if (reader.GetInt16(adminIdOrdinal) != 0)
                 {
-                    accountNameLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
+                    profileLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
                     accountInfo.Text = "Nurse ID: " + reader.GetInt16(adminIdOrdinal) +
                         "\n DOB: " + reader.GetDateOnly(dobOrdinal) +
                         "\n Phone Number: " + reader.GetChar(phoneOrdinal);
@@ -93,8 +93,9 @@ namespace CS3230_Group5.View
 
         private void logOutButton_Click(object sender, EventArgs e)
         {
-            var form2 = new homePageButton();
-            form2.Show();
+            // Log out: return to the login page
+            var login = new LogInPage();
+            login.Show();
             this.Hide();
         }
 
@@ -103,6 +104,32 @@ namespace CS3230_Group5.View
             var form2 = new homePageButton();
             form2.Show();
             this.Hide();
+        }
+
+        private void editPatientProfileLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void editProfileButton_Click(object sender, EventArgs e)
+        {
+            // Edit profile not implemented yet - placeholder behavior
+            MessageBox.Show("Edit profile is not implemented yet.", "Not Implemented", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fnameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ProfilePage_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -73,7 +73,7 @@ namespace CS3230_Group5
 
         private void ManageProfile_Click(object? sender, EventArgs e)
         {
-            var profile = new ViewPatientProfile();
+            var profile = new ProfilePage();
             profile.Show();
             this.Hide();
         }

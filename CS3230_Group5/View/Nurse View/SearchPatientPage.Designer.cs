@@ -42,6 +42,7 @@
             panel1 = new Panel();
             label1 = new Label();
             searchButton = new Button();
+            viewPatientButton = new Button();
             menuPanel.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -78,7 +79,7 @@
             addPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             addPatientButton.ForeColor = Color.White;
             addPatientButton.ImageAlign = ContentAlignment.TopCenter;
-            addPatientButton.Location = new Point(1113, 113);
+            addPatientButton.Location = new Point(916, 118);
             addPatientButton.Margin = new Padding(4);
             addPatientButton.Name = "addPatientButton";
             addPatientButton.Size = new Size(173, 46);
@@ -226,12 +227,27 @@
             searchButton.Text = "Search";
             searchButton.UseVisualStyleBackColor = false;
             // 
+            // viewPatientButton
+            // 
+            viewPatientButton.BackColor = Color.RoyalBlue;
+            viewPatientButton.FlatAppearance.BorderSize = 0;
+            viewPatientButton.FlatStyle = FlatStyle.Flat;
+            viewPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            viewPatientButton.ForeColor = Color.White;
+            viewPatientButton.Location = new Point(1110, 118);
+            viewPatientButton.Name = "viewPatientButton";
+            viewPatientButton.Size = new Size(176, 46);
+            viewPatientButton.TabIndex = 11;
+            viewPatientButton.Text = "View Patient";
+            viewPatientButton.UseVisualStyleBackColor = false;
+            // 
             // SearchPatientPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1313, 743);
+            Controls.Add(viewPatientButton);
             Controls.Add(searchButton);
             Controls.Add(label1);
             Controls.Add(panel1);
@@ -266,5 +282,6 @@
         private Panel panel1;
         private Label label1;
         private Button searchButton;
+        private Button viewPatientButton;
     }
 }

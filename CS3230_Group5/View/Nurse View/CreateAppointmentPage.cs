@@ -95,6 +95,18 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void cancelButton_Click(object? sender, EventArgs e)
         {
+            foreach (Form open in Application.OpenForms)
+            {
+                if (open is CS3230_Group5.homePageButton home)
+                {
+                    home.Show();
+                    Close();
+                    return;
+                }
+            }
+
+            var newHome = new CS3230_Group5.homePageButton();
+            newHome.Show();
             Close();
         }
     }

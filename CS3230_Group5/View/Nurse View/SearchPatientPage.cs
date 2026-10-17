@@ -62,6 +62,27 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 PopulatePatientList(searchPatientTextBox.Text.Trim());
             };
+
+            viewPatientButton.Click += (s, e) =>
+            {
+                if (patientList.SelectedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select a patient first.", "No Patient Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var selected = patientList.SelectedItems[0];
+                if (!int.TryParse(selected.SubItems[0].Text, out int patientId))
+                {
+                    MessageBox.Show("Invalid patient id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var profile = new ViewPatientProfile();
+                profile.LoadPatient(patientId);
+                profile.Show();
+                this.Hide();
+            };
         }
 
         private void patientList_DoubleClick(object sender, EventArgs e)

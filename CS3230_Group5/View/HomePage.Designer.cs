@@ -149,7 +149,7 @@
             dashboardTitle.AutoSize = true;
             dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dashboardTitle.ForeColor = Color.White;
-            dashboardTitle.Location = new Point(11, 9);
+            dashboardTitle.Location = new Point(8, 25);
             dashboardTitle.Name = "dashboardTitle";
             dashboardTitle.Size = new Size(308, 28);
             dashboardTitle.TabIndex = 0;

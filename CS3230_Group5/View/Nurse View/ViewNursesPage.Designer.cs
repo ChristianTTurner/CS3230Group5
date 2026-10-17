@@ -49,7 +49,7 @@
             nursesList.Location = new Point(346, 174);
             nursesList.Margin = new Padding(4);
             nursesList.Name = "nursesList";
-            nursesList.Size = new Size(655, 550);
+            nursesList.Size = new Size(721, 550);
             nursesList.TabIndex = 0;
             nursesList.UseCompatibleStateImageBehavior = false;
             // 
@@ -72,7 +72,7 @@
             addNurseButton.FlatStyle = FlatStyle.Flat;
             addNurseButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             addNurseButton.ForeColor = Color.White;
-            addNurseButton.Location = new Point(609, 95);
+            addNurseButton.Location = new Point(676, 88);
             addNurseButton.Margin = new Padding(4);
             addNurseButton.Name = "addNurseButton";
             addNurseButton.Size = new Size(174, 46);
@@ -171,7 +171,7 @@
             panel1.Controls.Add(dashboardTitle);
             panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1010, 62);
+            panel1.Size = new Size(1099, 62);
             panel1.TabIndex = 7;
             // 
             // dashboardTitle
@@ -192,7 +192,7 @@
             viewNurseButton.FlatStyle = FlatStyle.Flat;
             viewNurseButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             viewNurseButton.ForeColor = Color.White;
-            viewNurseButton.Location = new Point(809, 95);
+            viewNurseButton.Location = new Point(876, 88);
             viewNurseButton.Margin = new Padding(4);
             viewNurseButton.Name = "viewNurseButton";
             viewNurseButton.Size = new Size(192, 46);
@@ -205,7 +205,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(1014, 737);
+            ClientSize = new Size(1099, 737);
             Controls.Add(viewNurseButton);
             Controls.Add(panel1);
             Controls.Add(menuPanel);
