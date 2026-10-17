@@ -124,6 +124,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1000, 562);
             Controls.Add(logInErrorLabel);
             Controls.Add(logInButton);

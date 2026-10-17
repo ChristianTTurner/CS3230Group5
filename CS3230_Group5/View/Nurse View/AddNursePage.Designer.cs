@@ -362,6 +362,13 @@
             dashboardTitle.TabIndex = 0;
             dashboardTitle.Text = "Healthcare Management System";
             // 
+            // viewButton
+            // 
+            viewButton.Location = new Point(0, 0);
+            viewButton.Name = "viewButton";
+            viewButton.Size = new Size(75, 23);
+            viewButton.TabIndex = 0;
+            // 
             // panel1
             // 
             panel1.BackColor = Color.DarkBlue;
@@ -375,6 +382,7 @@
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1096, 837);
             Controls.Add(panel1);
             Controls.Add(nursePassword);

@@ -78,7 +78,7 @@
             // 
             dateTimePicker.Font = new Font("Segoe UI", 14F);
             dateTimePicker.Location = new Point(189, 271);
-            dateTimePicker.Margin = new Padding(4, 4, 4, 4);
+            dateTimePicker.Margin = new Padding(4);
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(633, 45);
             dateTimePicker.TabIndex = 12;
@@ -88,7 +88,7 @@
             patients.Font = new Font("Segoe UI", 12F);
             patients.FormattingEnabled = true;
             patients.Location = new Point(154, 144);
-            patients.Margin = new Padding(4, 4, 4, 4);
+            patients.Margin = new Padding(4);
             patients.Name = "patients";
             patients.Size = new Size(528, 40);
             patients.TabIndex = 13;
@@ -98,7 +98,7 @@
             doctor.Font = new Font("Segoe UI", 12F);
             doctor.FormattingEnabled = true;
             doctor.Location = new Point(154, 210);
-            doctor.Margin = new Padding(4, 4, 4, 4);
+            doctor.Margin = new Padding(4);
             doctor.Name = "doctor";
             doctor.Size = new Size(528, 40);
             doctor.TabIndex = 14;
@@ -119,7 +119,7 @@
             bookAppointmentButton.Font = new Font("Segoe UI", 16F);
             bookAppointmentButton.ImageAlign = ContentAlignment.TopLeft;
             bookAppointmentButton.Location = new Point(860, 490);
-            bookAppointmentButton.Margin = new Padding(4, 4, 4, 4);
+            bookAppointmentButton.Margin = new Padding(4);
             bookAppointmentButton.Name = "bookAppointmentButton";
             bookAppointmentButton.Size = new Size(114, 58);
             bookAppointmentButton.TabIndex = 16;
@@ -131,7 +131,7 @@
             // 
             reasonTextBox.Font = new Font("Segoe UI", 11F);
             reasonTextBox.Location = new Point(30, 382);
-            reasonTextBox.Margin = new Padding(4, 4, 4, 4);
+            reasonTextBox.Margin = new Padding(4);
             reasonTextBox.Name = "reasonTextBox";
             reasonTextBox.Size = new Size(804, 164);
             reasonTextBox.TabIndex = 17;
@@ -151,7 +151,7 @@
             // cancelButton
             // 
             cancelButton.Location = new Point(709, 40);
-            cancelButton.Margin = new Padding(4, 4, 4, 4);
+            cancelButton.Margin = new Padding(4);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(114, 42);
             cancelButton.TabIndex = 19;
@@ -163,6 +163,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1000, 562);
             Controls.Add(cancelButton);
             Controls.Add(label3);
@@ -175,7 +176,7 @@
             Controls.Add(label1);
             Controls.Add(patientNameLabel);
             Controls.Add(createAppointmentLabel);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "CreateAppointmentPage";
             Text = "Create Appointment";
             Load += CreateAppointmentPage_Load;

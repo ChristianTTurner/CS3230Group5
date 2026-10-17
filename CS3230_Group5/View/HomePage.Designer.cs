@@ -297,6 +297,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1166, 730);
             Controls.Add(manageProfileLabel);
             Controls.Add(manageProfile);
