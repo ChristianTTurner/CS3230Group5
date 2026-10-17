@@ -33,7 +33,6 @@
             usernameLabel = new Label();
             passwordInput = new TextBox();
             passwordLabel = new Label();
-            backButton = new Button();
             logInButton = new Button();
             logInErrorLabel = new Label();
             SuspendLayout();
@@ -42,18 +41,22 @@
             // 
             logInPageTitle.AutoSize = true;
             logInPageTitle.Font = new Font("Segoe UI Semibold", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logInPageTitle.Location = new Point(83, 106);
+            logInPageTitle.ForeColor = Color.MidnightBlue;
+            logInPageTitle.Location = new Point(58, 110);
+            logInPageTitle.Margin = new Padding(4, 0, 4, 0);
             logInPageTitle.Name = "logInPageTitle";
-            logInPageTitle.Size = new Size(633, 62);
+            logInPageTitle.Size = new Size(871, 76);
             logInPageTitle.TabIndex = 3;
-            logInPageTitle.Text = "Healthcare Provider Group 5";
+            logInPageTitle.Text = "Healthcare Management System";
+            logInPageTitle.Click += logInPageTitle_Click;
             // 
             // usernameInput
             // 
             usernameInput.Font = new Font("Segoe UI", 12F);
-            usernameInput.Location = new Point(249, 208);
+            usernameInput.Location = new Point(311, 219);
+            usernameInput.Margin = new Padding(4);
             usernameInput.Name = "usernameInput";
-            usernameInput.Size = new Size(422, 34);
+            usernameInput.Size = new Size(526, 39);
             usernameInput.TabIndex = 25;
             usernameInput.Leave += usernameInput_Leave;
             // 
@@ -61,18 +64,20 @@
             // 
             usernameLabel.AutoSize = true;
             usernameLabel.Font = new Font("Segoe UI", 16F);
-            usernameLabel.Location = new Point(105, 204);
+            usernameLabel.Location = new Point(131, 214);
+            usernameLabel.Margin = new Padding(4, 0, 4, 0);
             usernameLabel.Name = "usernameLabel";
-            usernameLabel.Size = new Size(138, 37);
+            usernameLabel.Size = new Size(166, 45);
             usernameLabel.TabIndex = 24;
             usernameLabel.Text = "username:";
             // 
             // passwordInput
             // 
             passwordInput.Font = new Font("Segoe UI", 12F);
-            passwordInput.Location = new Point(249, 260);
+            passwordInput.Location = new Point(311, 300);
+            passwordInput.Margin = new Padding(4);
             passwordInput.Name = "passwordInput";
-            passwordInput.Size = new Size(422, 34);
+            passwordInput.Size = new Size(526, 39);
             passwordInput.TabIndex = 27;
             passwordInput.Leave += passwordInput_Leave;
             // 
@@ -80,30 +85,27 @@
             // 
             passwordLabel.AutoSize = true;
             passwordLabel.Font = new Font("Segoe UI", 16F);
-            passwordLabel.Location = new Point(105, 256);
+            passwordLabel.Location = new Point(131, 295);
+            passwordLabel.Margin = new Padding(4, 0, 4, 0);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(136, 37);
+            passwordLabel.Size = new Size(162, 45);
             passwordLabel.TabIndex = 26;
             passwordLabel.Text = "password:";
             // 
-            // backButton
-            // 
-            backButton.Location = new Point(12, 12);
-            backButton.Name = "backButton";
-            backButton.Size = new Size(36, 29);
-            backButton.TabIndex = 28;
-            backButton.Text = "<";
-            backButton.UseVisualStyleBackColor = true;
-            backButton.Click += backButton_Click;
-            // 
             // logInButton
             // 
-            logInButton.Location = new Point(352, 329);
+            logInButton.BackColor = Color.MidnightBlue;
+            logInButton.FlatAppearance.BorderSize = 0;
+            logInButton.FlatStyle = FlatStyle.Flat;
+            logInButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            logInButton.ForeColor = Color.White;
+            logInButton.Location = new Point(421, 379);
+            logInButton.Margin = new Padding(4);
             logInButton.Name = "logInButton";
-            logInButton.Size = new Size(94, 29);
+            logInButton.Size = new Size(160, 68);
             logInButton.TabIndex = 29;
-            logInButton.Text = "Log in";
-            logInButton.UseVisualStyleBackColor = true;
+            logInButton.Text = "Login";
+            logInButton.UseVisualStyleBackColor = false;
             logInButton.Click += logInButton_Click;
             // 
             // logInErrorLabel
@@ -111,27 +113,29 @@
             logInErrorLabel.AutoSize = true;
             logInErrorLabel.Font = new Font("Segoe UI", 10F);
             logInErrorLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            logInErrorLabel.Location = new Point(294, 372);
+            logInErrorLabel.Location = new Point(394, 466);
+            logInErrorLabel.Margin = new Padding(4, 0, 4, 0);
             logInErrorLabel.Name = "logInErrorLabel";
-            logInErrorLabel.Size = new Size(201, 23);
+            logInErrorLabel.Size = new Size(232, 28);
             logInErrorLabel.TabIndex = 30;
             logInErrorLabel.Text = "invalid log in credentials*";
             // 
             // LogInPage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1000, 562);
             Controls.Add(logInErrorLabel);
             Controls.Add(logInButton);
-            Controls.Add(backButton);
             Controls.Add(passwordInput);
             Controls.Add(passwordLabel);
             Controls.Add(usernameInput);
             Controls.Add(usernameLabel);
             Controls.Add(logInPageTitle);
+            Margin = new Padding(4);
             Name = "LogInPage";
             Text = "Log In";
+            Load += LogInPage_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -143,7 +147,6 @@
         private Label usernameLabel;
         private TextBox passwordInput;
         private Label passwordLabel;
-        private Button backButton;
         private Button logInButton;
         private Label logInErrorLabel;
     }

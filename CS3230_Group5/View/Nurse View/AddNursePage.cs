@@ -111,6 +111,15 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void cancelButton_Click(object? sender, EventArgs e)
         {
+            foreach (Form open in Application.OpenForms)
+            {
+                if (open is View.Nurse_View.ViewNursesPage viewNurses)
+                {
+                    viewNurses.Show();
+                    break;
+                }
+            }
+
             Close();
         }
 

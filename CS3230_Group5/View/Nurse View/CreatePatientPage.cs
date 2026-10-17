@@ -95,22 +95,32 @@ namespace CS3230_Group5.View.Nurse_View
         public CreatePatientPage()
         {
             InitializeComponent();
-            
+
             patientIsActive.Enabled = true;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
-            searchPatientsPage.Show();
-            this.Hide();
+            foreach (Form open in Application.OpenForms)
+            {
+                if (open is View.Nurse_View.SearchPatientPage search)
+                {
+                    search.Show();
+                    Close();
+                    return;
+                }
+            }
+
+            var newSearch = new View.Nurse_View.SearchPatientPage();
+            newSearch.Show();
+            Close();
         }
 
         private void addPatientButton_Click(object sender, EventArgs e)
         {
             try
             {
-                
+
                 var firstName = patientFName.Text?.Trim();
                 var lastName = patientLName.Text?.Trim();
 
@@ -194,7 +204,7 @@ namespace CS3230_Group5.View.Nurse_View
                     return;
                 }
 
-                
+
                 var insertAddressSqlNew = @"INSERT INTO address (address1, address2, city, state, zip)
                     VALUES (@a1, @a2, @city, @state, @zip)";
                 using var addrCmdNew = new MySqlCommand(insertAddressSqlNew, conn);
@@ -240,6 +250,16 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 MessageBox.Show($"Error adding patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void createPatientLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dashboardTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

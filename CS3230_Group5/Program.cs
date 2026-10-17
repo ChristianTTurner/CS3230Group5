@@ -1,3 +1,5 @@
+using CS3230_Group5.View;
+
 namespace CS3230_Group5
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace CS3230_Group5
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new HomePage());
+            Application.Run(new LogInPage());
         }
     }
 }

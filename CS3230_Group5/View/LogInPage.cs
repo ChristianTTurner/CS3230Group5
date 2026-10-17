@@ -20,20 +20,17 @@ namespace CS3230_Group5.View
             logInErrorLabel.Visible = false;
         }
 
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            Form homePage = new HomePage();
-            homePage.Show();
-            this.Hide();
-        }
-
         private void logInButton_Click(object sender, EventArgs e)
         {
-            this.signInNurse();
-            this.signInAdmin();
+            logInErrorLabel.Visible = false;
+
+            if (signInNurse()) return;
+            if (signInAdmin()) return;
+
+            logInErrorLabel.Visible = true;
         }
 
-        private void signInNurse()
+        private bool signInNurse()
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
@@ -47,30 +44,19 @@ namespace CS3230_Group5.View
             cmd.Parameters["@password"].Value = passwordInput.Text;
 
             using var reader = cmd.ExecuteReader();
-            var nurseIdOrdinal = reader.GetOrdinal("nurse_id");
 
             if (reader.Read())
             {
-                if (reader.GetInt16(nurseIdOrdinal) != 0)
-                {
-                    var form2 = new View.NurseHomePage();
-                    form2.IsAdmin = false;
-                    form2.SignedInID = reader.GetInt16(nurseIdOrdinal);
-                    form2.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    return;
-                }
+                var home = new CS3230_Group5.homePageButton();
+                home.Show();
+                this.Hide();
+                return true;
             }
-            else
-            {
-                logInErrorLabel.Visible = true;
-            }
+
+            return false;
         }
 
-        private void signInAdmin()
+        private bool signInAdmin()
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
@@ -84,27 +70,16 @@ namespace CS3230_Group5.View
             cmd.Parameters["@password"].Value = passwordInput.Text;
 
             using var reader = cmd.ExecuteReader();
-            var adminIdOrdinal = reader.GetOrdinal("admin_id");
 
             if (reader.Read())
             {
-                if (reader.GetInt16(adminIdOrdinal) != 0)
-                {
-                    var form2 = new View.NurseHomePage();
-                    form2.IsAdmin = true;
-                    form2.SignedInID = reader.GetInt16(adminIdOrdinal);
-                    form2.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    return;
-                }
+                var home = new CS3230_Group5.homePageButton();
+                home.Show();
+                this.Hide();
+                return true;
             }
-            else
-            {
-                logInErrorLabel.Visible = true;
-            }
+
+            return false;
         }
 
         private void usernameInput_Leave(object sender, EventArgs e)
@@ -120,6 +95,16 @@ namespace CS3230_Group5.View
         private bool validLogInInput()
         {
             return !usernameInput.Text.IsWhiteSpace() && !passwordInput.Text.IsWhiteSpace();
+        }
+
+        private void logInPageTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LogInPage_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

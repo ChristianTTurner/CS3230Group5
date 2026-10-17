@@ -93,16 +93,14 @@ namespace CS3230_Group5.View
 
         private void logOutButton_Click(object sender, EventArgs e)
         {
-            var form2 = new HomePage();
+            var form2 = new homePageButton();
             form2.Show();
             this.Hide();
         }
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            var form2 = new NurseHomePage();
-            form2.SignedInID = ProfileID;
-            form2.IsAdmin = IsAdmin;
+            var form2 = new homePageButton();
             form2.Show();
             this.Hide();
         }

@@ -31,16 +31,29 @@
             patientList = new ListView();
             searchPatientTextBox = new TextBox();
             addPatientButton = new Button();
-            backButton = new Button();
+            deletePatientButton = new Button();
+            menuPanel = new Panel();
+            logoutButton = new Button();
+            appointmentButton = new Button();
+            patientsButton = new Button();
+            nurseButton = new Button();
+            homeButton = new Button();
+            dashboardTitle = new Label();
+            panel1 = new Panel();
+            label1 = new Label();
+            searchButton = new Button();
+            menuPanel.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // patientList
             // 
-            patientList.Location = new Point(12, 89);
-            patientList.Name = "patientList";
             patientList.FullRowSelect = true;
+            patientList.Location = new Point(342, 255);
+            patientList.Margin = new Padding(4);
             patientList.MultiSelect = false;
-            patientList.Size = new Size(776, 349);
+            patientList.Name = "patientList";
+            patientList.Size = new Size(958, 475);
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
             patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
@@ -48,58 +61,190 @@
             // 
             // searchPatientTextBox
             // 
-            searchPatientTextBox.Location = new Point(135, 45);
+            searchPatientTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            searchPatientTextBox.Location = new Point(342, 190);
+            searchPatientTextBox.Margin = new Padding(4);
             searchPatientTextBox.Name = "searchPatientTextBox";
-            searchPatientTextBox.PlaceholderText = "Patient Name";
-            searchPatientTextBox.Size = new Size(653, 27);
+            searchPatientTextBox.PlaceholderText = "Search by name, phone or DOB";
+            searchPatientTextBox.Size = new Size(815, 39);
             searchPatientTextBox.TabIndex = 1;
             searchPatientTextBox.TextChanged += searchPatientTextBox_TextChanged;
             // 
             // addPatientButton
             // 
-            addPatientButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            addPatientButton.BackColor = Color.ForestGreen;
+            addPatientButton.FlatAppearance.BorderSize = 0;
+            addPatientButton.FlatStyle = FlatStyle.Flat;
+            addPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addPatientButton.ForeColor = Color.White;
             addPatientButton.ImageAlign = ContentAlignment.TopCenter;
-            addPatientButton.Location = new Point(94, 45);
+            addPatientButton.Location = new Point(1113, 113);
+            addPatientButton.Margin = new Padding(4);
             addPatientButton.Name = "addPatientButton";
-            addPatientButton.Size = new Size(35, 27);
+            addPatientButton.Size = new Size(173, 46);
             addPatientButton.TabIndex = 2;
-            addPatientButton.Text = "+";
-            addPatientButton.UseVisualStyleBackColor = true;
+            addPatientButton.Text = "Add Patient";
+            addPatientButton.UseVisualStyleBackColor = false;
             addPatientButton.Click += addPatientButton_Click;
             // 
             // deletePatientButton
             // 
-            deletePatientButton = new Button();
+            deletePatientButton.Enabled = false;
             deletePatientButton.Location = new Point(12, 45);
             deletePatientButton.Name = "deletePatientButton";
             deletePatientButton.Size = new Size(75, 27);
             deletePatientButton.TabIndex = 4;
             deletePatientButton.Text = "Delete";
             deletePatientButton.UseVisualStyleBackColor = true;
-            deletePatientButton.Enabled = false;
             deletePatientButton.Click += deletePatientButton_Click;
             // 
-            // backButton
+            // menuPanel
             // 
-            backButton.Location = new Point(9, 5);
-            backButton.Name = "backButton";
-            backButton.Size = new Size(36, 29);
-            backButton.TabIndex = 29;
-            backButton.Text = "<";
-            backButton.UseVisualStyleBackColor = true;
-            backButton.Click += backButton_Click;
+            menuPanel.BackColor = Color.MidnightBlue;
+            menuPanel.Controls.Add(logoutButton);
+            menuPanel.Controls.Add(appointmentButton);
+            menuPanel.Controls.Add(patientsButton);
+            menuPanel.Controls.Add(nurseButton);
+            menuPanel.Controls.Add(homeButton);
+            menuPanel.Location = new Point(1, 68);
+            menuPanel.Name = "menuPanel";
+            menuPanel.Size = new Size(316, 675);
+            menuPanel.TabIndex = 7;
+            // 
+            // logoutButton
+            // 
+            logoutButton.BackColor = Color.MidnightBlue;
+            logoutButton.FlatAppearance.BorderSize = 0;
+            logoutButton.FlatStyle = FlatStyle.Flat;
+            logoutButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logoutButton.ForeColor = Color.White;
+            logoutButton.Location = new Point(3, 591);
+            logoutButton.Name = "logoutButton";
+            logoutButton.Size = new Size(310, 81);
+            logoutButton.TabIndex = 4;
+            logoutButton.Text = "➜] Logout";
+            logoutButton.UseVisualStyleBackColor = false;
+            // 
+            // appointmentButton
+            // 
+            appointmentButton.BackColor = Color.MidnightBlue;
+            appointmentButton.FlatAppearance.BorderSize = 0;
+            appointmentButton.FlatStyle = FlatStyle.Flat;
+            appointmentButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            appointmentButton.ForeColor = Color.White;
+            appointmentButton.Location = new Point(3, 274);
+            appointmentButton.Name = "appointmentButton";
+            appointmentButton.Size = new Size(310, 81);
+            appointmentButton.TabIndex = 3;
+            appointmentButton.Text = "🗓️ Appointments";
+            appointmentButton.UseVisualStyleBackColor = false;
+            // 
+            // patientsButton
+            // 
+            patientsButton.BackColor = Color.MidnightBlue;
+            patientsButton.FlatAppearance.BorderSize = 0;
+            patientsButton.FlatStyle = FlatStyle.Flat;
+            patientsButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            patientsButton.ForeColor = Color.White;
+            patientsButton.Location = new Point(3, 187);
+            patientsButton.Name = "patientsButton";
+            patientsButton.Size = new Size(310, 81);
+            patientsButton.TabIndex = 2;
+            patientsButton.Text = "👥 Patients";
+            patientsButton.UseVisualStyleBackColor = false;
+            // 
+            // nurseButton
+            // 
+            nurseButton.BackColor = Color.MidnightBlue;
+            nurseButton.FlatAppearance.BorderSize = 0;
+            nurseButton.FlatStyle = FlatStyle.Flat;
+            nurseButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            nurseButton.ForeColor = Color.White;
+            nurseButton.Location = new Point(3, 102);
+            nurseButton.Name = "nurseButton";
+            nurseButton.Size = new Size(310, 79);
+            nurseButton.TabIndex = 1;
+            nurseButton.Text = "👤 Nurses";
+            nurseButton.UseVisualStyleBackColor = false;
+            // 
+            // homeButton
+            // 
+            homeButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            homeButton.BackColor = Color.MidnightBlue;
+            homeButton.FlatAppearance.BorderSize = 0;
+            homeButton.FlatStyle = FlatStyle.Flat;
+            homeButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            homeButton.ForeColor = Color.White;
+            homeButton.Location = new Point(3, 3);
+            homeButton.Name = "homeButton";
+            homeButton.Size = new Size(310, 93);
+            homeButton.TabIndex = 0;
+            homeButton.Text = "🏠︎ Home";
+            homeButton.UseVisualStyleBackColor = false;
+            // 
+            // dashboardTitle
+            // 
+            dashboardTitle.AutoSize = true;
+            dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dashboardTitle.ForeColor = Color.White;
+            dashboardTitle.Location = new Point(21, 21);
+            dashboardTitle.Name = "dashboardTitle";
+            dashboardTitle.Size = new Size(308, 28);
+            dashboardTitle.TabIndex = 0;
+            dashboardTitle.Text = "Healthcare Management System";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.DarkBlue;
+            panel1.Controls.Add(dashboardTitle);
+            panel1.Location = new Point(1, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1315, 71);
+            panel1.TabIndex = 8;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(342, 94);
+            label1.Name = "label1";
+            label1.Size = new Size(226, 70);
+            label1.TabIndex = 9;
+            label1.Text = "Patients";
+            // 
+            // searchButton
+            // 
+            searchButton.BackColor = Color.RoyalBlue;
+            searchButton.FlatAppearance.BorderSize = 0;
+            searchButton.FlatStyle = FlatStyle.Flat;
+            searchButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            searchButton.ForeColor = Color.White;
+            searchButton.Location = new Point(1174, 190);
+            searchButton.Name = "searchButton";
+            searchButton.Size = new Size(112, 39);
+            searchButton.TabIndex = 10;
+            searchButton.Text = "Search";
+            searchButton.UseVisualStyleBackColor = false;
             // 
             // SearchPatientPage
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(backButton);
+            ClientSize = new Size(1313, 743);
+            Controls.Add(searchButton);
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(menuPanel);
             Controls.Add(addPatientButton);
             Controls.Add(searchPatientTextBox);
             Controls.Add(patientList);
+            Margin = new Padding(4);
             Name = "SearchPatientPage";
             Text = "Patients";
+            Load += SearchPatientPage_Load;
+            menuPanel.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -110,6 +255,15 @@
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
         private Button deletePatientButton;
-        private Button backButton;
+        private Panel menuPanel;
+        private Button logoutButton;
+        private Button appointmentButton;
+        private Button patientsButton;
+        private Button nurseButton;
+        private Button homeButton;
+        private Label dashboardTitle;
+        private Panel panel1;
+        private Label label1;
+        private Button searchButton;
     }
 }

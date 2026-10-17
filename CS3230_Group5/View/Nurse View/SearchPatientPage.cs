@@ -24,6 +24,44 @@ namespace CS3230_Group5.View.Nurse_View
         {
             InitializeComponent();
             PopulatePatientList(null);
+
+            homeButton.Click += (s, e) =>
+            {
+                var home = new homePageButton();
+                home.Show();
+                this.Hide();
+            };
+
+            nurseButton.Click += (s, e) =>
+            {
+                var nurses = new ViewNursesPage();
+                nurses.Show();
+                this.Hide();
+            };
+
+            patientsButton.Click += (s, e) =>
+            {
+                PopulatePatientList(null);
+            };
+
+            appointmentButton.Click += (s, e) =>
+            {
+                var createAppointment = new CreateAppointmentPage();
+                createAppointment.Show();
+                this.Hide();
+            };
+
+            logoutButton.Click += (s, e) =>
+            {
+                var login = new View.LogInPage();
+                login.Show();
+                this.Hide();
+            };
+
+            searchButton.Click += (s, e) =>
+            {
+                PopulatePatientList(searchPatientTextBox.Text.Trim());
+            };
         }
 
         private void patientList_DoubleClick(object sender, EventArgs e)
@@ -107,8 +145,8 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            var nurseHomePage = new View.NurseHomePage();
-            nurseHomePage.Show();
+            var home = new homePageButton();
+            home.Show();
             this.Hide();
         }
 
@@ -121,7 +159,7 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void patientList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            
+
             deletePatientButton.Enabled = patientList.SelectedItems.Count > 0;
         }
 
@@ -162,7 +200,7 @@ namespace CS3230_Group5.View.Nurse_View
                     del.ExecuteNonQuery();
                 }
 
-                
+
                 if (addressId.HasValue)
                 {
                     using var delAddr = new MySqlCommand("DELETE FROM address WHERE address_id = @aid", conn, tran);
@@ -180,6 +218,11 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 MessageBox.Show($"Error deleting patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void SearchPatientPage_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

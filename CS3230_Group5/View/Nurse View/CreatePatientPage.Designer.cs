@@ -54,17 +54,21 @@
             addPatientButton = new Button();
             patientGenderLabel = new Label();
             patientGender = new ComboBox();
+            dashboardTitle = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)patientBirthMonth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)patientBirthDay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)patientBirthYear).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(338, 23);
-            cancelButton.Margin = new Padding(3, 2, 3, 2);
+            cancelButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cancelButton.Location = new Point(570, 581);
+            cancelButton.Margin = new Padding(4, 3, 4, 3);
             cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(80, 26);
+            cancelButton.Size = new Size(114, 47);
             cancelButton.TabIndex = 21;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
@@ -73,62 +77,66 @@
             // createPatientLabel
             // 
             createPatientLabel.AutoSize = true;
-            createPatientLabel.Font = new Font("Segoe UI Semibold", 31.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            createPatientLabel.Location = new Point(2, 7);
+            createPatientLabel.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            createPatientLabel.Location = new Point(339, 88);
+            createPatientLabel.Margin = new Padding(4, 0, 4, 0);
             createPatientLabel.Name = "createPatientLabel";
-            createPatientLabel.Size = new Size(301, 59);
+            createPatientLabel.Size = new Size(374, 70);
             createPatientLabel.TabIndex = 20;
             createPatientLabel.Text = "Create Patient";
+            createPatientLabel.Click += createPatientLabel_Click;
             // 
             // patientFNameLabel
             // 
             patientFNameLabel.AutoSize = true;
             patientFNameLabel.Font = new Font("Segoe UI", 12F);
-            patientFNameLabel.Location = new Point(7, 94);
+            patientFNameLabel.Location = new Point(63, 204);
+            patientFNameLabel.Margin = new Padding(4, 0, 4, 0);
             patientFNameLabel.Name = "patientFNameLabel";
-            patientFNameLabel.Size = new Size(89, 21);
+            patientFNameLabel.Size = new Size(134, 32);
             patientFNameLabel.TabIndex = 22;
             patientFNameLabel.Text = "First Name:";
             // 
             // patientFName
             // 
             patientFName.Font = new Font("Segoe UI", 12F);
-            patientFName.Location = new Point(108, 92);
-            patientFName.Margin = new Padding(3, 2, 3, 2);
+            patientFName.Location = new Point(207, 200);
+            patientFName.Margin = new Padding(4, 3, 4, 3);
             patientFName.Name = "patientFName";
             patientFName.PlaceholderText = "Patients First Name";
-            patientFName.Size = new Size(238, 29);
+            patientFName.Size = new Size(338, 39);
             patientFName.TabIndex = 23;
             // 
             // patientLName
             // 
             patientLName.Font = new Font("Segoe UI", 12F);
-            patientLName.Location = new Point(454, 94);
-            patientLName.Margin = new Padding(3, 2, 3, 2);
+            patientLName.Location = new Point(702, 204);
+            patientLName.Margin = new Padding(4, 3, 4, 3);
             patientLName.Name = "patientLName";
             patientLName.PlaceholderText = "Patients Last Name";
-            patientLName.Size = new Size(232, 29);
+            patientLName.Size = new Size(330, 39);
             patientLName.TabIndex = 25;
             // 
             // patientLNameLabel
             // 
             patientLNameLabel.AutoSize = true;
             patientLNameLabel.Font = new Font("Segoe UI", 12F);
-            patientLNameLabel.Location = new Point(355, 96);
+            patientLNameLabel.Location = new Point(560, 207);
+            patientLNameLabel.Margin = new Padding(4, 0, 4, 0);
             patientLNameLabel.Name = "patientLNameLabel";
-            patientLNameLabel.Size = new Size(87, 21);
+            patientLNameLabel.Size = new Size(131, 32);
             patientLNameLabel.TabIndex = 24;
             patientLNameLabel.Text = "Last Name:";
             // 
             // patientBirthMonth
             // 
             patientBirthMonth.Font = new Font("Segoe UI", 9F);
-            patientBirthMonth.Location = new Point(174, 130);
-            patientBirthMonth.Margin = new Padding(3, 2, 3, 2);
+            patientBirthMonth.Location = new Point(302, 264);
+            patientBirthMonth.Margin = new Padding(4, 3, 4, 3);
             patientBirthMonth.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
             patientBirthMonth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             patientBirthMonth.Name = "patientBirthMonth";
-            patientBirthMonth.Size = new Size(42, 23);
+            patientBirthMonth.Size = new Size(60, 31);
             patientBirthMonth.TabIndex = 26;
             patientBirthMonth.Value = new decimal(new int[] { 12, 0, 0, 0 });
             // 
@@ -136,33 +144,34 @@
             // 
             DOBLabel.AutoSize = true;
             DOBLabel.Font = new Font("Segoe UI", 12F);
-            DOBLabel.Location = new Point(10, 128);
+            DOBLabel.Location = new Point(67, 260);
+            DOBLabel.Margin = new Padding(4, 0, 4, 0);
             DOBLabel.Name = "DOBLabel";
-            DOBLabel.Size = new Size(149, 21);
+            DOBLabel.Size = new Size(225, 32);
             DOBLabel.TabIndex = 27;
             DOBLabel.Text = "DOB (mm/dd/yyyy):";
             // 
             // patientBirthDay
             // 
             patientBirthDay.Font = new Font("Segoe UI", 9F);
-            patientBirthDay.Location = new Point(221, 130);
-            patientBirthDay.Margin = new Padding(3, 2, 3, 2);
+            patientBirthDay.Location = new Point(369, 264);
+            patientBirthDay.Margin = new Padding(4, 3, 4, 3);
             patientBirthDay.Maximum = new decimal(new int[] { 31, 0, 0, 0 });
             patientBirthDay.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             patientBirthDay.Name = "patientBirthDay";
-            patientBirthDay.Size = new Size(42, 23);
+            patientBirthDay.Size = new Size(60, 31);
             patientBirthDay.TabIndex = 28;
             patientBirthDay.Value = new decimal(new int[] { 31, 0, 0, 0 });
             // 
             // patientBirthYear
             // 
             patientBirthYear.Font = new Font("Segoe UI", 9F);
-            patientBirthYear.Location = new Point(269, 130);
-            patientBirthYear.Margin = new Padding(3, 2, 3, 2);
+            patientBirthYear.Location = new Point(437, 264);
+            patientBirthYear.Margin = new Padding(4, 3, 4, 3);
             patientBirthYear.Maximum = new decimal(new int[] { 2026, 0, 0, 0 });
             patientBirthYear.Minimum = new decimal(new int[] { 1899, 0, 0, 0 });
             patientBirthYear.Name = "patientBirthYear";
-            patientBirthYear.Size = new Size(80, 23);
+            patientBirthYear.Size = new Size(114, 31);
             patientBirthYear.TabIndex = 29;
             patientBirthYear.Value = new decimal(new int[] { 1899, 0, 0, 0 });
             // 
@@ -170,167 +179,202 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(355, 130);
+            label1.Location = new Point(560, 264);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(70, 21);
+            label1.Size = new Size(108, 32);
             label1.TabIndex = 30;
             label1.Text = "Phone #:";
             // 
             // patientPhoneNumber
             // 
             patientPhoneNumber.Font = new Font("Segoe UI", 12F);
-            patientPhoneNumber.Location = new Point(438, 126);
-            patientPhoneNumber.Margin = new Padding(3, 2, 3, 2);
+            patientPhoneNumber.Location = new Point(679, 257);
+            patientPhoneNumber.Margin = new Padding(4, 3, 4, 3);
             patientPhoneNumber.Name = "patientPhoneNumber";
             patientPhoneNumber.PlaceholderText = "xxx-xxx-xxxx";
-            patientPhoneNumber.Size = new Size(248, 29);
+            patientPhoneNumber.Size = new Size(353, 39);
             patientPhoneNumber.TabIndex = 31;
             // 
             // patientAddress1
             // 
             patientAddress1.Font = new Font("Segoe UI", 12F);
-            patientAddress1.Location = new Point(102, 177);
-            patientAddress1.Margin = new Padding(3, 2, 3, 2);
+            patientAddress1.Location = new Point(199, 342);
+            patientAddress1.Margin = new Padding(4, 3, 4, 3);
             patientAddress1.Name = "patientAddress1";
-            patientAddress1.Size = new Size(238, 29);
+            patientAddress1.Size = new Size(338, 39);
             patientAddress1.TabIndex = 35;
             // 
             // patientAddress1Label
             // 
             patientAddress1Label.AutoSize = true;
             patientAddress1Label.Font = new Font("Segoe UI", 12F);
-            patientAddress1Label.Location = new Point(10, 179);
+            patientAddress1Label.Location = new Point(67, 345);
+            patientAddress1Label.Margin = new Padding(4, 0, 4, 0);
             patientAddress1Label.Name = "patientAddress1Label";
-            patientAddress1Label.Size = new Size(80, 21);
+            patientAddress1Label.Size = new Size(123, 32);
             patientAddress1Label.TabIndex = 34;
-            patientAddress1Label.Text = "address 1:";
+            patientAddress1Label.Text = "Address 1:";
             // 
             // patientAddress2
             // 
             patientAddress2.Font = new Font("Segoe UI", 12F);
-            patientAddress2.Location = new Point(447, 179);
-            patientAddress2.Margin = new Padding(3, 2, 3, 2);
+            patientAddress2.Location = new Point(692, 342);
+            patientAddress2.Margin = new Padding(4, 3, 4, 3);
             patientAddress2.Name = "patientAddress2";
-            patientAddress2.Size = new Size(238, 29);
+            patientAddress2.Size = new Size(338, 39);
             patientAddress2.TabIndex = 37;
             // 
             // patientAddress2Label
             // 
             patientAddress2Label.AutoSize = true;
             patientAddress2Label.Font = new Font("Segoe UI", 12F);
-            patientAddress2Label.Location = new Point(355, 182);
+            patientAddress2Label.Location = new Point(561, 342);
+            patientAddress2Label.Margin = new Padding(4, 0, 4, 0);
             patientAddress2Label.Name = "patientAddress2Label";
-            patientAddress2Label.Size = new Size(80, 21);
+            patientAddress2Label.Size = new Size(123, 32);
             patientAddress2Label.TabIndex = 36;
-            patientAddress2Label.Text = "address 2:";
+            patientAddress2Label.Text = "Address 2:";
             // 
             // patientCity
             // 
             patientCity.Font = new Font("Segoe UI", 12F);
-            patientCity.Location = new Point(285, 208);
-            patientCity.Margin = new Padding(3, 2, 3, 2);
+            patientCity.Location = new Point(460, 394);
+            patientCity.Margin = new Padding(4, 3, 4, 3);
             patientCity.Name = "patientCity";
-            patientCity.Size = new Size(238, 29);
+            patientCity.Size = new Size(338, 39);
             patientCity.TabIndex = 39;
             // 
             // patientCityLabel
             // 
             patientCityLabel.AutoSize = true;
             patientCityLabel.Font = new Font("Segoe UI", 12F);
-            patientCityLabel.Location = new Point(239, 211);
+            patientCityLabel.Location = new Point(394, 399);
+            patientCityLabel.Margin = new Padding(4, 0, 4, 0);
             patientCityLabel.Name = "patientCityLabel";
-            patientCityLabel.Size = new Size(37, 21);
+            patientCityLabel.Size = new Size(60, 32);
             patientCityLabel.TabIndex = 38;
-            patientCityLabel.Text = "city:";
+            patientCityLabel.Text = "City:";
             // 
             // patientStateLabel
             // 
             patientStateLabel.AutoSize = true;
             patientStateLabel.Font = new Font("Segoe UI", 12F);
-            patientStateLabel.Location = new Point(10, 211);
+            patientStateLabel.Location = new Point(67, 399);
+            patientStateLabel.Margin = new Padding(4, 0, 4, 0);
             patientStateLabel.Name = "patientStateLabel";
-            patientStateLabel.Size = new Size(46, 21);
+            patientStateLabel.Size = new Size(72, 32);
             patientStateLabel.TabIndex = 40;
-            patientStateLabel.Text = "state:";
+            patientStateLabel.Text = "State:";
             // 
             // patientState
             // 
             patientState.FormattingEnabled = true;
             patientState.Items.AddRange(new object[] { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" });
-            patientState.Location = new Point(66, 211);
-            patientState.Margin = new Padding(3, 2, 3, 2);
+            patientState.Location = new Point(147, 399);
+            patientState.Margin = new Padding(4, 3, 4, 3);
             patientState.Name = "patientState";
-            patientState.Size = new Size(168, 23);
+            patientState.Size = new Size(238, 33);
             patientState.TabIndex = 41;
             // 
             // patientZip
             // 
             patientZip.Font = new Font("Segoe UI", 12F);
-            patientZip.Location = new Point(574, 208);
-            patientZip.Margin = new Padding(3, 2, 3, 2);
+            patientZip.Location = new Point(873, 394);
+            patientZip.Margin = new Padding(4, 3, 4, 3);
             patientZip.Name = "patientZip";
-            patientZip.Size = new Size(112, 29);
+            patientZip.Size = new Size(158, 39);
             patientZip.TabIndex = 43;
             // 
             // patientZipLabel
             // 
             patientZipLabel.AutoSize = true;
             patientZipLabel.Font = new Font("Segoe UI", 12F);
-            patientZipLabel.Location = new Point(532, 211);
+            patientZipLabel.Location = new Point(813, 399);
+            patientZipLabel.Margin = new Padding(4, 0, 4, 0);
             patientZipLabel.Name = "patientZipLabel";
-            patientZipLabel.Size = new Size(33, 21);
+            patientZipLabel.Size = new Size(53, 32);
             patientZipLabel.TabIndex = 42;
-            patientZipLabel.Text = "zip:";
+            patientZipLabel.Text = "Zip:";
             // 
             // patientIsActive
             // 
             patientIsActive.AutoSize = true;
-            patientIsActive.Location = new Point(7, 249);
-            patientIsActive.Margin = new Padding(3, 2, 3, 2);
+            patientIsActive.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            patientIsActive.Location = new Point(67, 487);
+            patientIsActive.Margin = new Padding(4, 3, 4, 3);
             patientIsActive.Name = "patientIsActive";
-            patientIsActive.Size = new Size(58, 19);
+            patientIsActive.Size = new Size(93, 32);
             patientIsActive.TabIndex = 44;
-            patientIsActive.TabStop = true;
             patientIsActive.Text = "Active";
             patientIsActive.UseVisualStyleBackColor = true;
             // 
             // addPatientButton
             // 
-            addPatientButton.Location = new Point(593, 300);
-            addPatientButton.Margin = new Padding(3, 2, 3, 2);
+            addPatientButton.BackColor = Color.ForestGreen;
+            addPatientButton.FlatAppearance.BorderSize = 0;
+            addPatientButton.FlatStyle = FlatStyle.Flat;
+            addPatientButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addPatientButton.ForeColor = Color.White;
+            addPatientButton.Location = new Point(413, 581);
+            addPatientButton.Margin = new Padding(4, 3, 4, 3);
             addPatientButton.Name = "addPatientButton";
-            addPatientButton.Size = new Size(96, 28);
+            addPatientButton.Size = new Size(137, 47);
             addPatientButton.TabIndex = 45;
-            addPatientButton.Text = "Add";
-            addPatientButton.UseVisualStyleBackColor = true;
+            addPatientButton.Text = "Save";
+            addPatientButton.UseVisualStyleBackColor = false;
             addPatientButton.Click += addPatientButton_Click;
             // 
             // patientGenderLabel
             // 
             patientGenderLabel.AutoSize = true;
             patientGenderLabel.Font = new Font("Segoe UI", 12F);
-            patientGenderLabel.Location = new Point(214, 246);
+            patientGenderLabel.Location = new Point(359, 457);
+            patientGenderLabel.Margin = new Padding(4, 0, 4, 0);
             patientGenderLabel.Name = "patientGenderLabel";
-            patientGenderLabel.Size = new Size(62, 21);
+            patientGenderLabel.Size = new Size(97, 32);
             patientGenderLabel.TabIndex = 42;
-            patientGenderLabel.Text = "gender:";
+            patientGenderLabel.Text = "Gender:";
             // 
             // patientGender
             // 
             patientGender.Font = new Font("Segoe UI", 12F);
             patientGender.FormattingEnabled = true;
             patientGender.Items.AddRange(new object[] { "Male", "Female", "Other" });
-            patientGender.Location = new Point(282, 243);
-            patientGender.Margin = new Padding(3, 2, 3, 2);
+            patientGender.Location = new Point(456, 452);
+            patientGender.Margin = new Padding(4, 3, 4, 3);
             patientGender.Name = "patientGender";
-            patientGender.Size = new Size(140, 29);
+            patientGender.Size = new Size(198, 40);
             patientGender.TabIndex = 43;
+            // 
+            // dashboardTitle
+            // 
+            dashboardTitle.AutoSize = true;
+            dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dashboardTitle.ForeColor = Color.White;
+            dashboardTitle.Location = new Point(11, 19);
+            dashboardTitle.Name = "dashboardTitle";
+            dashboardTitle.Size = new Size(308, 28);
+            dashboardTitle.TabIndex = 0;
+            dashboardTitle.Text = "Healthcare Management System";
+            dashboardTitle.Click += dashboardTitle_Click;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.DarkBlue;
+            panel1.Controls.Add(dashboardTitle);
+            panel1.Location = new Point(1, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1055, 62);
+            panel1.TabIndex = 46;
             // 
             // CreatePatientPage
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 338);
+            BackColor = Color.FromArgb(224, 224, 224);
+            ClientSize = new Size(1055, 640);
+            Controls.Add(panel1);
             Controls.Add(addPatientButton);
             Controls.Add(patientIsActive);
             Controls.Add(patientZip);
@@ -357,12 +401,14 @@
             Controls.Add(patientFNameLabel);
             Controls.Add(cancelButton);
             Controls.Add(createPatientLabel);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 3, 4, 3);
             Name = "CreatePatientPage";
             Text = "Create Patient";
             ((System.ComponentModel.ISupportInitialize)patientBirthMonth).EndInit();
             ((System.ComponentModel.ISupportInitialize)patientBirthDay).EndInit();
             ((System.ComponentModel.ISupportInitialize)patientBirthYear).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -395,5 +441,7 @@
         private Label patientZipLabel;
         private CheckBox patientIsActive;
         private Button addPatientButton;
+        private Label dashboardTitle;
+        private Panel panel1;
     }
 }

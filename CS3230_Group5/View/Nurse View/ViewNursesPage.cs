@@ -14,6 +14,34 @@ namespace CS3230_Group5.View.Nurse_View
             InitializeComponent();
             setUpNursesList();
             loadNurses();
+           
+            homeButton.Click += (s, e) =>
+            {
+                var home = new homePageButton();
+                home.Show();
+                this.Hide();
+            };
+            nurseButton.Click += (s, e) => { };
+            patientsButton.Click += (s, e) =>
+            {
+                var viewPatient = new SearchPatientPage();
+                viewPatient.Show();
+                this.Hide();
+            };
+            appointmentButton.Click += (s, e) =>
+            {
+                var createAppointment = new CreateAppointmentPage();
+                createAppointment.Show();
+                this.Hide();
+            };
+            logoutButton.Click += (s, e) =>
+            {
+                var login = new View.LogInPage();
+                login.Show();
+                this.Hide();
+            };
+
+            viewNurseButton.Click += viewNurseButton_Click;
         }
 
         private void setUpNursesList()
@@ -60,8 +88,8 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            var nurseHomePage = new View.NurseHomePage();
-            nurseHomePage.Show();
+            var home = new CS3230_Group5.homePageButton();
+            home.Show();
             Hide();
         }
 
@@ -69,8 +97,8 @@ namespace CS3230_Group5.View.Nurse_View
         private void addNurseButton_Click(object sender, EventArgs e)
         {
             var addNursePage = new AddNursePage();
-            addNursePage.ShowDialog();
-            this.loadNurses();
+            addNursePage.Show();
+            this.Hide();
         }
 
 
@@ -92,14 +120,37 @@ namespace CS3230_Group5.View.Nurse_View
                 return;
             }
 
-            using var updateNursePage = new UpdateNursePage(nurseId);
-            updateNursePage.ShowDialog();
+            var updateNursePage = new UpdateNursePage(nurseId);
+            updateNursePage.Show();
+            this.Hide();
+        }
 
-            loadNurses();
+        private void viewNurseButton_Click(object? sender, EventArgs e)
+        {
+            if (nursesList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select a nurse first.", "No Nurse Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(nursesList.SelectedItems[0].Text, out int nurseId))
+            {
+                MessageBox.Show("Invalid nurse ID.");
+                return;
+            }
+
+            var updateNursePage = new UpdateNursePage(nurseId);
+            updateNursePage.Show();
+            this.Hide();
         }
 
 
         private void ViewNursesPage_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void viewNursesLabel_Click(object sender, EventArgs e)
         {
 
         }
