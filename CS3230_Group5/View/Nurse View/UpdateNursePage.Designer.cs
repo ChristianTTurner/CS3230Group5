@@ -53,19 +53,22 @@
             nurseState = new TextBox();
             nurseZip = new TextBox();
             nurseUsername = new TextBox();
+            dashboardTitle = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)nurseBirthMonth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nurseBirthDay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // updateNurseLabel
             // 
             updateNurseLabel.AutoSize = true;
-            updateNurseLabel.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            updateNurseLabel.Location = new Point(412, 12);
+            updateNurseLabel.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            updateNurseLabel.Location = new Point(365, 65);
             updateNurseLabel.Margin = new Padding(4, 0, 4, 0);
             updateNurseLabel.Name = "updateNurseLabel";
-            updateNurseLabel.Size = new Size(273, 54);
+            updateNurseLabel.Size = new Size(366, 70);
             updateNurseLabel.TabIndex = 3;
             updateNurseLabel.Text = "Update Nurse";
             updateNurseLabel.Click += label4_Click;
@@ -74,7 +77,7 @@
             // 
             nurseFirstNameLabel.AutoSize = true;
             nurseFirstNameLabel.Font = new Font("Segoe UI", 12F);
-            nurseFirstNameLabel.Location = new Point(127, 100);
+            nurseFirstNameLabel.Location = new Point(128, 168);
             nurseFirstNameLabel.Margin = new Padding(4, 0, 4, 0);
             nurseFirstNameLabel.Name = "nurseFirstNameLabel";
             nurseFirstNameLabel.Size = new Size(134, 32);
@@ -86,7 +89,7 @@
             // 
             nurseLastNameLabel.AutoSize = true;
             nurseLastNameLabel.Font = new Font("Segoe UI", 12F);
-            nurseLastNameLabel.Location = new Point(557, 100);
+            nurseLastNameLabel.Location = new Point(558, 168);
             nurseLastNameLabel.Margin = new Padding(4, 0, 4, 0);
             nurseLastNameLabel.Name = "nurseLastNameLabel";
             nurseLastNameLabel.Size = new Size(131, 32);
@@ -97,7 +100,7 @@
             // 
             nurseDobLabel.AutoSize = true;
             nurseDobLabel.Font = new Font("Segoe UI", 12F);
-            nurseDobLabel.Location = new Point(127, 182);
+            nurseDobLabel.Location = new Point(128, 250);
             nurseDobLabel.Margin = new Padding(4, 0, 4, 0);
             nurseDobLabel.Name = "nurseDobLabel";
             nurseDobLabel.Size = new Size(225, 32);
@@ -109,7 +112,7 @@
             // 
             nursePhoneLabel.AutoSize = true;
             nursePhoneLabel.Font = new Font("Segoe UI", 12F);
-            nursePhoneLabel.Location = new Point(627, 182);
+            nursePhoneLabel.Location = new Point(628, 250);
             nursePhoneLabel.Margin = new Padding(4, 0, 4, 0);
             nursePhoneLabel.Name = "nursePhoneLabel";
             nursePhoneLabel.Size = new Size(108, 32);
@@ -121,7 +124,7 @@
             // 
             nurseadd1Label.AutoSize = true;
             nurseadd1Label.Font = new Font("Segoe UI", 12F);
-            nurseadd1Label.Location = new Point(127, 256);
+            nurseadd1Label.Location = new Point(128, 324);
             nurseadd1Label.Margin = new Padding(4, 0, 4, 0);
             nurseadd1Label.Name = "nurseadd1Label";
             nurseadd1Label.Size = new Size(179, 32);
@@ -132,7 +135,7 @@
             // 
             nurseadd2Label.AutoSize = true;
             nurseadd2Label.Font = new Font("Segoe UI", 12F);
-            nurseadd2Label.Location = new Point(127, 321);
+            nurseadd2Label.Location = new Point(128, 389);
             nurseadd2Label.Margin = new Padding(4, 0, 4, 0);
             nurseadd2Label.Name = "nurseadd2Label";
             nurseadd2Label.Size = new Size(174, 32);
@@ -143,7 +146,7 @@
             // 
             nurseCityLabel.AutoSize = true;
             nurseCityLabel.Font = new Font("Segoe UI", 12F);
-            nurseCityLabel.Location = new Point(127, 397);
+            nurseCityLabel.Location = new Point(128, 465);
             nurseCityLabel.Margin = new Padding(4, 0, 4, 0);
             nurseCityLabel.Name = "nurseCityLabel";
             nurseCityLabel.Size = new Size(60, 32);
@@ -154,7 +157,7 @@
             // 
             nurseStateLabel.AutoSize = true;
             nurseStateLabel.Font = new Font("Segoe UI", 12F);
-            nurseStateLabel.Location = new Point(426, 394);
+            nurseStateLabel.Location = new Point(427, 462);
             nurseStateLabel.Margin = new Padding(4, 0, 4, 0);
             nurseStateLabel.Name = "nurseStateLabel";
             nurseStateLabel.Size = new Size(72, 32);
@@ -165,7 +168,7 @@
             // 
             nurseZipLabel.AutoSize = true;
             nurseZipLabel.Font = new Font("Segoe UI", 12F);
-            nurseZipLabel.Location = new Point(627, 394);
+            nurseZipLabel.Location = new Point(628, 462);
             nurseZipLabel.Margin = new Padding(4, 0, 4, 0);
             nurseZipLabel.Name = "nurseZipLabel";
             nurseZipLabel.Size = new Size(52, 32);
@@ -176,7 +179,7 @@
             // 
             nurseUsernameLabel.AutoSize = true;
             nurseUsernameLabel.Font = new Font("Segoe UI", 12F);
-            nurseUsernameLabel.Location = new Point(127, 455);
+            nurseUsernameLabel.Location = new Point(128, 523);
             nurseUsernameLabel.Margin = new Padding(4, 0, 4, 0);
             nurseUsernameLabel.Name = "nurseUsernameLabel";
             nurseUsernameLabel.Size = new Size(126, 32);
@@ -185,27 +188,33 @@
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(399, 534);
+            saveButton.BackColor = Color.ForestGreen;
+            saveButton.FlatAppearance.BorderSize = 0;
+            saveButton.FlatStyle = FlatStyle.Flat;
+            saveButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            saveButton.ForeColor = Color.White;
+            saveButton.Location = new Point(400, 602);
             saveButton.Margin = new Padding(4);
             saveButton.Name = "saveButton";
-            saveButton.Size = new Size(112, 34);
+            saveButton.Size = new Size(112, 50);
             saveButton.TabIndex = 11;
             saveButton.Text = "Save";
-            saveButton.UseVisualStyleBackColor = true;
+            saveButton.UseVisualStyleBackColor = false;
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(639, 534);
+            cancelButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cancelButton.Location = new Point(558, 602);
             cancelButton.Margin = new Padding(4);
             cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(112, 34);
+            cancelButton.Size = new Size(112, 50);
             cancelButton.TabIndex = 12;
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
             // 
             // nurseFirstName
             // 
-            nurseFirstName.Location = new Point(267, 100);
+            nurseFirstName.Location = new Point(268, 168);
             nurseFirstName.Margin = new Padding(4);
             nurseFirstName.Name = "nurseFirstName";
             nurseFirstName.Size = new Size(240, 31);
@@ -213,7 +222,7 @@
             // 
             // nurseLastName
             // 
-            nurseLastName.Location = new Point(715, 100);
+            nurseLastName.Location = new Point(716, 168);
             nurseLastName.Margin = new Padding(4);
             nurseLastName.Name = "nurseLastName";
             nurseLastName.Size = new Size(240, 31);
@@ -221,7 +230,7 @@
             // 
             // nurseBirthMonth
             // 
-            nurseBirthMonth.Location = new Point(364, 182);
+            nurseBirthMonth.Location = new Point(365, 250);
             nurseBirthMonth.Margin = new Padding(4);
             nurseBirthMonth.Name = "nurseBirthMonth";
             nurseBirthMonth.Size = new Size(61, 31);
@@ -229,7 +238,7 @@
             // 
             // nurseBirthDay
             // 
-            nurseBirthDay.Location = new Point(435, 182);
+            nurseBirthDay.Location = new Point(436, 250);
             nurseBirthDay.Margin = new Padding(4);
             nurseBirthDay.Name = "nurseBirthDay";
             nurseBirthDay.Size = new Size(61, 31);
@@ -237,7 +246,7 @@
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(505, 182);
+            numericUpDown1.Location = new Point(506, 250);
             numericUpDown1.Margin = new Padding(4);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(88, 31);
@@ -245,7 +254,7 @@
             // 
             // nursePhoneNum
             // 
-            nursePhoneNum.Location = new Point(743, 182);
+            nursePhoneNum.Location = new Point(744, 250);
             nursePhoneNum.Margin = new Padding(4);
             nursePhoneNum.Name = "nursePhoneNum";
             nursePhoneNum.Size = new Size(212, 31);
@@ -253,7 +262,7 @@
             // 
             // nurseAddressLine1
             // 
-            nurseAddressLine1.Location = new Point(314, 256);
+            nurseAddressLine1.Location = new Point(315, 324);
             nurseAddressLine1.Margin = new Padding(4);
             nurseAddressLine1.Name = "nurseAddressLine1";
             nurseAddressLine1.Size = new Size(641, 31);
@@ -261,7 +270,7 @@
             // 
             // nurseAddressLine2
             // 
-            nurseAddressLine2.Location = new Point(314, 321);
+            nurseAddressLine2.Location = new Point(315, 389);
             nurseAddressLine2.Margin = new Padding(4);
             nurseAddressLine2.Name = "nurseAddressLine2";
             nurseAddressLine2.Size = new Size(641, 31);
@@ -269,7 +278,7 @@
             // 
             // nurseCity
             // 
-            nurseCity.Location = new Point(193, 397);
+            nurseCity.Location = new Point(194, 465);
             nurseCity.Margin = new Padding(4);
             nurseCity.Name = "nurseCity";
             nurseCity.Size = new Size(212, 31);
@@ -277,7 +286,7 @@
             // 
             // nurseState
             // 
-            nurseState.Location = new Point(504, 394);
+            nurseState.Location = new Point(505, 462);
             nurseState.Margin = new Padding(4);
             nurseState.Name = "nurseState";
             nurseState.Size = new Size(88, 31);
@@ -285,7 +294,7 @@
             // 
             // nurseZip
             // 
-            nurseZip.Location = new Point(697, 394);
+            nurseZip.Location = new Point(698, 462);
             nurseZip.Margin = new Padding(4);
             nurseZip.Name = "nurseZip";
             nurseZip.Size = new Size(120, 31);
@@ -293,17 +302,39 @@
             // 
             // nurseUsername
             // 
-            nurseUsername.Location = new Point(267, 455);
+            nurseUsername.Location = new Point(268, 523);
             nurseUsername.Margin = new Padding(4);
             nurseUsername.Name = "nurseUsername";
             nurseUsername.Size = new Size(472, 31);
             nurseUsername.TabIndex = 24;
             // 
+            // dashboardTitle
+            // 
+            dashboardTitle.AutoSize = true;
+            dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dashboardTitle.ForeColor = Color.White;
+            dashboardTitle.Location = new Point(11, 9);
+            dashboardTitle.Name = "dashboardTitle";
+            dashboardTitle.Size = new Size(308, 28);
+            dashboardTitle.TabIndex = 0;
+            dashboardTitle.Text = "Healthcare Management System";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.DarkBlue;
+            panel1.Controls.Add(dashboardTitle);
+            panel1.Location = new Point(1, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1096, 62);
+            panel1.TabIndex = 29;
+            // 
             // UpdateNursePage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1114, 600);
+            BackColor = Color.FromArgb(224, 224, 224);
+            ClientSize = new Size(1095, 681);
+            Controls.Add(panel1);
             Controls.Add(saveButton);
             Controls.Add(cancelButton);
             Controls.Add(nurseUsername);
@@ -335,6 +366,8 @@
             ((System.ComponentModel.ISupportInitialize)nurseBirthMonth).EndInit();
             ((System.ComponentModel.ISupportInitialize)nurseBirthDay).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -366,5 +399,7 @@
         private TextBox nurseState;
         private TextBox nurseZip;
         private TextBox nurseUsername;
+        private Label dashboardTitle;
+        private Panel panel1;
     }
 }

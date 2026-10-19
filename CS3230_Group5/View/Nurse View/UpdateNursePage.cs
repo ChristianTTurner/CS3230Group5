@@ -84,8 +84,6 @@ namespace CS3230_Group5.View.Nurse_View
                     nursePhoneNum.Text.Replace("-", "").Replace(" ", ""),
                     nurseUsername.Text);
 
-                // Attempt update: controller expects existing address id on the address object.
-                // Load existing to get address id first.
                 var existing = _controller.Load(_nurseId);
                 if (existing == null)
                 {
@@ -93,7 +91,6 @@ namespace CS3230_Group5.View.Nurse_View
                     return;
                 }
 
-                // Preserve existing address id
                 var existingAddress = existing.Value.Address;
                 address = new Address(existingAddress.AddressId, address.Address1, address.Address2, address.City, address.State, address.Zip);
 
@@ -107,6 +104,16 @@ namespace CS3230_Group5.View.Nurse_View
                 }
 
                 MessageBox.Show("Nurse updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                foreach (Form open in Application.OpenForms)
+                {
+                    if (open is View.Nurse_View.ViewNursesPage viewNurses)
+                    {
+                        viewNurses.Show();
+                        break;
+                    }
+                }
+
                 Close();
             }
             catch (ArgumentException ex)
@@ -121,18 +128,23 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void CancelButton_Click(object? sender, EventArgs e)
         {
+            foreach (Form open in Application.OpenForms)
+            {
+                if (open is View.Nurse_View.ViewNursesPage viewNurses)
+                {
+                    viewNurses.Show();
+                    break;
+                }
+            }
+
             Close();
         }
 
-        // Designer referenced empty handlers
-        private void UpdateNursePage_Load(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void label9_Click(object sender, EventArgs e) { }
         private void label11_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }
         private void label5_Click(object sender, EventArgs e) { }
-        private void nurseZip_TextChanged(object sender, EventArgs e) { }
-        private void loginLabel_Click(object sender, EventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
 
         private void UpdateNursePage_Load_1(object sender, EventArgs e)

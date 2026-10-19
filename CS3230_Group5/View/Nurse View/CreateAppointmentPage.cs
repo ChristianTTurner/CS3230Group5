@@ -11,7 +11,6 @@ namespace CS3230_Group5.View.Nurse_View
         public CreateAppointmentPage()
         {
             InitializeComponent();
-            bookAppointmentButton.Click += bookAppointmentButton_Click;
             cancelButton.Click += cancelButton_Click;
             Load += CreateAppointmentPage_Load;
         }
@@ -73,10 +72,27 @@ namespace CS3230_Group5.View.Nurse_View
 
             try
             {
-                int patientId = Convert.ToInt32(patients.SelectedValue);
-                int doctorId = Convert.ToInt32(doctor.SelectedValue);
+                var selectedPatient = (System.Collections.Generic.KeyValuePair<int, string>)patients.SelectedItem;
+                var selectedDoctor = (System.Collections.Generic.KeyValuePair<int, string>)doctor.SelectedItem;
+
+                int patientId = selectedPatient.Key;
+                int doctorId = selectedDoctor.Key;
+
                 int appointmentId = appointmentDal.AddAppointment(patientId, doctorId, dateTimePicker.Value, reasonTextBox.Text);
                 MessageBox.Show($"Appointment #{appointmentId} booked successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                foreach (Form open in Application.OpenForms)
+                {
+                    if (open is homePageButton home)
+                    {
+                        home.Show();
+                        Close();
+                        return;
+                    }
+                }
+
+                var newHome = new homePageButton();
+                newHome.Show();
                 Close();
             }
             catch (ArgumentException ex)
@@ -95,6 +111,18 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void cancelButton_Click(object? sender, EventArgs e)
         {
+            foreach (Form open in Application.OpenForms)
+            {
+                if (open is homePageButton home)
+                {
+                    home.Show();
+                    Close();
+                    return;
+                }
+            }
+
+            var newHome = new homePageButton();
+            newHome.Show();
             Close();
         }
     }
