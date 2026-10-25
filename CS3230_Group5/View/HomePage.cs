@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using CS3230_Group5.Model;
 using CS3230_Group5.View;
 using CS3230_Group5.View.Nurse_View;
 
@@ -22,6 +23,8 @@ namespace CS3230_Group5
             manageAppointments.Click += ManageAppointments_Click;
             manageNurse.Click += ManageNurse_Click;
             manageProfile.Click += ManageProfile_Click;
+
+            idLabel.Text = "User ID: " + SignedInUser.UserID;
         }
 
         private void HomeButton_Click(object? sender, EventArgs e)

@@ -8,6 +8,15 @@ namespace CS3230_Group5.DAL
 {
     public class LogInDAL
     {
+        /** Signs in an Admin if username and password match an existing Admin account
+         *  Stores the Admins ID under SignedInUser.UserID for persistence across Forms
+         * 
+         *  @param username the inputted username
+         *  @param password the inputted password
+         *  
+         *  @returns true if the credential are correct and the user has been signed in
+         *           false if the credentials don't find a match and the user hasn't been signed in
+         */
         public bool SignInAdmin(string username, string password)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -23,9 +32,25 @@ namespace CS3230_Group5.DAL
 
             using var reader = cmd.ExecuteReader();
 
-            return reader.Read();
+            if (reader.Read())
+            {
+                var idOrdinal = reader.GetOrdinal("admin_id");
+                SignedInUser.UserID = reader.GetInt32(idOrdinal).ToString();
+                return true;
+            }
+
+            return false;
         }
 
+        /** Signs in an Nurse if username and password match an existing Nurse account
+        *  Stores the Nurse ID under SignedInUser.UserID for persistence across Forms
+        * 
+        *  @param username the inputted username
+        *  @param password the inputted password
+        *  
+        *  @returns true if the credential are correct and the user has been signed in
+        *           false if the credentials don't find a match and the user hasn't been signed in
+        */
         public bool SignInNurse(string username, string password) 
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -41,7 +66,14 @@ namespace CS3230_Group5.DAL
 
             using var reader = cmd.ExecuteReader();
             
-            return reader.Read();
+            if (reader.Read())
+            {
+                var idOrdinal = reader.GetOrdinal("nurse_id");
+                SignedInUser.UserID = reader.GetInt32(idOrdinal).ToString();
+                return true;
+            }
+
+            return false;
         }
     }
 }
