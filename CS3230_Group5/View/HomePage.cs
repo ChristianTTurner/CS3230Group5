@@ -24,6 +24,7 @@ namespace CS3230_Group5
             manageNurse.Click += ManageNurse_Click;
             manageProfile.Click += ManageProfile_Click;
 
+            userNameLabel.Text = "Username: " + SignedInUser.Username;
             idLabel.Text = "User ID: " + SignedInUser.UserID;
         }
 

@@ -21,7 +21,7 @@ namespace CS3230_Group5.DAL
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
-            var selectQuery = "select admin_id from administrator where username = @username and password = @password";
+            var selectQuery = "select * from administrator where username = @username and password = @password";
 
             using var cmd = new MySqlCommand(selectQuery, connection);
 
@@ -34,8 +34,15 @@ namespace CS3230_Group5.DAL
 
             if (reader.Read())
             {
-                var idOrdinal = reader.GetOrdinal("admin_id");
-                SignedInUser.UserID = reader.GetInt32(idOrdinal).ToString();
+                SignedInUser.UserID = reader.GetInt32("admin_id");
+                SignedInUser.Username = reader.GetString("username");
+                SignedInUser.Password = reader.GetString("password");
+                SignedInUser.FirstName = reader.GetString("first_name");
+                SignedInUser.LastName = reader.GetString("last_name");
+                SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
+                SignedInUser.Phone = reader.GetString("phone");
+                SignedInUser.IsAdmin = true;
+
                 return true;
             }
 
@@ -55,7 +62,7 @@ namespace CS3230_Group5.DAL
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
-            var selectQuery = "select nurse_id from nurse where username = @username and password = @password";
+            var selectQuery = "select * from nurse where username = @username and password = @password";
 
             using var cmd = new MySqlCommand(selectQuery, connection);
 
@@ -67,9 +74,16 @@ namespace CS3230_Group5.DAL
             using var reader = cmd.ExecuteReader();
             
             if (reader.Read())
-            {
-                var idOrdinal = reader.GetOrdinal("nurse_id");
-                SignedInUser.UserID = reader.GetInt32(idOrdinal).ToString();
+            {   
+                SignedInUser.UserID = reader.GetInt32("nurse_id");
+                SignedInUser.Username = reader.GetString("username");
+                SignedInUser.Password = reader.GetString("password");
+                SignedInUser.FirstName = reader.GetString("first_name");
+                SignedInUser.LastName = reader.GetString("last_name");
+                SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
+                SignedInUser.Phone = reader.GetString("phone");
+                SignedInUser.IsAdmin = false;
+
                 return true;
             }
 
