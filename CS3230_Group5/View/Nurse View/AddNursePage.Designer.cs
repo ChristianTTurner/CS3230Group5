@@ -52,13 +52,13 @@
             nurseAddressLine1 = new TextBox();
             nurseAddressLine2 = new TextBox();
             nurseCity = new TextBox();
-            nurseState = new TextBox();
             nurseZip = new TextBox();
             nurseUsername = new TextBox();
             nursePassword = new TextBox();
             dashboardTitle = new Label();
             viewButton = new Button();
             panel1 = new Panel();
+            nurseState = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)nurseBirthMonth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nurseBirthDay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -322,13 +322,6 @@
             nurseCity.Size = new Size(221, 39);
             nurseCity.TabIndex = 23;
             // 
-            // nurseState
-            // 
-            nurseState.Location = new Point(517, 466);
-            nurseState.Name = "nurseState";
-            nurseState.Size = new Size(184, 39);
-            nurseState.TabIndex = 24;
-            // 
             // nurseZip
             // 
             nurseZip.Location = new Point(773, 463);
@@ -378,17 +371,25 @@
             panel1.Size = new Size(1096, 62);
             panel1.TabIndex = 28;
             // 
+            // nurseState
+            // 
+            nurseState.FormattingEnabled = true;
+            nurseState.Location = new Point(510, 463);
+            nurseState.Name = "nurseState";
+            nurseState.Size = new Size(182, 40);
+            nurseState.TabIndex = 29;
+            // 
             // AddNursePage
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1096, 837);
+            Controls.Add(nurseState);
             Controls.Add(panel1);
             Controls.Add(nursePassword);
             Controls.Add(nurseUsername);
             Controls.Add(nurseZip);
-            Controls.Add(nurseState);
             Controls.Add(nurseCity);
             Controls.Add(nurseAddressLine2);
             Controls.Add(nurseAddressLine1);
@@ -453,12 +454,12 @@
         private TextBox nurseAddressLine1;
         private TextBox nurseAddressLine2;
         private TextBox nurseCity;
-        private TextBox nurseState;
         private TextBox nurseZip;
         private TextBox nurseUsername;
         private TextBox nursePassword;
         private Label dashboardTitle;
         private Panel panel1;
         private Button viewButton;
+        private ComboBox nurseState;
     }
 }
