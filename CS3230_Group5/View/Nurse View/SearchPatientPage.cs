@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using CS3230_Group5.DAL;
+using CS3230_Group5.View.Appointments_View;
 using MySqlConnector;
 
 namespace CS3230_Group5.View.Nurse_View
@@ -46,8 +47,8 @@ namespace CS3230_Group5.View.Nurse_View
 
             appointmentButton.Click += (s, e) =>
             {
-                var createAppointment = new CreateAppointmentPage();
-                createAppointment.Show();
+                var viewAppointment = new ViewAppointmentsPage();
+                viewAppointment.Show();
                 this.Hide();
             };
 
@@ -162,13 +163,6 @@ namespace CS3230_Group5.View.Nurse_View
         private void searchPatientTextBox_TextChanged(object sender, EventArgs e)
         {
             PopulatePatientList(searchPatientTextBox.Text.Trim());
-        }
-
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            var home = new homePageButton();
-            home.Show();
-            this.Hide();
         }
 
         private void addPatientButton_Click(object sender, EventArgs e)
