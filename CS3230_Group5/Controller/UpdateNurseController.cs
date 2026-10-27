@@ -22,9 +22,16 @@ namespace CS3230_Group5.Controller
             return _nurseDal.GetNurseById(nurseId);
         }
 
-        public bool Update(Nurse nurse, Address address)
+        public bool Update(Nurse nurse, Address address, string password)
         {
-            return _nurseDal.UpdateNurse(nurse, address);
+            return _nurseDal.UpdateNurse(nurse, address, password);
+        }
+        public string? LoadPassword(int nurseId)
+        {
+            if (nurseId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(nurseId));
+
+            return _nurseDal.GetNursePasswordById(nurseId);
         }
     }
 }

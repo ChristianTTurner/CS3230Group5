@@ -93,16 +93,26 @@ namespace CS3230_Group5.View.Nurse_View
             Hide();
         }
 
-
         private void addNurseButton_Click(object sender, EventArgs e)
         {
             var addNursePage = new AddNursePage();
             addNursePage.Show();
-            this.Hide();
+            Hide();
         }
 
+        private void profileLink_LinkClicked(
+            object? sender,
+            LinkLabelLinkClickedEventArgs e)
+        {
+            openSelectedNurseForEditing();
+        }
 
-        private void profileLink_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
+        private void viewNurseButton_Click(object? sender, EventArgs e)
+        {
+            openSelectedNurseForEditing();
+        }
+
+        private void openSelectedNurseForEditing()
         {
             if (nursesList.SelectedItems.Count == 0)
             {
@@ -116,34 +126,18 @@ namespace CS3230_Group5.View.Nurse_View
 
             if (!int.TryParse(nursesList.SelectedItems[0].Text, out int nurseId))
             {
-                MessageBox.Show("Invalid nurse ID.");
+                MessageBox.Show(
+                    "Invalid nurse ID.",
+                    "Selection Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
-            var updateNursePage = new UpdateNursePage(nurseId);
-            updateNursePage.Show();
-            this.Hide();
+            var editNursePage = new AddNursePage(nurseId);
+            editNursePage.Show();
+            Hide();
         }
-
-        private void viewNurseButton_Click(object? sender, EventArgs e)
-        {
-            if (nursesList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select a nurse first.", "No Nurse Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (!int.TryParse(nursesList.SelectedItems[0].Text, out int nurseId))
-            {
-                MessageBox.Show("Invalid nurse ID.");
-                return;
-            }
-
-            var updateNursePage = new UpdateNursePage(nurseId);
-            updateNursePage.Show();
-            this.Hide();
-        }
-
 
         private void ViewNursesPage_Load(object sender, EventArgs e)
         {

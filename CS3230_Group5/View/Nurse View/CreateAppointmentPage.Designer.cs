@@ -41,6 +41,10 @@
             cancelButton = new Button();
             dashboardTitle = new Label();
             panel1 = new Panel();
+            patientValidation = new Label();
+            doctorValidation = new Label();
+            dateValidation = new Label();
+            reasonValidation = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -70,7 +74,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(45, 246);
+            label1.Location = new Point(45, 254);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(107, 38);
@@ -80,7 +84,7 @@
             // dateTimePicker
             // 
             dateTimePicker.Font = new Font("Segoe UI", 14F);
-            dateTimePicker.Location = new Point(183, 306);
+            dateTimePicker.Location = new Point(183, 326);
             dateTimePicker.Margin = new Padding(4);
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(633, 45);
@@ -100,7 +104,7 @@
             // 
             doctor.Font = new Font("Segoe UI", 12F);
             doctor.FormattingEnabled = true;
-            doctor.Location = new Point(183, 247);
+            doctor.Location = new Point(183, 255);
             doctor.Margin = new Padding(4);
             doctor.Name = "doctor";
             doctor.Size = new Size(528, 40);
@@ -110,7 +114,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 14F);
-            label2.Location = new Point(45, 311);
+            label2.Location = new Point(45, 331);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(136, 38);
@@ -148,7 +152,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
-            label3.Location = new Point(44, 386);
+            label3.Location = new Point(45, 404);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(112, 38);
@@ -188,12 +192,64 @@
             panel1.Size = new Size(1000, 71);
             panel1.TabIndex = 20;
             // 
+            // patientValidation
+            // 
+            patientValidation.AutoSize = true;
+            patientValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientValidation.ForeColor = Color.Red;
+            patientValidation.Location = new Point(184, 224);
+            patientValidation.Name = "patientValidation";
+            patientValidation.Size = new Size(58, 21);
+            patientValidation.TabIndex = 21;
+            patientValidation.Text = "patient";
+            patientValidation.Visible = false;
+            // 
+            // doctorValidation
+            // 
+            doctorValidation.AutoSize = true;
+            doctorValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            doctorValidation.ForeColor = Color.Red;
+            doctorValidation.Location = new Point(184, 299);
+            doctorValidation.Name = "doctorValidation";
+            doctorValidation.Size = new Size(55, 21);
+            doctorValidation.TabIndex = 22;
+            doctorValidation.Text = "doctor";
+            doctorValidation.Visible = false;
+            // 
+            // dateValidation
+            // 
+            dateValidation.AutoSize = true;
+            dateValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateValidation.ForeColor = Color.Red;
+            dateValidation.Location = new Point(184, 375);
+            dateValidation.Name = "dateValidation";
+            dateValidation.Size = new Size(40, 21);
+            dateValidation.TabIndex = 23;
+            dateValidation.Text = "date";
+            dateValidation.Visible = false;
+            // 
+            // reasonValidation
+            // 
+            reasonValidation.AutoSize = true;
+            reasonValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            reasonValidation.ForeColor = Color.Red;
+            reasonValidation.Location = new Point(45, 614);
+            reasonValidation.Name = "reasonValidation";
+            reasonValidation.Size = new Size(57, 21);
+            reasonValidation.TabIndex = 24;
+            reasonValidation.Text = "reason";
+            reasonValidation.Visible = false;
+            // 
             // CreateAppointmentPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(906, 730);
+            Controls.Add(reasonValidation);
+            Controls.Add(dateValidation);
+            Controls.Add(doctorValidation);
+            Controls.Add(patientValidation);
             Controls.Add(panel1);
             Controls.Add(cancelButton);
             Controls.Add(label3);
@@ -231,5 +287,9 @@
         private Button cancelButton;
         private Label dashboardTitle;
         private Panel panel1;
+        private Label patientValidation;
+        private Label doctorValidation;
+        private Label dateValidation;
+        private Label reasonValidation;
     }
 }

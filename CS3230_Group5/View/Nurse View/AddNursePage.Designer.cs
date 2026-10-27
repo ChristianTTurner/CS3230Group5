@@ -52,13 +52,24 @@
             nurseAddressLine1 = new TextBox();
             nurseAddressLine2 = new TextBox();
             nurseCity = new TextBox();
-            nurseState = new TextBox();
             nurseZip = new TextBox();
             nurseUsername = new TextBox();
             nursePassword = new TextBox();
             dashboardTitle = new Label();
             viewButton = new Button();
             panel1 = new Panel();
+            nurseState = new ComboBox();
+            fnameValidation = new Label();
+            lnameValidation = new Label();
+            dobValidation = new Label();
+            phoneValidation = new Label();
+            add1Validation = new Label();
+            add2Validation = new Label();
+            cityValidation = new Label();
+            stateValidation = new Label();
+            zipValidation = new Label();
+            usernameValidation = new Label();
+            passwordValidation = new Label();
             ((System.ComponentModel.ISupportInitialize)nurseBirthMonth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nurseBirthDay).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -196,7 +207,7 @@
             // 
             nursePasswordLabel.AutoSize = true;
             nursePasswordLabel.Font = new Font("Segoe UI", 12F);
-            nursePasswordLabel.Location = new Point(139, 658);
+            nursePasswordLabel.Location = new Point(139, 673);
             nursePasswordLabel.Margin = new Padding(4, 0, 4, 0);
             nursePasswordLabel.Name = "nursePasswordLabel";
             nursePasswordLabel.Size = new Size(111, 32);
@@ -322,13 +333,6 @@
             nurseCity.Size = new Size(221, 39);
             nurseCity.TabIndex = 23;
             // 
-            // nurseState
-            // 
-            nurseState.Location = new Point(517, 466);
-            nurseState.Name = "nurseState";
-            nurseState.Size = new Size(184, 39);
-            nurseState.TabIndex = 24;
-            // 
             // nurseZip
             // 
             nurseZip.Location = new Point(773, 463);
@@ -346,7 +350,7 @@
             // 
             // nursePassword
             // 
-            nursePassword.Location = new Point(276, 658);
+            nursePassword.Location = new Point(276, 673);
             nursePassword.Name = "nursePassword";
             nursePassword.Size = new Size(327, 39);
             nursePassword.TabIndex = 27;
@@ -378,17 +382,168 @@
             panel1.Size = new Size(1096, 62);
             panel1.TabIndex = 28;
             // 
+            // nurseState
+            // 
+            nurseState.FormattingEnabled = true;
+            nurseState.Location = new Point(510, 463);
+            nurseState.Name = "nurseState";
+            nurseState.Size = new Size(182, 40);
+            nurseState.TabIndex = 29;
+            // 
+            // fnameValidation
+            // 
+            fnameValidation.AutoSize = true;
+            fnameValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fnameValidation.ForeColor = Color.Red;
+            fnameValidation.Location = new Point(276, 207);
+            fnameValidation.Name = "fnameValidation";
+            fnameValidation.Size = new Size(54, 21);
+            fnameValidation.TabIndex = 30;
+            fnameValidation.Text = "fname";
+            fnameValidation.Visible = false;
+            // 
+            // lnameValidation
+            // 
+            lnameValidation.AutoSize = true;
+            lnameValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lnameValidation.ForeColor = Color.Red;
+            lnameValidation.Location = new Point(707, 207);
+            lnameValidation.Name = "lnameValidation";
+            lnameValidation.Size = new Size(53, 21);
+            lnameValidation.TabIndex = 31;
+            lnameValidation.Text = "lname";
+            lnameValidation.Visible = false;
+            // 
+            // dobValidation
+            // 
+            dobValidation.AutoSize = true;
+            dobValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dobValidation.ForeColor = Color.Red;
+            dobValidation.Location = new Point(363, 297);
+            dobValidation.Name = "dobValidation";
+            dobValidation.Size = new Size(37, 21);
+            dobValidation.TabIndex = 32;
+            dobValidation.Text = "dob";
+            dobValidation.Visible = false;
+            // 
+            // phoneValidation
+            // 
+            phoneValidation.AutoSize = true;
+            phoneValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            phoneValidation.ForeColor = Color.Red;
+            phoneValidation.Location = new Point(754, 289);
+            phoneValidation.Name = "phoneValidation";
+            phoneValidation.Size = new Size(54, 21);
+            phoneValidation.TabIndex = 33;
+            phoneValidation.Text = "phone";
+            phoneValidation.Visible = false;
+            // 
+            // add1Validation
+            // 
+            add1Validation.AutoSize = true;
+            add1Validation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            add1Validation.ForeColor = Color.Red;
+            add1Validation.Location = new Point(325, 362);
+            add1Validation.Name = "add1Validation";
+            add1Validation.Size = new Size(45, 21);
+            add1Validation.TabIndex = 34;
+            add1Validation.Text = "add1";
+            add1Validation.Visible = false;
+            // 
+            // add2Validation
+            // 
+            add2Validation.AutoSize = true;
+            add2Validation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            add2Validation.ForeColor = Color.Red;
+            add2Validation.Location = new Point(325, 428);
+            add2Validation.Name = "add2Validation";
+            add2Validation.Size = new Size(45, 21);
+            add2Validation.TabIndex = 35;
+            add2Validation.Text = "add2";
+            add2Validation.Visible = false;
+            // 
+            // cityValidation
+            // 
+            cityValidation.AutoSize = true;
+            cityValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cityValidation.ForeColor = Color.Red;
+            cityValidation.Location = new Point(204, 505);
+            cityValidation.Name = "cityValidation";
+            cityValidation.Size = new Size(34, 21);
+            cityValidation.TabIndex = 36;
+            cityValidation.Text = "city";
+            cityValidation.Visible = false;
+            // 
+            // stateValidation
+            // 
+            stateValidation.AutoSize = true;
+            stateValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            stateValidation.ForeColor = Color.Red;
+            stateValidation.Location = new Point(510, 506);
+            stateValidation.Name = "stateValidation";
+            stateValidation.Size = new Size(43, 21);
+            stateValidation.TabIndex = 37;
+            stateValidation.Text = "state";
+            stateValidation.Visible = false;
+            // 
+            // zipValidation
+            // 
+            zipValidation.AutoSize = true;
+            zipValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            zipValidation.ForeColor = Color.Red;
+            zipValidation.Location = new Point(773, 506);
+            zipValidation.Name = "zipValidation";
+            zipValidation.Size = new Size(30, 21);
+            zipValidation.TabIndex = 38;
+            zipValidation.Text = "zip";
+            zipValidation.Visible = false;
+            // 
+            // usernameValidation
+            // 
+            usernameValidation.AutoSize = true;
+            usernameValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            usernameValidation.ForeColor = Color.Red;
+            usernameValidation.Location = new Point(276, 645);
+            usernameValidation.Name = "usernameValidation";
+            usernameValidation.Size = new Size(40, 21);
+            usernameValidation.TabIndex = 39;
+            usernameValidation.Text = "user";
+            usernameValidation.Visible = false;
+            // 
+            // passwordValidation
+            // 
+            passwordValidation.AutoSize = true;
+            passwordValidation.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            passwordValidation.ForeColor = Color.Red;
+            passwordValidation.Location = new Point(276, 715);
+            passwordValidation.Name = "passwordValidation";
+            passwordValidation.Size = new Size(77, 21);
+            passwordValidation.TabIndex = 40;
+            passwordValidation.Text = "password";
+            passwordValidation.Visible = false;
+            // 
             // AddNursePage
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1096, 837);
+            Controls.Add(passwordValidation);
+            Controls.Add(usernameValidation);
+            Controls.Add(zipValidation);
+            Controls.Add(stateValidation);
+            Controls.Add(cityValidation);
+            Controls.Add(add2Validation);
+            Controls.Add(add1Validation);
+            Controls.Add(phoneValidation);
+            Controls.Add(dobValidation);
+            Controls.Add(lnameValidation);
+            Controls.Add(fnameValidation);
+            Controls.Add(nurseState);
             Controls.Add(panel1);
             Controls.Add(nursePassword);
             Controls.Add(nurseUsername);
             Controls.Add(nurseZip);
-            Controls.Add(nurseState);
             Controls.Add(nurseCity);
             Controls.Add(nurseAddressLine2);
             Controls.Add(nurseAddressLine1);
@@ -453,12 +608,23 @@
         private TextBox nurseAddressLine1;
         private TextBox nurseAddressLine2;
         private TextBox nurseCity;
-        private TextBox nurseState;
         private TextBox nurseZip;
         private TextBox nurseUsername;
         private TextBox nursePassword;
         private Label dashboardTitle;
         private Panel panel1;
         private Button viewButton;
+        private ComboBox nurseState;
+        private Label fnameValidation;
+        private Label lnameValidation;
+        private Label dobValidation;
+        private Label phoneValidation;
+        private Label add1Validation;
+        private Label add2Validation;
+        private Label cityValidation;
+        private Label stateValidation;
+        private Label zipValidation;
+        private Label usernameValidation;
+        private Label passwordValidation;
     }
 }

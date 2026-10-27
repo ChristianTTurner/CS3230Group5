@@ -68,9 +68,9 @@ namespace CS3230_Group5.DAL
                   AND datetime >= @slotStart
                   AND datetime < @slotEnd;", connection);
 
-            checkCommand.Parameters.AddWithValue("@doctorId", doctorId);
-            checkCommand.Parameters.AddWithValue("@slotStart", slotStart);
-            checkCommand.Parameters.AddWithValue("@slotEnd", slotEnd);
+            checkCommand.Parameters.Add("@doctorId", MySqlDbType.Int32).Value = doctorId;
+            checkCommand.Parameters.Add("@slotStart", MySqlDbType.DateTime).Value = slotStart;
+            checkCommand.Parameters.Add("@slotEnd", MySqlDbType.DateTime).Value = slotEnd;
 
             if (Convert.ToInt32(checkCommand.ExecuteScalar()) > 0)
                 throw new InvalidOperationException("This doctor already has an appointment during that 15-minute time slot.");
@@ -79,11 +79,10 @@ namespace CS3230_Group5.DAL
                 @"INSERT INTO appointment (patient_id, doctor_id, datetime, reason)
                   VALUES (@patientId, @doctorId, @appointmentDateTime, @reason);", connection);
 
-            command.Parameters.AddWithValue("@patientId", patientId);
-            command.Parameters.AddWithValue("@doctorId", doctorId);
-            command.Parameters.AddWithValue("@appointmentDateTime", appointmentDateTime);
-            command.Parameters.AddWithValue("@reason", reason.Trim());
-
+            command.Parameters.Add("@patientId", MySqlDbType.Int32).Value = patientId;
+            command.Parameters.Add("@doctorId", MySqlDbType.Int32).Value = doctorId;
+            command.Parameters.Add("@appointmentDateTime", MySqlDbType.DateTime).Value = appointmentDateTime;
+            command.Parameters.Add("@reason", MySqlDbType.VarChar, 255).Value = reason.Trim();
             command.ExecuteNonQuery();
             return checked((int)command.LastInsertedId);
         }
