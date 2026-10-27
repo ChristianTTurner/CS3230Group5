@@ -39,6 +39,9 @@ namespace CS3230_Group5.View
 
             usernameLabel.Text = "Username: " + SignedInUser.Username;
             label1.Text = "Password: " + SignedInUser.Password;
+            add1Label.Text = "Address 1: " + SignedInUser.Address1;
+            add2Label.Text = "Address 2: " + SignedInUser.Address2;
+            cityLabel.Text = "City: " + SignedInUser.City;
         }
 
 

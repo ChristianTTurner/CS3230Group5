@@ -41,6 +41,7 @@ namespace CS3230_Group5.DAL
                 SignedInUser.LastName = reader.GetString("last_name");
                 SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
                 SignedInUser.Phone = reader.GetString("phone");
+                SignedInUser.AddressId = reader.GetInt32("address_id");
                 SignedInUser.IsAdmin = true;
 
                 return true;
@@ -62,7 +63,7 @@ namespace CS3230_Group5.DAL
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
-            var selectQuery = "select * from nurse where username = @username and password = @password";
+            var selectQuery = "select * from nurse as n join address as a on n.address_id = a.address_id where username = @username and password = @password";
 
             using var cmd = new MySqlCommand(selectQuery, connection);
 
@@ -81,8 +82,12 @@ namespace CS3230_Group5.DAL
                 SignedInUser.FirstName = reader.GetString("first_name");
                 SignedInUser.LastName = reader.GetString("last_name");
                 SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
+                SignedInUser.AddressId = reader.GetInt32("address_id");
                 SignedInUser.Phone = reader.GetString("phone");
                 SignedInUser.IsAdmin = false;
+                SignedInUser.Address1 = reader.GetString("address1");
+                SignedInUser.Address2 = reader.GetString("address2");
+                SignedInUser.City = reader.GetString("city");
 
                 return true;
             }

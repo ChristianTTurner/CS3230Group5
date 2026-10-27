@@ -15,6 +15,9 @@ namespace CS3230_Group5.Model
         public static string? Phone {  get; set; }
         public static int? AddressId { get; set; }
         public static bool? IsAdmin {  get; set; }
+        public static string? Address1 {  get; set; }
+        public static string? Address2 { get; set; }
+        public static string? City { get; set; }
 
         public static void Clear()
         {
@@ -25,6 +28,9 @@ namespace CS3230_Group5.Model
             Phone = null;
             AddressId = null;
             IsAdmin = false;
+            Address1 = null;
+            Address2 = null;
+            City = null;
         }
     }
 }
