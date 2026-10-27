@@ -1,4 +1,5 @@
 ﻿using CS3230_Group5.DAL;
+using CS3230_Group5.Model;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -21,75 +22,29 @@ namespace CS3230_Group5.View
         {
             InitializeComponent();
 
+            profileLabel.Text = SignedInUser.FirstName + " " + SignedInUser.LastName;
+            fnameLabel.Text = "First Name: " + SignedInUser.FirstName;
+            lnameLabel.Text = "Last Name: " + SignedInUser.LastName;
+            dobLabel.Text = "Date of Birth: " + SignedInUser.DateOfBirth;
+            phoneLabel.Text = "Phone #: " + SignedInUser.Phone; 
+
             if (IsAdmin)
             {
-                this.populatePerAdmin();
+                userIdLabel.Text = "Admin ID: " + SignedInUser.UserID;
             }
             else
             {
-                this.populatePerNurse();
+                userIdLabel.Text = "Nurse ID: " + SignedInUser.UserID;
             }
+
+            usernameLabel.Text = "Username: " + SignedInUser.Username;
+            label1.Text = "Password: " + SignedInUser.Password;
+            add1Label.Text = "Address 1: " + SignedInUser.Address1;
+            add2Label.Text = "Address 2: " + SignedInUser.Address2;
+            cityLabel.Text = "City: " + SignedInUser.City;
         }
 
-        private void populatePerAdmin()
-        {
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-            var selectQuery = "select admin_id, first_name, last_name, date_of_birth, address_id, phone from administrator where admin_id = @adminID";
-            using var cmd = new MySqlCommand(selectQuery, connection);
 
-            cmd.Parameters.Add("@adminID", MySqlDbType.Int16);
-            cmd.Parameters["@adminID"].Value = ProfileID;
-
-            using var reader = cmd.ExecuteReader();
-            var adminIdOrdinal = reader.GetOrdinal("admin_id");
-            var fNameOrdinal = reader.GetOrdinal("first_name");
-            var lNameOrdinal = reader.GetOrdinal("last_name");
-            var dobOrdinal = reader.GetOrdinal("date_of_birth");
-            var phoneOrdinal = reader.GetOrdinal("phone");
-
-            if (reader.Read())
-            {
-                if (reader.GetInt16(adminIdOrdinal) != 0)
-                {
-                    profileLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
-                    accountInfo.Text = "Admin ID: " + reader.GetInt16(adminIdOrdinal) +
-                        "\n DOB: " + reader.GetDateOnly(dobOrdinal) +
-                        "\n Phone Number: " + reader.GetChar(phoneOrdinal);
-                }
-            }
-            connection.Close();
-        }
-
-        private void populatePerNurse()
-        {
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-            var selectQuery = "select nurse_id, first_name, last_name, date_of_birth, address_id, phone from nurse where nurse_id = @nurseID";
-            using var cmd = new MySqlCommand(selectQuery, connection);
-
-            cmd.Parameters.Add("@nurseID", MySqlDbType.Int16);
-            cmd.Parameters["@nurseID"].Value = ProfileID;
-
-            using var reader = cmd.ExecuteReader();
-            var adminIdOrdinal = reader.GetOrdinal("nurse_id");
-            var fNameOrdinal = reader.GetOrdinal("first_name");
-            var lNameOrdinal = reader.GetOrdinal("last_name");
-            var dobOrdinal = reader.GetOrdinal("date_of_birth");
-            var phoneOrdinal = reader.GetOrdinal("phone");
-
-            if (reader.Read())
-            {
-                if (reader.GetInt16(adminIdOrdinal) != 0)
-                {
-                    profileLabel.Text = reader.GetString(fNameOrdinal) + reader.GetString(lNameOrdinal);
-                    accountInfo.Text = "Nurse ID: " + reader.GetInt16(adminIdOrdinal) +
-                        "\n DOB: " + reader.GetDateOnly(dobOrdinal) +
-                        "\n Phone Number: " + reader.GetChar(phoneOrdinal);
-                }
-            }
-            connection.Close();
-        }
 
         private void logOutButton_Click(object sender, EventArgs e)
         {
@@ -97,6 +52,8 @@ namespace CS3230_Group5.View
             var login = new LogInPage();
             login.Show();
             this.Hide();
+
+            SignedInUser.Clear();
         }
 
         private void backButton_Click(object sender, EventArgs e)

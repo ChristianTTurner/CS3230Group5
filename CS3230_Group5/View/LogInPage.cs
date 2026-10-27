@@ -13,6 +13,8 @@ namespace CS3230_Group5.View
 {
     public partial class LogInPage : Form
     {
+        LogInDAL DAL = new LogInDAL();
+
         public LogInPage()
         {
             InitializeComponent();
@@ -32,20 +34,7 @@ namespace CS3230_Group5.View
 
         private bool signInNurse()
         {
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-            var selectQuery = "select nurse_id from nurse where username = @username and password = @password";
-
-            using var cmd = new MySqlCommand(selectQuery, connection);
-
-            cmd.Parameters.Add("@username", MySqlDbType.VarChar);
-            cmd.Parameters["@username"].Value = usernameInput.Text;
-            cmd.Parameters.Add("@password", MySqlDbType.VarChar);
-            cmd.Parameters["@password"].Value = passwordInput.Text;
-
-            using var reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            if (DAL.SignInNurse(usernameInput.Text, passwordInput.Text))
             {
                 var home = new CS3230_Group5.homePageButton();
                 home.Show();
@@ -58,24 +47,12 @@ namespace CS3230_Group5.View
 
         private bool signInAdmin()
         {
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-            var selectQuery = "select admin_id from administrator where username = @username and password = @password";
-
-            using var cmd = new MySqlCommand(selectQuery, connection);
-
-            cmd.Parameters.Add("@username", MySqlDbType.VarChar);
-            cmd.Parameters["@username"].Value = usernameInput.Text;
-            cmd.Parameters.Add("@password", MySqlDbType.VarChar);
-            cmd.Parameters["@password"].Value = passwordInput.Text;
-
-            using var reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            if (DAL.SignInAdmin(usernameInput.Text, passwordInput.Text))
             {
                 var home = new CS3230_Group5.homePageButton();
                 home.Show();
                 this.Hide();
+
                 return true;
             }
 
