@@ -1,4 +1,5 @@
-﻿using CS3230_Group5.DAL;
+﻿
+using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using System;
 using System.Data;
@@ -43,49 +44,52 @@ namespace CS3230_Group5.View.Appointments_View
             _appointmentId = appointmentId;
 
             CreateValueLabels();
+            ConfigureReadOnlyFields();
+            AttachEventHandlers();
+        }
 
+        private void ConfigureReadOnlyFields()
+        {
             symptomsTextBox.ReadOnly = true;
             initialDiagnosisTextBox.ReadOnly = true;
             finalDiagnosisTextBox.ReadOnly = true;
+        }
 
+        private void AttachEventHandlers()
+        {
             checkUpButton.Click += checkUpButton_Click;
             initialDiagnosisButton.Click +=
                 initialDiagnosisButton_Click;
 
-            // TODO (Task B): Connect the partner's Edit Appointment form.
+            backButton.Click += backButton_Click;
+
+            // TODO (Task B): Connect Edit Appointment.
             editAppointmentButton.Click += (s, e) =>
             {
-                // TODO: Open the Edit Appointment form.
+                // Open the partner's Edit Appointment form.
             };
 
             // TODO (Task C): Connect test ordering.
             orderTestButton.Click += (s, e) =>
             {
-                // TODO: Open the Order Tests form.
+                // Open the partner's Order Tests form.
             };
 
             // TODO (Task C): Connect test results.
             viewTestButton.Click += (s, e) =>
             {
-                // TODO: Open the Test Results form.
+                // Open the partner's Test Results form.
             };
 
             // TODO (Task C): Connect final diagnosis and confirmation.
             finalDiagnosisButton.Click += (s, e) =>
             {
-                // TODO: Open the Final Diagnosis form.
-            };
-
-            backButton.Click += (s, e) =>
-            {
-                var appointmentsPage = new ViewAppointmentsPage();
-                appointmentsPage.Show();
-                this.Close();
+                // Open the partner's Final Diagnosis form.
             };
         }
 
         private void AppointmentDetailsPage_Load(
-            object sender, EventArgs e)
+            object? sender, EventArgs e)
         {
             if (_appointmentId > 0)
             {
@@ -193,20 +197,8 @@ namespace CS3230_Group5.View.Appointments_View
 
                 DataRow row = details.Rows[0];
 
-                patientIdValue.Text = Display(row, "patient_id");
-                firstNameValue.Text = Display(row, "first_name");
-                lastNameValue.Text = Display(row, "last_name");
-                dobValue.Text = FormatDate(row, "date_of_birth");
-                phoneValue.Text = Display(row, "phone");
-
-                appointmentIdValue.Text =
-                    Display(row, "appointment_id");
-
-                dateTimeValue.Text =
-                    FormatDateTime(row, "appointment_datetime");
-
-                doctorValue.Text = Display(row, "doctor_name");
-                reasonValue.Text = Display(row, "reason");
+                DisplayPatientInformation(row);
+                DisplayAppointmentInformation(row);
 
                 AppointmentSummary? summary =
                     _summaryDal.GetSummary(_appointmentId);
@@ -223,16 +215,32 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
+        private void DisplayPatientInformation(DataRow row)
+        {
+            patientIdValue.Text = Display(row, "patient_id");
+            firstNameValue.Text = Display(row, "first_name");
+            lastNameValue.Text = Display(row, "last_name");
+            dobValue.Text = FormatDate(row, "date_of_birth");
+            phoneValue.Text = Display(row, "phone");
+        }
+
+        private void DisplayAppointmentInformation(DataRow row)
+        {
+            appointmentIdValue.Text =
+                Display(row, "appointment_id");
+
+            dateTimeValue.Text =
+                FormatDateTime(row, "appointment_datetime");
+
+            doctorValue.Text = Display(row, "doctor_name");
+            reasonValue.Text = Display(row, "reason");
+        }
+
         private void DisplaySummary(AppointmentSummary? summary)
         {
             if (summary == null)
             {
-                systolicValue.Text = "Not entered yet";
-                diastolicValue.Text = "Not entered yet";
-                pulseValue.Text = "Not entered yet";
-                temperatureValue.Text = "Not entered yet";
-                heightValue.Text = "Not entered yet";
-                weightValue.Text = "Not entered yet";
+                SetMeasurementDefaults();
 
                 symptomsTextBox.Text = "Not entered yet.";
                 initialDiagnosisTextBox.Text = "Not entered yet.";
@@ -269,22 +277,33 @@ namespace CS3230_Group5.View.Appointments_View
                 ?? "Not entered yet";
 
             symptomsTextBox.Text =
-                string.IsNullOrWhiteSpace(summary.Symptoms)
-                    ? "Not entered yet."
-                    : summary.Symptoms;
+                DisplayText(summary.Symptoms);
 
             initialDiagnosisTextBox.Text =
-                string.IsNullOrWhiteSpace(summary.InitialDiagnosis)
-                    ? "Not entered yet."
-                    : summary.InitialDiagnosis;
+                DisplayText(summary.InitialDiagnosis);
 
             // TODO (Task C): Apply final-diagnosis workflow and locking rules.
             finalDiagnosisTextBox.Text =
-                string.IsNullOrWhiteSpace(summary.FinalDiagnosis)
-                    ? "Not entered yet."
-                    : summary.FinalDiagnosis;
+                DisplayText(summary.FinalDiagnosis);
 
             // TODO (Task C): Populate orderedTestDataGridView.
+        }
+
+        private void SetMeasurementDefaults()
+        {
+            systolicValue.Text = "Not entered yet";
+            diastolicValue.Text = "Not entered yet";
+            pulseValue.Text = "Not entered yet";
+            temperatureValue.Text = "Not entered yet";
+            heightValue.Text = "Not entered yet";
+            weightValue.Text = "Not entered yet";
+        }
+
+        private static string DisplayText(string? value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? "Not entered yet."
+                : value;
         }
 
         private static string Display(DataRow row, string column)
@@ -324,7 +343,8 @@ namespace CS3230_Group5.View.Appointments_View
                 .ToString("MM/dd/yyyy h:mm tt");
         }
 
-        private void checkUpButton_Click(object? sender, EventArgs e)
+        private void checkUpButton_Click(
+            object? sender, EventArgs e)
         {
             if (_appointmentId <= 0)
             {
@@ -339,7 +359,6 @@ namespace CS3230_Group5.View.Appointments_View
 
             try
             {
-
                 if (!int.TryParse(
                         Convert.ToString(SignedInUser.UserID),
                         out int nurseId) ||
@@ -378,138 +397,57 @@ namespace CS3230_Group5.View.Appointments_View
         {
             if (_appointmentId <= 0)
             {
-                MessageBox.Show("Select an appointment first.");
+                MessageBox.Show(
+                    "Select an appointment first.",
+                    "Appointment Required",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
             try
             {
-                AppointmentSummary? existing =
-                    _summaryDal.GetSummary(_appointmentId);
+                using var diagnosisPage =
+                    new InitialDiagnosisPage(_appointmentId);
 
-                if (existing == null)
+                if (diagnosisPage.ShowDialog(this) == DialogResult.OK)
                 {
-                    MessageBox.Show(
-                        "Save the routine checkup before entering "
-                        + "the initial diagnosis.",
-                        "Routine Checkup Required",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    return;
+                    LoadPageData();
                 }
-
-                using var editor = new Form
-                {
-                    Text = "Enter / Update Initial Diagnosis",
-                    StartPosition = FormStartPosition.CenterParent,
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    ClientSize = new Size(520, 300),
-                    MaximizeBox = false,
-                    MinimizeBox = false
-                };
-
-                editor.Controls.Add(new Label
-                {
-                    Text = "Initial Diagnosis:",
-                    Location = new Point(20, 20),
-                    AutoSize = true
-                });
-
-                var diagnosisBox = new TextBox
-                {
-                    Name = "diagnosisInput",
-                    Location = new Point(20, 50),
-                    Size = new Size(475, 150),
-                    Multiline = true,
-                    ScrollBars = ScrollBars.Vertical,
-                    MaxLength = 500,
-                    Text = existing.InitialDiagnosis ?? ""
-                };
-
-                editor.Controls.Add(diagnosisBox);
-
-                var saveButton = new Button
-                {
-                    Text = "Save Diagnosis",
-                    Location = new Point(240, 225),
-                    Size = new Size(135, 40)
-                };
-
-                var cancelButton = new Button
-                {
-                    Text = "Cancel",
-                    DialogResult = DialogResult.Cancel,
-                    Location = new Point(385, 225),
-                    Size = new Size(110, 40)
-                };
-
-                saveButton.Click += (s, args) =>
-                {
-                    editor.DialogResult = DialogResult.OK;
-                    editor.Close();
-                };
-
-                editor.Controls.Add(saveButton);
-                editor.Controls.Add(cancelButton);
-
-                editor.AcceptButton = saveButton;
-                editor.CancelButton = cancelButton;
-
-                if (editor.ShowDialog(this) != DialogResult.OK)
-                {
-                    return;
-                }
-
-                string diagnosis = diagnosisBox.Text.Trim();
-
-                if (string.IsNullOrWhiteSpace(diagnosis))
-                {
-                    MessageBox.Show(
-                        "Enter the initial diagnosis.",
-                        "Diagnosis Required",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-                if (diagnosis.Length > 500)
-                {
-                    MessageBox.Show(
-                        "Initial diagnosis cannot exceed 500 characters.",
-                        "Invalid Diagnosis",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-                _summaryDal.SaveInitialDiagnosis(
-                    _appointmentId, diagnosis);
-
-                LoadPageData();
-
-                MessageBox.Show(
-                    "Initial diagnosis saved successfully.",
-                    "Diagnosis Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Unable to save the initial diagnosis: "
+                    "Unable to open the initial diagnosis page: "
                     + ex.Message,
-                    "Save Error",
+                    "Diagnosis Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
-
-        private void profileLabel_Click(object sender, EventArgs e)
+        private void backButton_Click(object? sender, EventArgs e)
         {
-            // TODO: Connect the profile feature if required.
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is ViewAppointmentsPage appointmentsPage)
+                {
+                    appointmentsPage.Show();
+                    appointmentsPage.BringToFront();
+                    Close();
+                    return;
+                }
+            }
+
+            var newAppointmentsPage = new ViewAppointmentsPage();
+            newAppointmentsPage.Show();
+
+            Close();
+        }
+
+        private void profileLabel_Click(object? sender, EventArgs e)
+        {
+            
         }
     }
 }
