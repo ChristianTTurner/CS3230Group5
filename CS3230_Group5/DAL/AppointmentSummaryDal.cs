@@ -110,17 +110,20 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Saves a complete routine checkup.
-        /// Inserts a summary if one does not exist, otherwise updates it.
-        /// Existing diagnosis fields are preserved.
+        /// Saves a routine checkup using the SaveRoutineCheckup stored procedure.
         /// </summary>
         public void SaveCheckup(AppointmentSummary summary)
         {
+            if (summary == null)
+                throw new ArgumentNullException(nameof(summary));
+
             if (summary.AppointmentId <= 0)
-                throw new ArgumentException("A valid appointment is required.");
+                throw new ArgumentException(
+                    "A valid appointment is required.");
 
             if (!summary.NurseId.HasValue || summary.NurseId.Value <= 0)
-                throw new ArgumentException("A valid nurse ID is required.");
+                throw new ArgumentException(
+                    "A valid nurse ID is required.");
 
             if (!summary.SystolicReading.HasValue ||
                 !summary.DiastolicReading.HasValue ||
@@ -134,85 +137,55 @@ namespace CS3230_Group5.DAL
             }
 
             if (string.IsNullOrWhiteSpace(summary.Symptoms))
-            {
                 throw new ArgumentException(
                     "Symptoms are required. Enter 'None reported' if applicable.");
-            }
 
-            const string query = @"
-                INSERT INTO appointment_summary
-                (
-                    appointment_id,
-                    nurse_id,
-                    systolic_reading,
-                    diastolic_reading,
-                    body_temperature,
-                    pulse,
-                    height,
-                    weight,
-                    symptoms
-                )
-                VALUES
-                (
-                    @appointmentId,
-                    @nurseId,
-                    @systolic,
-                    @diastolic,
-                    @temperature,
-                    @pulse,
-                    @height,
-                    @weight,
-                    @symptoms
-                )
-                ON DUPLICATE KEY UPDATE
-                    nurse_id = @nurseId,
-                    systolic_reading = @systolic,
-                    diastolic_reading = @diastolic,
-                    body_temperature = @temperature,
-                    pulse = @pulse,
-                    height = @height,
-                    weight = @weight,
-                    symptoms = @symptoms;";
+            if (summary.Symptoms.Trim().Length > 500)
+                throw new ArgumentException(
+                    "Symptoms cannot exceed 500 characters.");
 
             using var connection =
                 new MySqlConnection(Connection.ConnectionString());
 
-            using var command = new MySqlCommand(query, connection);
+            using var command = new MySqlCommand(
+                "SaveRoutineCheckup", connection);
+
+            command.CommandType = CommandType.StoredProcedure;
 
             command.Parameters.Add(
-                "@appointmentId", MySqlDbType.Int32
+                "@p_appointment_id", MySqlDbType.Int32
             ).Value = summary.AppointmentId;
 
             command.Parameters.Add(
-                "@nurseId", MySqlDbType.Int32
+                "@p_nurse_id", MySqlDbType.Int32
             ).Value = summary.NurseId.Value;
 
             command.Parameters.Add(
-                "@systolic", MySqlDbType.Int32
+                "@p_systolic", MySqlDbType.Int32
             ).Value = summary.SystolicReading.Value;
 
             command.Parameters.Add(
-                "@diastolic", MySqlDbType.Int32
+                "@p_diastolic", MySqlDbType.Int32
             ).Value = summary.DiastolicReading.Value;
 
             command.Parameters.Add(
-                "@temperature", MySqlDbType.Decimal
+                "@p_temperature", MySqlDbType.Decimal
             ).Value = summary.BodyTemperature.Value;
 
             command.Parameters.Add(
-                "@pulse", MySqlDbType.Int32
+                "@p_pulse", MySqlDbType.Int32
             ).Value = summary.Pulse.Value;
 
             command.Parameters.Add(
-                "@height", MySqlDbType.Decimal
+                "@p_height", MySqlDbType.Decimal
             ).Value = summary.Height.Value;
 
             command.Parameters.Add(
-                "@weight", MySqlDbType.Decimal
+                "@p_weight", MySqlDbType.Decimal
             ).Value = summary.Weight.Value;
 
             command.Parameters.Add(
-                "@symptoms", MySqlDbType.VarChar, 500
+                "@p_symptoms", MySqlDbType.VarChar, 500
             ).Value = summary.Symptoms.Trim();
 
             connection.Open();
@@ -251,8 +224,6 @@ namespace CS3230_Group5.DAL
 
             int rowsAffected = command.ExecuteNonQuery();
 
-            // MySQL may report zero if the value was unchanged.
-            // Verify existence separately to distinguish that case.
             if (rowsAffected == 0 && !SummaryExists(connection, appointmentId))
             {
                 throw new InvalidOperationException(
