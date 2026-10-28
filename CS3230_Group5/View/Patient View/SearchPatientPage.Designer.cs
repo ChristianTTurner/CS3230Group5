@@ -50,6 +50,7 @@
             // patientList
             // 
             patientList.FullRowSelect = true;
+            patientList.GridLines = true;
             patientList.Location = new Point(342, 255);
             patientList.Margin = new Padding(4);
             patientList.MultiSelect = false;
@@ -57,6 +58,7 @@
             patientList.Size = new Size(958, 475);
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
+            patientList.View = System.Windows.Forms.View.Details;
             patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
             patientList.DoubleClick += patientList_DoubleClick;
             // 
