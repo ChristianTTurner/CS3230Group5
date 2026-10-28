@@ -1,5 +1,4 @@
-﻿
-using CS3230_Group5.DAL;
+﻿using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using System;
 using System.Data;
@@ -40,7 +39,6 @@ namespace CS3230_Group5.View.Appointments_View
         public AppointmentDetailsPage(int appointmentId)
         {
             InitializeComponent();
-
             _appointmentId = appointmentId;
 
             CreateValueLabels();
@@ -58,9 +56,7 @@ namespace CS3230_Group5.View.Appointments_View
         private void AttachEventHandlers()
         {
             checkUpButton.Click += checkUpButton_Click;
-            initialDiagnosisButton.Click +=
-                initialDiagnosisButton_Click;
-
+            initialDiagnosisButton.Click += initialDiagnosisButton_Click;
             backButton.Click += backButton_Click;
 
             // TODO (Task B): Connect Edit Appointment.
@@ -88,8 +84,7 @@ namespace CS3230_Group5.View.Appointments_View
             };
         }
 
-        private void AppointmentDetailsPage_Load(
-            object? sender, EventArgs e)
+        private void AppointmentDetailsPage_Load(object? sender, EventArgs e)
         {
             if (_appointmentId > 0)
             {
@@ -101,8 +96,7 @@ namespace CS3230_Group5.View.Appointments_View
         {
             if (appointmentId <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(appointmentId));
+                throw new ArgumentOutOfRangeException(nameof(appointmentId));
             }
 
             _appointmentId = appointmentId;
@@ -111,54 +105,39 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void CreateValueLabels()
         {
-            patientIdValue =
-                AddValueLabel(patientInfoPanel, 160, 49, 400);
-
-            firstNameValue =
-                AddValueLabel(patientInfoPanel, 160, 82, 400);
-
-            lastNameValue =
-                AddValueLabel(patientInfoPanel, 160, 121, 400);
-
-            dobValue =
-                AddValueLabel(patientInfoPanel, 160, 160, 400);
-
-            phoneValue =
-                AddValueLabel(patientInfoPanel, 160, 197, 400);
-
-            appointmentIdValue =
-                AddValueLabel(appointmentPanel, 175, 49, 210);
-
-            dateTimeValue =
-                AddValueLabel(appointmentPanel, 175, 91, 390);
-
-            doctorValue =
-                AddValueLabel(appointmentPanel, 175, 135, 390);
-
-            reasonValue =
-                AddValueLabel(appointmentPanel, 175, 172, 390);
-
-            systolicValue =
-                AddValueLabel(checkUpPanel, 235, 53, 190);
-
-            diastolicValue =
-                AddValueLabel(checkUpPanel, 235, 92, 190);
-
-            pulseValue =
-                AddValueLabel(checkUpPanel, 235, 131, 190);
-
-            temperatureValue =
-                AddValueLabel(checkUpPanel, 635, 53, 200);
-
-            heightValue =
-                AddValueLabel(checkUpPanel, 635, 92, 200);
-
-            weightValue =
-                AddValueLabel(checkUpPanel, 635, 131, 200);
+            CreatePatientValueLabels();
+            CreateAppointmentValueLabels();
+            CreateCheckupValueLabels();
         }
 
-        private static Label AddValueLabel(
-            Panel parent, int x, int y, int width)
+        private void CreatePatientValueLabels()
+        {
+            patientIdValue = AddValueLabel(patientInfoPanel, 160, 49, 400);
+            firstNameValue = AddValueLabel(patientInfoPanel, 160, 82, 400);
+            lastNameValue = AddValueLabel(patientInfoPanel, 160, 121, 400);
+            dobValue = AddValueLabel(patientInfoPanel, 160, 160, 400);
+            phoneValue = AddValueLabel(patientInfoPanel, 160, 197, 400);
+        }
+
+        private void CreateAppointmentValueLabels()
+        {
+            appointmentIdValue = AddValueLabel(appointmentPanel, 175, 49, 210);
+            dateTimeValue = AddValueLabel(appointmentPanel, 175, 91, 390);
+            doctorValue = AddValueLabel(appointmentPanel, 175, 135, 390);
+            reasonValue = AddValueLabel(appointmentPanel, 175, 172, 390);
+        }
+
+        private void CreateCheckupValueLabels()
+        {
+            systolicValue = AddValueLabel(checkUpPanel, 235, 53, 190);
+            diastolicValue = AddValueLabel(checkUpPanel, 235, 92, 190);
+            pulseValue = AddValueLabel(checkUpPanel, 235, 131, 190);
+            temperatureValue = AddValueLabel(checkUpPanel, 635, 53, 200);
+            heightValue = AddValueLabel(checkUpPanel, 635, 92, 200);
+            weightValue = AddValueLabel(checkUpPanel, 635, 131, 200);
+        }
+
+        private static Label AddValueLabel(Panel parent, int x, int y, int width)
         {
             var label = new Label
             {
@@ -173,7 +152,6 @@ namespace CS3230_Group5.View.Appointments_View
 
             parent.Controls.Add(label);
             label.BringToFront();
-
             return label;
         }
 
@@ -181,38 +159,42 @@ namespace CS3230_Group5.View.Appointments_View
         {
             try
             {
-                DataTable details =
-                    _summaryDal.GetAppointmentDetails(_appointmentId);
-
-                if (details.Rows.Count == 0)
+                DataTable details = _summaryDal.GetAppointmentDetails(_appointmentId);
+                if (!HasAppointmentDetails(details))
                 {
-                    MessageBox.Show(
-                        "The selected appointment could not be found.",
-                        "Appointment Not Found",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    ShowAppointmentNotFoundMessage();
                     return;
                 }
 
-                DataRow row = details.Rows[0];
-
-                DisplayPatientInformation(row);
-                DisplayAppointmentInformation(row);
-
-                AppointmentSummary? summary =
-                    _summaryDal.GetSummary(_appointmentId);
-
-                DisplaySummary(summary);
+                DisplayAppointmentDetails(details.Rows[0]);
+                DisplaySummary(_summaryDal.GetSummary(_appointmentId));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                ShowErrorMessage(
                     "Unable to load appointment details: " + ex.Message,
-                    "Database Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    "Database Error");
             }
+        }
+
+        private static bool HasAppointmentDetails(DataTable details)
+        {
+            return details.Rows.Count > 0;
+        }
+
+        private void ShowAppointmentNotFoundMessage()
+        {
+            MessageBox.Show(
+                "The selected appointment could not be found.",
+                "Appointment Not Found",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+
+        private void DisplayAppointmentDetails(DataRow row)
+        {
+            DisplayPatientInformation(row);
+            DisplayAppointmentInformation(row);
         }
 
         private void DisplayPatientInformation(DataRow row)
@@ -226,12 +208,8 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void DisplayAppointmentInformation(DataRow row)
         {
-            appointmentIdValue.Text =
-                Display(row, "appointment_id");
-
-            dateTimeValue.Text =
-                FormatDateTime(row, "appointment_datetime");
-
+            appointmentIdValue.Text = Display(row, "appointment_id");
+            dateTimeValue.Text = FormatDateTime(row, "appointment_datetime");
             doctorValue.Text = Display(row, "doctor_name");
             reasonValue.Text = Display(row, "reason");
         }
@@ -240,53 +218,43 @@ namespace CS3230_Group5.View.Appointments_View
         {
             if (summary == null)
             {
-                SetMeasurementDefaults();
-
-                symptomsTextBox.Text = "Not entered yet.";
-                initialDiagnosisTextBox.Text = "Not entered yet.";
-                finalDiagnosisTextBox.Text = "Not entered yet.";
-
-                // TODO (Task C): Load ordered tests and their results.
-                orderedTestDataGridView.Rows.Clear();
-
+                DisplayEmptySummary();
                 return;
             }
 
-            systolicValue.Text =
-                summary.SystolicReading?.ToString()
-                ?? "Not entered yet";
+            DisplayMeasurements(summary);
+            DisplaySymptomsAndDiagnoses(summary);
+            // TODO (Task C): Populate orderedTestDataGridView.
+        }
 
-            diastolicValue.Text =
-                summary.DiastolicReading?.ToString()
-                ?? "Not entered yet";
+        private void DisplayEmptySummary()
+        {
+            SetMeasurementDefaults();
+            symptomsTextBox.Text = "Not entered yet.";
+            initialDiagnosisTextBox.Text = "Not entered yet.";
+            finalDiagnosisTextBox.Text = "Not entered yet.";
 
-            pulseValue.Text =
-                summary.Pulse?.ToString()
-                ?? "Not entered yet";
+            // TODO (Task C): Load ordered tests and their results.
+            orderedTestDataGridView.Rows.Clear();
+        }
 
-            temperatureValue.Text =
-                summary.BodyTemperature?.ToString("0.0")
-                ?? "Not entered yet";
+        private void DisplayMeasurements(AppointmentSummary summary)
+        {
+            systolicValue.Text = summary.SystolicReading?.ToString() ?? "Not entered yet";
+            diastolicValue.Text = summary.DiastolicReading?.ToString() ?? "Not entered yet";
+            pulseValue.Text = summary.Pulse?.ToString() ?? "Not entered yet";
+            temperatureValue.Text = summary.BodyTemperature?.ToString("0.0") ?? "Not entered yet";
+            heightValue.Text = summary.Height?.ToString("0.00") ?? "Not entered yet";
+            weightValue.Text = summary.Weight?.ToString("0.00") ?? "Not entered yet";
+        }
 
-            heightValue.Text =
-                summary.Height?.ToString("0.00")
-                ?? "Not entered yet";
-
-            weightValue.Text =
-                summary.Weight?.ToString("0.00")
-                ?? "Not entered yet";
-
-            symptomsTextBox.Text =
-                DisplayText(summary.Symptoms);
-
-            initialDiagnosisTextBox.Text =
-                DisplayText(summary.InitialDiagnosis);
+        private void DisplaySymptomsAndDiagnoses(AppointmentSummary summary)
+        {
+            symptomsTextBox.Text = DisplayText(summary.Symptoms);
+            initialDiagnosisTextBox.Text = DisplayText(summary.InitialDiagnosis);
 
             // TODO (Task C): Apply final-diagnosis workflow and locking rules.
-            finalDiagnosisTextBox.Text =
-                DisplayText(summary.FinalDiagnosis);
-
-            // TODO (Task C): Populate orderedTestDataGridView.
+            finalDiagnosisTextBox.Text = DisplayText(summary.FinalDiagnosis);
         }
 
         private void SetMeasurementDefaults()
@@ -301,9 +269,7 @@ namespace CS3230_Group5.View.Appointments_View
 
         private static string DisplayText(string? value)
         {
-            return string.IsNullOrWhiteSpace(value)
-                ? "Not entered yet."
-                : value;
+            return string.IsNullOrWhiteSpace(value) ? "Not entered yet." : value;
         }
 
         private static string Display(DataRow row, string column)
@@ -313,11 +279,8 @@ namespace CS3230_Group5.View.Appointments_View
                 return "Not entered yet";
             }
 
-            string value = Convert.ToString(row[column]) ?? "";
-
-            return string.IsNullOrWhiteSpace(value)
-                ? "Not entered yet"
-                : value;
+            string value = Convert.ToString(row[column]) ?? string.Empty;
+            return string.IsNullOrWhiteSpace(value) ? "Not entered yet" : value;
         }
 
         private static string FormatDate(DataRow row, string column)
@@ -327,106 +290,98 @@ namespace CS3230_Group5.View.Appointments_View
                 return "Not entered yet";
             }
 
-            return Convert.ToDateTime(row[column])
-                .ToString("MM/dd/yyyy");
+            return Convert.ToDateTime(row[column]).ToString("MM/dd/yyyy");
         }
 
-        private static string FormatDateTime(
-            DataRow row, string column)
+        private static string FormatDateTime(DataRow row, string column)
         {
             if (row[column] == DBNull.Value)
             {
                 return "Not entered yet";
             }
 
-            return Convert.ToDateTime(row[column])
-                .ToString("MM/dd/yyyy h:mm tt");
+            return Convert.ToDateTime(row[column]).ToString("MM/dd/yyyy h:mm tt");
         }
 
-        private void checkUpButton_Click(
-            object? sender, EventArgs e)
+        private void checkUpButton_Click(object? sender, EventArgs e)
         {
-            if (_appointmentId <= 0)
+            if (!EnsureAppointmentSelected())
             {
-                MessageBox.Show(
-                    "Select an appointment first.",
-                    "Appointment Required",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                return;
+            }
 
+            if (!TryGetSignedInNurseId(out int nurseId))
+            {
+                ShowWarningMessage(
+                    "Unable to identify the logged-in nurse.",
+                    "Login Required");
                 return;
             }
 
             try
             {
-                if (!int.TryParse(
-                        Convert.ToString(SignedInUser.UserID),
-                        out int nurseId) ||
-                    nurseId <= 0)
-                {
-                    MessageBox.Show(
-                        "Unable to identify the logged-in nurse.",
-                        "Login Required",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-                using var checkupPage =
-                    new RoutineCheckUpPage(_appointmentId, nurseId);
-
-                if (checkupPage.ShowDialog(this) == DialogResult.OK)
-                {
-                    LoadPageData();
-                }
+                using var checkupPage = new RoutineCheckUpPage(_appointmentId, nurseId);
+                RefreshAfterSuccessfulDialog(checkupPage);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Unable to open the routine check-up page: "
-                    + ex.Message,
-                    "Check-Up Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                ShowErrorMessage(
+                    "Unable to open the routine check-up page: " + ex.Message,
+                    "Check-Up Error");
             }
         }
 
-        private void initialDiagnosisButton_Click(
-            object? sender, EventArgs e)
+        private bool TryGetSignedInNurseId(out int nurseId)
         {
-            if (_appointmentId <= 0)
-            {
-                MessageBox.Show(
-                    "Select an appointment first.",
-                    "Appointment Required",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            return int.TryParse(Convert.ToString(SignedInUser.UserID), out nurseId)
+                && nurseId > 0;
+        }
 
+        private void initialDiagnosisButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
                 return;
             }
 
             try
             {
-                using var diagnosisPage =
-                    new InitialDiagnosisPage(_appointmentId);
-
-                if (diagnosisPage.ShowDialog(this) == DialogResult.OK)
-                {
-                    LoadPageData();
-                }
+                using var diagnosisPage = new InitialDiagnosisPage(_appointmentId);
+                RefreshAfterSuccessfulDialog(diagnosisPage);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Unable to open the initial diagnosis page: "
-                    + ex.Message,
-                    "Diagnosis Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                ShowErrorMessage(
+                    "Unable to open the initial diagnosis page: " + ex.Message,
+                    "Diagnosis Error");
             }
         }
+
+        private bool EnsureAppointmentSelected()
+        {
+            if (_appointmentId > 0)
+            {
+                return true;
+            }
+
+            ShowWarningMessage("Select an appointment first.", "Appointment Required");
+            return false;
+        }
+
+        private void RefreshAfterSuccessfulDialog(Form dialog)
+        {
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                LoadPageData();
+            }
+        }
+
         private void backButton_Click(object? sender, EventArgs e)
+        {
+            ReturnToAppointmentsPage();
+        }
+
+        private void ReturnToAppointmentsPage()
         {
             foreach (Form openForm in Application.OpenForms)
             {
@@ -439,10 +394,18 @@ namespace CS3230_Group5.View.Appointments_View
                 }
             }
 
-            var newAppointmentsPage = new ViewAppointmentsPage();
-            newAppointmentsPage.Show();
-
+            new ViewAppointmentsPage().Show();
             Close();
+        }
+
+        private static void ShowWarningMessage(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private static void ShowErrorMessage(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void profileLabel_Click(object? sender, EventArgs e)

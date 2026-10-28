@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dashboardTitle = new Label();
             panel1 = new Panel();
             logoutButton = new Button();
@@ -72,7 +72,7 @@
             panel1.Controls.Add(dashboardTitle);
             panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1295, 85);
+            panel1.Size = new Size(1317, 85);
             panel1.TabIndex = 9;
             // 
             // logoutButton
@@ -176,7 +176,7 @@
             searchButton.FlatStyle = FlatStyle.Flat;
             searchButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             searchButton.ForeColor = Color.White;
-            searchButton.Location = new Point(1136, 205);
+            searchButton.Location = new Point(1172, 205);
             searchButton.Name = "searchButton";
             searchButton.Size = new Size(112, 39);
             searchButton.TabIndex = 13;
@@ -190,7 +190,7 @@
             searchAppointmentTextBox.Margin = new Padding(4);
             searchAppointmentTextBox.Name = "searchAppointmentTextBox";
             searchAppointmentTextBox.PlaceholderText = "Search by name, phone or DOB";
-            searchAppointmentTextBox.Size = new Size(769, 39);
+            searchAppointmentTextBox.Size = new Size(812, 39);
             searchAppointmentTextBox.TabIndex = 12;
             // 
             // createAppointmentButton
@@ -201,7 +201,7 @@
             createAppointmentButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             createAppointmentButton.ForeColor = Color.White;
             createAppointmentButton.ImageAlign = ContentAlignment.TopCenter;
-            createAppointmentButton.Location = new Point(955, 98);
+            createAppointmentButton.Location = new Point(991, 98);
             createAppointmentButton.Margin = new Padding(4);
             createAppointmentButton.Name = "createAppointmentButton";
             createAppointmentButton.Size = new Size(293, 70);
@@ -223,7 +223,7 @@
             appointmentDataGridView.Location = new Point(340, 275);
             appointmentDataGridView.Name = "appointmentDataGridView";
             appointmentDataGridView.RowHeadersWidth = 62;
-            appointmentDataGridView.Size = new Size(908, 454);
+            appointmentDataGridView.Size = new Size(944, 454);
             appointmentDataGridView.TabIndex = 15;
             // 
             // appointment_id
@@ -277,11 +277,11 @@
             // 
             // btnView
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle2;
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.HeaderText = "Action";
             btnView.MinimumWidth = 8;
@@ -306,7 +306,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1290, 741);
+            ClientSize = new Size(1314, 741);
             Controls.Add(SearchErrorLabel);
             Controls.Add(appointmentDataGridView);
             Controls.Add(createAppointmentButton);
