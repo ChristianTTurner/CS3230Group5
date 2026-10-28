@@ -12,60 +12,149 @@ namespace CS3230_Group5.DAL
     public class PatientDal
     {
         /// <summary>
-        /// Retrieves patients, optionally filtering by a patient's name.
+        /// Retrieves patients, optionally searching by name, phone, or date of birth.
         /// </summary>
         public List<Patient> GetPatients(string? filter = null)
         {
-            const string baseQuery = @"
-                SELECT patient_id, first_name, last_name, date_of_birth,
-                       phone, gender, active, address_id
-                FROM patient";
-
-            bool hasFilter = !string.IsNullOrWhiteSpace(filter);
-            string query = hasFilter
-                ? baseQuery + @"
-                WHERE CONCAT(first_name, ' ', last_name) LIKE @filter
-                   OR first_name LIKE @filter
-                   OR last_name LIKE @filter
-                ORDER BY last_name, first_name;"
-                : baseQuery + " ORDER BY last_name, first_name;";
-
-            var patients = new List<Patient>();
-
             using var connection =
                 new MySqlConnection(Connection.ConnectionString());
-            using var command = new MySqlCommand(query, connection);
+
+            using var command = CreatePatientSearchCommand(
+                connection, filter);
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            return ReadPatients(reader);
+        }
+
+        /// <summary>
+        /// Creates the SQL command for retrieving and filtering patients.
+        /// </summary>
+        private static MySqlCommand CreatePatientSearchCommand(
+            MySqlConnection connection, string? filter)
+        {
+            bool hasFilter = !string.IsNullOrWhiteSpace(filter);
+
+            string query = BuildPatientSearchQuery(hasFilter);
+
+            var command = new MySqlCommand(query, connection);
 
             if (hasFilter)
             {
-                command.Parameters.Add("@filter", MySqlDbType.VarChar, 200)
+                command.Parameters.Add(
+                            "@filter", MySqlDbType.VarChar, 200)
                         .Value = $"%{filter!.Trim()}%";
             }
 
-            connection.Open();
-            using var reader = command.ExecuteReader();
+            return command;
+        }
+
+        /// <summary>
+        /// Builds the patient query with or without search criteria.
+        /// </summary>
+        private static string BuildPatientSearchQuery(bool hasFilter)
+        {
+            const string selectQuery = @"
+        SELECT patient_id, first_name, last_name, date_of_birth,
+               phone, gender, active, address_id
+        FROM patient";
+
+            if (!hasFilter)
+            {
+                return selectQuery + " ORDER BY last_name, first_name;";
+            }
+
+            return selectQuery + @"
+        WHERE first_name LIKE @filter
+           OR last_name LIKE @filter
+           OR CONCAT(first_name, ' ', last_name) LIKE @filter
+           OR phone LIKE @filter
+           OR DATE_FORMAT(date_of_birth, '%Y-%m-%d') LIKE @filter
+           OR DATE_FORMAT(date_of_birth, '%m/%d/%Y') LIKE @filter
+        ORDER BY last_name, first_name;";
+        }
+
+        /// <summary>
+        /// Converts the database results into a list of Patient models.
+        /// </summary>
+        private static List<Patient> ReadPatients(MySqlDataReader reader)
+        {
+            var patients = new List<Patient>();
 
             while (reader.Read())
             {
-                patients.Add(new Patient
-                {
-                    PatientId = reader.GetInt32("patient_id"),
-                    FirstName = ReadString(reader, "first_name"),
-                    LastName = ReadString(reader, "last_name"),
-                    DateOfBirth = reader.IsDBNull(reader.GetOrdinal("date_of_birth"))
-                        ? null
-                        : reader.GetDateTime("date_of_birth"),
-                    Phone = ReadString(reader, "phone"),
-                    Gender = ReadString(reader, "gender"),
-                    Active = !reader.IsDBNull(reader.GetOrdinal("active")) &&
-                             Convert.ToBoolean(reader["active"]),
-                    AddressId = reader.IsDBNull(reader.GetOrdinal("address_id"))
-                        ? null
-                        : reader.GetInt32("address_id")
-                });
+                patients.Add(MapPatient(reader));
             }
 
             return patients;
+        }
+
+        /// <summary>
+        /// Maps the current database row to a Patient model.
+        /// </summary>
+        private static Patient MapPatient(MySqlDataReader reader)
+        {
+            return new Patient
+            {
+                PatientId = reader.GetInt32("patient_id"),
+                FirstName = ReadString(reader, "first_name"),
+                LastName = ReadString(reader, "last_name"),
+                DateOfBirth = ReadNullableDate(reader, "date_of_birth"),
+                Phone = ReadString(reader, "phone"),
+                Gender = ReadString(reader, "gender"),
+                Active = ReadActiveStatus(reader),
+                AddressId = ReadNullableInt(reader, "address_id")
+            };
+        }
+
+        /// <summary>
+        /// Reads a string value, returning an empty string for database NULL.
+        /// </summary>
+        private static string ReadString(
+            MySqlDataReader reader, string column)
+        {
+            return reader.IsDBNull(reader.GetOrdinal(column))
+                ? string.Empty
+                : reader.GetString(column);
+        }
+
+        /// <summary>
+        /// Reads a nullable date from the current database row.
+        /// </summary>
+        private static DateTime? ReadNullableDate(
+            MySqlDataReader reader, string column)
+        {
+            int ordinal = reader.GetOrdinal(column);
+
+            return reader.IsDBNull(ordinal)
+                ? null
+                : reader.GetDateTime(ordinal);
+        }
+
+        /// <summary>
+        /// Reads a nullable integer from the current database row.
+        /// </summary>
+        private static int? ReadNullableInt(
+            MySqlDataReader reader, string column)
+        {
+            int ordinal = reader.GetOrdinal(column);
+
+            return reader.IsDBNull(ordinal)
+                ? null
+                : reader.GetInt32(ordinal);
+        }
+
+        /// <summary>
+        /// Reads the patient's active status.
+        /// </summary>
+        private static bool ReadActiveStatus(MySqlDataReader reader)
+        {
+            int ordinal = reader.GetOrdinal("active");
+
+            return !reader.IsDBNull(ordinal)
+                   && Convert.ToBoolean(reader.GetValue(ordinal));
         }
 
         /// <summary>
@@ -154,12 +243,6 @@ namespace CS3230_Group5.DAL
             using var command = new MySqlCommand(query, connection, transaction);
             command.Parameters.Add("@addressId", MySqlDbType.Int32).Value = addressId;
             return Convert.ToInt32(command.ExecuteScalar()) > 0;
-        }
-
-        private static string ReadString(MySqlDataReader reader, string column)
-        {
-            int ordinal = reader.GetOrdinal(column);
-            return reader.IsDBNull(ordinal) ? string.Empty : reader.GetString(ordinal);
         }
     }
 }
