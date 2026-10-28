@@ -165,9 +165,9 @@
             appointmentTitle.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
             appointmentTitle.Location = new Point(340, 103);
             appointmentTitle.Name = "appointmentTitle";
-            appointmentTitle.Size = new Size(356, 70);
+            appointmentTitle.Size = new Size(379, 70);
             appointmentTitle.TabIndex = 11;
-            appointmentTitle.Text = "Appointment";
+            appointmentTitle.Text = "Appointments";
             // 
             // searchButton
             // 
@@ -211,6 +211,11 @@
             // 
             // appointmentDataGridView
             // 
+            appointmentDataGridView.AllowUserToAddRows = false;
+            appointmentDataGridView.AllowUserToDeleteRows = false;
+            appointmentDataGridView.AllowUserToOrderColumns = true;
+            appointmentDataGridView.AllowUserToResizeColumns = false;
+            appointmentDataGridView.AllowUserToResizeRows = false;
             appointmentDataGridView.BackgroundColor = Color.White;
             appointmentDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             appointmentDataGridView.Columns.AddRange(new DataGridViewColumn[] { appointment_id, patient_name, patient_dob, doctor_name, appointment_datetime, reason, btnView });

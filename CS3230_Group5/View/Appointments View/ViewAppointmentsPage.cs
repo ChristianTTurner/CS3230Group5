@@ -293,15 +293,9 @@ namespace CS3230_Group5.View.Appointments_View
                 return;
             }
 
-            MessageBox.Show(
-                "Selected appointment ID: " + appointmentId,
-                "Appointment Selected",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
-
-            // TODO: Open the appointment details or checkup page
-            // and pass appointmentId to that form.
+            var detailsPage = new AppointmentDetailsPage(appointmentId);
+            detailsPage.Show();
+            this.Hide();
         }
     }
 }
