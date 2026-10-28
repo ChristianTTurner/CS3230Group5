@@ -22,9 +22,9 @@ namespace CS3230_Group5.View.Nurse_View
             nurseButton.Click += (s, e) => NavigateTo(new ViewNursesPage());
             patientsButton.Click += (s, e) => PopulatePatientList();
             appointmentButton.Click += (s, e) => NavigateTo(new CreateAppointmentPage());
-            logoutButton.Click += (s, e) => NavigateTo(new View.LogInPage());
+            logoutButton.Click += (s, e) => NavigateTo(new LogInPage());
             searchButton.Click += (s, e) => SearchPatients();
-            viewPatientButton.Click += (s, e) => ViewSelectedPatient();
+            editPatientButton.Click += (s, e) => EditSelectedPatient();
         }
 
         private void ConfigurePatientList()
@@ -87,17 +87,7 @@ namespace CS3230_Group5.View.Nurse_View
             SearchPatients();
         }
 
-        private void ViewSelectedPatient()
-        {
-            if (!TryGetSelectedPatientId(out int patientId))
-                return;
-
-            var profile = new ViewPatientProfile();
-            profile.LoadPatient(patientId);
-            NavigateTo(profile);
-        }
-
-        private void patientList_DoubleClick(object sender, EventArgs e)
+        private void EditSelectedPatient()
         {
             if (!TryGetSelectedPatientId(out int patientId))
                 return;
