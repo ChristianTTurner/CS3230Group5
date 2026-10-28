@@ -26,6 +26,8 @@ namespace CS3230_Group5
 
             userNameLabel.Text = "Username: " + SignedInUser.Username;
             idLabel.Text = "User ID: " + SignedInUser.UserID;
+            manageNurse.Visible = SignedInUser.IsAdmin;
+            manageNurseLabel.Visible = manageNurse.Visible;
         }
 
         private void HomeButton_Click(object? sender, EventArgs e)
