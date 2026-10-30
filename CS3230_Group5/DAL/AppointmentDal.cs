@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CS3230_Group5.Model;
 using MySqlConnector;
 
 namespace CS3230_Group5.DAL
@@ -85,6 +86,29 @@ namespace CS3230_Group5.DAL
             command.Parameters.Add("@reason", MySqlDbType.VarChar, 255).Value = reason.Trim();
             command.ExecuteNonQuery();
             return checked((int)command.LastInsertedId);
+        }
+
+        public List<Appointment> GetAppointments()
+        {
+            var appointments = new List<Appointment>();
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using var command = new MySqlCommand(
+                @"SELECT appointment_id, p.first_name, p.last_name, d.first_name, d.last_name, datetime
+                    FROM appointment as a INNER JOIN patient as p ON a.patient_id = p.patient_id
+                    INNER JOIN doctor as d ON a.doctor_id = d.doctor_id
+                    ORDER BY appointment_id;", connection);
+
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+                appointments.Add(new Appointment(reader.GetInt32("appointment_id"), 
+                    $"{reader.GetString("patient.first_name")} {reader.GetString("patient.last_name")}",
+                    $"{reader.GetString("doctor.first_name")} {reader.GetString("doctor.last_name")}",
+                    reader.GetDateTime("datetime"), reader.GetString("reason")));
+
+            return appointments;
         }
     }
 }

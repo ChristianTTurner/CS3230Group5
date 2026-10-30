@@ -13,6 +13,23 @@ namespace CS3230_Group5.View.Nurse_View
         public ViewAppointmentsPage()
         {
             InitializeComponent();
+            initializeMenuButtons();
+        }
+
+
+        private void initializeMenuButtons()
+        {
+            homeButton.Click += (s, e) => NavigateTo(new homePageButton());
+            nurseButton.Click += (s, e) => NavigateTo(new ViewNursesPage());
+            patientsButton.Click += (s, e) => NavigateTo(new SearchPatientPage());
+            //appointmentButton.Click += (s, e) => PopulateAppointments();
+            logoutButton.Click += (s, e) => NavigateTo(new LogInPage());
+        }
+
+        private void NavigateTo(Form nextForm)
+        {
+            nextForm.Show();
+            Hide();
         }
     }
 }

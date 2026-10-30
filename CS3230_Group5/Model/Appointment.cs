@@ -8,25 +8,27 @@ namespace CS3230_Group5.Model
     {
         public int? AppointmentID { get; set; }
         public int? PatientID { get; set; }
+        public string? PatientName { get; set; }
         public int? DoctorID { get; set; }
+        public string? DoctorName { get; set; }
         public DateTime? DateTime {  get; set; }
         public string? Reason { get; set; }
 
-        public Appointment (int? appointmentID, int? patientID, int? doctorID, DateTime? dateTime, string? reason)
+        public Appointment (int? appointmentID, string? patientName, string? doctorName, DateTime? dateTime, string? reason)
         { 
-            if (this.isValidInput(appointmentID, patientID, doctorID, dateTime))
+            if (this.isValidInput(appointmentID, patientName, doctorName, dateTime))
             {
                 AppointmentID = appointmentID;
-                PatientID = patientID;
-                DoctorID = doctorID;
+                PatientName = patientName;
+                DoctorName = doctorName;
                 DateTime = dateTime;
                 Reason = reason;
             }
         }
 
-        private bool isValidInput(int? aID, int? pID, int? dID, DateTime? dateTime)
+        private bool isValidInput(int? aID, string? pName, string? dName, DateTime? dateTime)
         {
-            return aID != null && pID != null && dID != null && dateTime != null;
+            return aID != null && pName != null && dName != null && dateTime != null;
         }
     }
 }
