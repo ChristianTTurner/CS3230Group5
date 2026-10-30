@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using CS3230_Group5.DAL;
+﻿using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
+using CS3230_Group5.View.Nurse_View;
 
-namespace CS3230_Group5.View.Nurse_View
+namespace CS3230_Group5.View.Patient_View
 {
     /// <summary>
     /// Displays and searches patient records. Database work is delegated to PatientDal.
@@ -15,16 +14,16 @@ namespace CS3230_Group5.View.Nurse_View
         public SearchPatientPage()
         {
             InitializeComponent();
-            ConfigurePatientList();
-            PopulatePatientList();
+            this.ConfigurePatientList();
+            this.PopulatePatientList();
 
-            homeButton.Click += (s, e) => NavigateTo(new homePageButton());
-            nurseButton.Click += (s, e) => NavigateTo(new ViewNursesPage());
-            patientsButton.Click += (s, e) => PopulatePatientList();
-            appointmentButton.Click += (s, e) => NavigateTo(new CreateAppointmentPage());
-            logoutButton.Click += (s, e) => NavigateTo(new LogInPage());
-            searchButton.Click += (s, e) => SearchPatients();
-            editPatientButton.Click += (s, e) => EditSelectedPatient();
+            homeButton.Click += (s, e) => this.NavigateTo(new homePageButton());
+            nurseButton.Click += (s, e) => this.NavigateTo(new ViewNursesPage());
+            patientsButton.Click += (s, e) => this.PopulatePatientList();
+            appointmentButton.Click += (s, e) => this.NavigateTo(new CreateAppointmentPage());
+            logoutButton.Click += (s, e) => this.NavigateTo(new LogInPage());
+            searchButton.Click += (s, e) => this.SearchPatients();
+            editPatientButton.Click += (s, e) => this.EditSelectedPatient();
         }
 
         private void ConfigurePatientList()
@@ -55,7 +54,7 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 patientList.Items.Clear();
 
-                foreach (Patient patient in _patientDal.GetPatients(filter))
+                foreach (Patient patient in this._patientDal.GetPatients(filter))
                 {
                     var item = new ListViewItem(patient.PatientId.ToString());
                     item.SubItems.Add(patient.FirstName);
@@ -67,7 +66,7 @@ namespace CS3230_Group5.View.Nurse_View
                     patientList.Items.Add(item);
                 }
 
-                AutoResizePatientColumns();
+                this.AutoResizePatientColumns();
 
                 deletePatientButton.Enabled = patientList.SelectedItems.Count > 0;
             }
@@ -79,22 +78,22 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void SearchPatients()
         {
-            PopulatePatientList(searchPatientTextBox.Text.Trim());
+            this.PopulatePatientList(searchPatientTextBox.Text.Trim());
         }
 
         private void searchPatientTextBox_TextChanged(object sender, EventArgs e)
         {
-            SearchPatients();
+            this.SearchPatients();
         }
 
         private void EditSelectedPatient()
         {
-            if (!TryGetSelectedPatientId(out int patientId))
+            if (!this.TryGetSelectedPatientId(out int patientId))
                 return;
 
             var editForm = new CreatePatientPage();
             editForm.LoadForEdit(patientId);
-            NavigateTo(editForm);
+            this.NavigateTo(editForm);
         }
 
         private bool TryGetSelectedPatientId(out int patientId)
@@ -111,7 +110,7 @@ namespace CS3230_Group5.View.Nurse_View
                 return false;
             }
 
-            if (int.TryParse(patientList.SelectedItems[0].SubItems[0].Text,
+            if (int.TryParse((string?)patientList.SelectedItems[0].SubItems[0].Text,
                     out patientId) && patientId > 0)
             {
                 return true;
@@ -133,7 +132,7 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void deletePatientButton_Click(object sender, EventArgs e)
         {
-            if (!TryGetSelectedPatientId(out int patientId))
+            if (!this.TryGetSelectedPatientId(out int patientId))
                 return;
 
             DialogResult confirmation = MessageBox.Show(
@@ -147,8 +146,8 @@ namespace CS3230_Group5.View.Nurse_View
 
             try
             {
-                _patientDal.DeletePatient(patientId);
-                PopulatePatientList(searchPatientTextBox.Text.Trim());
+                this._patientDal.DeletePatient(patientId);
+                this.PopulatePatientList(searchPatientTextBox.Text.Trim());
                 MessageBox.Show(
                     "Patient deleted.",
                     "Deleted",
@@ -163,7 +162,7 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void addPatientButton_Click(object sender, EventArgs e)
         {
-            NavigateTo(new CreatePatientPage());
+            this.NavigateTo(new CreatePatientPage());
         }
 
         private void SearchPatientPage_Load(object sender, EventArgs e)

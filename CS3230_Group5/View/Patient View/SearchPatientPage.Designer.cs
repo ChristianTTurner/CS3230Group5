@@ -1,4 +1,4 @@
-﻿namespace CS3230_Group5.View.Nurse_View
+﻿namespace CS3230_Group5.View.Patient_View
 {
     partial class SearchPatientPage
     {
