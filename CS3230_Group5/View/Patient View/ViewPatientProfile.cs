@@ -79,7 +79,7 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
+            var searchPatientsPage = new Patient_View.SearchPatientPage();
             searchPatientsPage.Show();
             this.Hide();
         }

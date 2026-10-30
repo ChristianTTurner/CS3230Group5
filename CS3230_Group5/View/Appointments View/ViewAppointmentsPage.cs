@@ -4,6 +4,7 @@ using CS3230_Group5.View.Nurse_View;
 using MySqlConnector;
 using System;
 using System.Windows.Forms;
+using SearchPatientPage = CS3230_Group5.View.Patient_View.SearchPatientPage;
 
 namespace CS3230_Group5.View.Appointments_View
 {

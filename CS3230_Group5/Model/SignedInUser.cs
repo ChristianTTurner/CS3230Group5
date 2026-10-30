@@ -14,7 +14,7 @@ namespace CS3230_Group5.Model
         public static DateOnly? DateOfBirth { get; set; }
         public static string? Phone {  get; set; }
         public static int? AddressId { get; set; }
-        public static bool? IsAdmin {  get; set; }
+        public static bool IsAdmin {  get; set; }
         public static string? Address1 {  get; set; }
         public static string? Address2 { get; set; }
         public static string? City { get; set; }

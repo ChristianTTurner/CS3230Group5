@@ -25,7 +25,7 @@ namespace CS3230_Group5.View.Nurse_View
             nurseButton.Click += (s, e) => { };
             patientsButton.Click += (s, e) =>
             {
-                var viewPatient = new SearchPatientPage();
+                var viewPatient = new Patient_View.SearchPatientPage();
                 viewPatient.Show();
                 this.Hide();
             };

@@ -96,14 +96,207 @@ namespace CS3230_Group5.View.Nurse_View
         {
             InitializeComponent();
 
+            patientPhoneNumber.KeyPress += NumericTextBox_KeyPress;
+            patientZip.KeyPress += NumericTextBox_KeyPress;
+
+            patientPhoneNumber.MaxLength = 10;
+            patientZip.MaxLength = 5;
+
             patientIsActive.Enabled = true;
+
+            this.Text = "Create Patient";
+            createPatientLabel.Text = "Create Patient";
+            addPatientButton.Text = "Save";
+
+            InitializeValidationLabels();
+            AttachValidationEvents();
+        }
+        private Label[] GetValidationLabels()
+        {
+            return new Label[]
+            {
+                fnameErrorLabel,
+                lnameErrorLabel,
+                dobErrorLabel,
+                phoneErrorLabel,
+                add1ErrorLabel,
+                stateErrorLabel,
+                cityErrorLabel,
+                zipErrorLabel,
+                genderErrorLabel
+            };
+        }
+
+        private void InitializeValidationLabels()
+        {
+            foreach (Label label in GetValidationLabels())
+            {
+                label.Text = "";
+                label.Visible = false;
+            }
+        }
+
+        private void ShowValidationError(Label label, string message)
+        {
+            label.Text = message;
+            label.Visible = true;
+        }
+
+        private void ClearValidationError(Label label)
+        {
+            label.Text = "";
+            label.Visible = false;
+        }
+
+        private void ClearAllValidationErrors()
+        {
+            foreach (Label label in GetValidationLabels())
+            {
+                ClearValidationError(label);
+            }
+        }
+        private void AttachValidationEvents()
+        {
+            patientFName.TextChanged += (s, e) =>
+                ClearValidationError(fnameErrorLabel);
+
+            patientLName.TextChanged += (s, e) =>
+                ClearValidationError(lnameErrorLabel);
+
+            patientPhoneNumber.TextChanged += (s, e) =>
+                ClearValidationError(phoneErrorLabel);
+
+            patientAddress1.TextChanged += (s, e) =>
+                ClearValidationError(add1ErrorLabel);
+
+            patientCity.TextChanged += (s, e) =>
+                ClearValidationError(cityErrorLabel);
+
+            patientZip.TextChanged += (s, e) =>
+                ClearValidationError(zipErrorLabel);
+
+            patientState.SelectedIndexChanged += (s, e) =>
+                ClearValidationError(stateErrorLabel);
+
+            patientGender.SelectedIndexChanged += (s, e) =>
+                ClearValidationError(genderErrorLabel);
+
+            patientBirthMonth.ValueChanged += (s, e) =>
+                ClearValidationError(dobErrorLabel);
+
+            patientBirthDay.ValueChanged += (s, e) =>
+                ClearValidationError(dobErrorLabel);
+
+            patientBirthYear.ValueChanged += (s, e) =>
+                ClearValidationError(dobErrorLabel);
+        }
+        private bool ValidatePatientForm()
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrWhiteSpace(patientFName.Text))
+            {
+                ShowValidationError(
+                    fnameErrorLabel,
+                    "First name is required.");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(patientLName.Text))
+            {
+                ShowValidationError(
+                    lnameErrorLabel,
+                    "Last name is required.");
+                isValid = false;
+            }
+
+            try
+            {
+                DateTime dob = new DateTime(
+                    (int)patientBirthYear.Value,
+                    (int)patientBirthMonth.Value,
+                    (int)patientBirthDay.Value);
+
+                if (dob > DateTime.Today)
+                {
+                    ShowValidationError(
+                        dobErrorLabel,
+                        "Date of birth cannot be in the future.");
+                    isValid = false;
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                ShowValidationError(
+                    dobErrorLabel,
+                    "Enter a valid date of birth.");
+                isValid = false;
+            }
+
+            string phone = patientPhoneNumber.Text
+                .Replace("-", "")
+                .Replace(" ", "")
+                .Replace("(", "")
+                .Replace(")", "");
+
+            if (phone.Length != 10 || !phone.All(char.IsDigit))
+            {
+                ShowValidationError(
+                    phoneErrorLabel,
+                    "Enter a valid 10-digit phone number.");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(patientAddress1.Text))
+            {
+                ShowValidationError(
+                    add1ErrorLabel,
+                    "Street address is required.");
+                isValid = false;
+            }
+
+            if (patientState.SelectedIndex == -1)
+            {
+                ShowValidationError(
+                    stateErrorLabel,
+                    "Select a state.");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(patientCity.Text))
+            {
+                ShowValidationError(
+                    cityErrorLabel,
+                    "City is required.");
+                isValid = false;
+            }
+
+            string zip = patientZip.Text.Trim();
+
+            if (zip.Length != 5 || !zip.All(char.IsDigit))
+            {
+                ShowValidationError(
+                    zipErrorLabel,
+                    "Enter a 5-digit ZIP code.");
+                isValid = false;
+            }
+
+            if (patientGender.SelectedIndex == -1)
+            {
+                ShowValidationError(
+                    genderErrorLabel,
+                    "Select a gender.");
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
             foreach (Form open in Application.OpenForms)
             {
-                if (open is View.Nurse_View.SearchPatientPage search)
+                if (open is Patient_View.SearchPatientPage search)
                 {
                     search.Show();
                     Close();
@@ -111,13 +304,18 @@ namespace CS3230_Group5.View.Nurse_View
                 }
             }
 
-            var newSearch = new View.Nurse_View.SearchPatientPage();
+            var newSearch = new Patient_View.SearchPatientPage();
             newSearch.Show();
             Close();
         }
 
         private void addPatientButton_Click(object sender, EventArgs e)
         {
+            ClearAllValidationErrors();
+
+            if (!ValidatePatientForm())
+                return;
+
             try
             {
 
@@ -192,7 +390,7 @@ namespace CS3230_Group5.View.Nurse_View
                     if (updatedRows > 0)
                     {
                         MessageBox.Show("Patient updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
+                        var searchPatientsPage = new Patient_View.SearchPatientPage();
                         searchPatientsPage.Show();
                         this.Hide();
                     }
@@ -237,7 +435,7 @@ namespace CS3230_Group5.View.Nurse_View
                 if (rows > 0)
                 {
                     MessageBox.Show("Patient added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
+                    var searchPatientsPage = new Patient_View.SearchPatientPage();
                     searchPatientsPage.Show();
                     this.Hide();
                 }
@@ -251,6 +449,13 @@ namespace CS3230_Group5.View.Nurse_View
                 MessageBox.Show($"Error adding patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void NumericTextBox_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
 
         private void createPatientLabel_Click(object sender, EventArgs e)
         {
@@ -258,6 +463,11 @@ namespace CS3230_Group5.View.Nurse_View
         }
 
         private void dashboardTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CreatePatientPage_Load(object sender, EventArgs e)
         {
 
         }
