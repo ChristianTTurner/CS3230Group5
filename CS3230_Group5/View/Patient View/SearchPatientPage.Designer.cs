@@ -42,7 +42,7 @@
             panel1 = new Panel();
             label1 = new Label();
             searchButton = new Button();
-            viewPatientButton = new Button();
+            editPatientButton = new Button();
             menuPanel.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -50,6 +50,7 @@
             // patientList
             // 
             patientList.FullRowSelect = true;
+            patientList.GridLines = true;
             patientList.Location = new Point(342, 255);
             patientList.Margin = new Padding(4);
             patientList.MultiSelect = false;
@@ -57,8 +58,8 @@
             patientList.Size = new Size(958, 475);
             patientList.TabIndex = 0;
             patientList.UseCompatibleStateImageBehavior = false;
+            patientList.View = System.Windows.Forms.View.Details;
             patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
-            patientList.DoubleClick += patientList_DoubleClick;
             // 
             // searchPatientTextBox
             // 
@@ -227,19 +228,19 @@
             searchButton.Text = "Search";
             searchButton.UseVisualStyleBackColor = false;
             // 
-            // viewPatientButton
+            // editPatientButton
             // 
-            viewPatientButton.BackColor = Color.RoyalBlue;
-            viewPatientButton.FlatAppearance.BorderSize = 0;
-            viewPatientButton.FlatStyle = FlatStyle.Flat;
-            viewPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            viewPatientButton.ForeColor = Color.White;
-            viewPatientButton.Location = new Point(1110, 118);
-            viewPatientButton.Name = "viewPatientButton";
-            viewPatientButton.Size = new Size(176, 46);
-            viewPatientButton.TabIndex = 11;
-            viewPatientButton.Text = "View Patient";
-            viewPatientButton.UseVisualStyleBackColor = false;
+            editPatientButton.BackColor = Color.RoyalBlue;
+            editPatientButton.FlatAppearance.BorderSize = 0;
+            editPatientButton.FlatStyle = FlatStyle.Flat;
+            editPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            editPatientButton.ForeColor = Color.White;
+            editPatientButton.Location = new Point(1110, 118);
+            editPatientButton.Name = "editPatientButton";
+            editPatientButton.Size = new Size(176, 46);
+            editPatientButton.TabIndex = 11;
+            editPatientButton.Text = "Edit Patient";
+            editPatientButton.UseVisualStyleBackColor = false;
             // 
             // SearchPatientPage
             // 
@@ -247,7 +248,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1313, 743);
-            Controls.Add(viewPatientButton);
+            Controls.Add(editPatientButton);
             Controls.Add(searchButton);
             Controls.Add(label1);
             Controls.Add(panel1);
@@ -282,6 +283,6 @@
         private Panel panel1;
         private Label label1;
         private Button searchButton;
-        private Button viewPatientButton;
+        private Button editPatientButton;
     }
 }
