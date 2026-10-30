@@ -2,7 +2,9 @@ using System;
 using System.Windows.Forms;
 using CS3230_Group5.Model;
 using CS3230_Group5.View;
+using CS3230_Group5.View.Appointments_View;
 using CS3230_Group5.View.Nurse_View;
+using SearchPatientPage = CS3230_Group5.View.Patient_View.SearchPatientPage;
 
 namespace CS3230_Group5
 {
@@ -51,8 +53,8 @@ namespace CS3230_Group5
 
         private void AppointmentButton_Click(object? sender, EventArgs e)
         {
-            var createAppointment = new CreateAppointmentPage();
-            createAppointment.Show();
+            var viewAppointment = new ViewAppointmentsPage();
+            viewAppointment.Show();
             this.Hide();
         }
 
@@ -65,8 +67,8 @@ namespace CS3230_Group5
 
         private void ManageAppointments_Click(object? sender, EventArgs e)
         {
-            var createAppointment = new CreateAppointmentPage();
-            createAppointment.Show();
+            var viewAppointment = new ViewAppointmentsPage();
+            viewAppointment.Show();
             this.Hide();
         }
 

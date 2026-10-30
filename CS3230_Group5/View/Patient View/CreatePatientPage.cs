@@ -296,7 +296,7 @@ namespace CS3230_Group5.View.Nurse_View
         {
             foreach (Form open in Application.OpenForms)
             {
-                if (open is View.Nurse_View.SearchPatientPage search)
+                if (open is Patient_View.SearchPatientPage search)
                 {
                     search.Show();
                     Close();
@@ -304,7 +304,7 @@ namespace CS3230_Group5.View.Nurse_View
                 }
             }
 
-            var newSearch = new SearchPatientPage();
+            var newSearch = new Patient_View.SearchPatientPage();
             newSearch.Show();
             Close();
         }
@@ -390,7 +390,7 @@ namespace CS3230_Group5.View.Nurse_View
                     if (updatedRows > 0)
                     {
                         MessageBox.Show("Patient updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
+                        var searchPatientsPage = new Patient_View.SearchPatientPage();
                         searchPatientsPage.Show();
                         this.Hide();
                     }
@@ -435,7 +435,7 @@ namespace CS3230_Group5.View.Nurse_View
                 if (rows > 0)
                 {
                     MessageBox.Show("Patient added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    var searchPatientsPage = new View.Nurse_View.SearchPatientPage();
+                    var searchPatientsPage = new Patient_View.SearchPatientPage();
                     searchPatientsPage.Show();
                     this.Hide();
                 }

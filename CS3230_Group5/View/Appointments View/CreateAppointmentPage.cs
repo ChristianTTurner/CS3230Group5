@@ -1,7 +1,8 @@
 ﻿
+using CS3230_Group5.DAL;
+using CS3230_Group5.View.Appointments_View;
 using System;
 using System.Windows.Forms;
-using CS3230_Group5.DAL;
 
 namespace CS3230_Group5.View.Nurse_View
 {
@@ -231,7 +232,6 @@ namespace CS3230_Group5.View.Nurse_View
             return true;
         }
 
-        // Save the appointment and handle expected errors
         private void saveAppointment()
         {
             try
@@ -253,7 +253,7 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                returnToHomePage();
+                this.returnToViewAppointmentsPage();
             }
             catch (InvalidOperationException ex)
             {
@@ -291,28 +291,27 @@ namespace CS3230_Group5.View.Nurse_View
             clearValidationError(dateValidation);
             clearValidationError(reasonValidation);
         }
-
-        private void returnToHomePage()
+        private void returnToViewAppointmentsPage()
         {
             foreach (Form open in Application.OpenForms)
             {
-                if (open is homePageButton home)
+                if (open is ViewAppointmentsPage appointmentsPage)
                 {
-                    home.Show();
-                    home.BringToFront();
+                    appointmentsPage.Show();
+                    appointmentsPage.BringToFront();
                     Close();
                     return;
                 }
             }
 
-            var newHome = new homePageButton();
-            newHome.Show();
+            var newAppointmentsPage = new ViewAppointmentsPage();
+            newAppointmentsPage.Show();
             Close();
         }
 
         private void cancelButton_Click(object? sender, EventArgs e)
         {
-            returnToHomePage();
+            this.returnToViewAppointmentsPage();
         }
     }
 }
