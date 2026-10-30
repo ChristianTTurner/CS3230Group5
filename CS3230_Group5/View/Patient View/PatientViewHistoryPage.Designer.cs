@@ -39,16 +39,15 @@
             backButton = new Button();
             profileLabel = new Label();
             personalPanel = new Panel();
+            activeLabel = new Label();
+            addressLabel = new Label();
+            genderLabel = new Label();
             phoneLabel = new Label();
             dobLabel = new Label();
             lnameLabel = new Label();
             fnameLabel = new Label();
             patientHeaderLabel = new Label();
-            genderLabel = new Label();
-            addressLabel = new Label();
-            activeLabel = new Label();
             visitHistoryDataGridView = new DataGridView();
-            visitsLabel = new Label();
             appointment_id = new DataGridViewTextBoxColumn();
             visit_datetime = new DataGridViewTextBoxColumn();
             doctor_name = new DataGridViewTextBoxColumn();
@@ -56,6 +55,8 @@
             initial_diagnosis = new DataGridViewTextBoxColumn();
             final_diagnosis = new DataGridViewTextBoxColumn();
             btnView = new DataGridViewButtonColumn();
+            visitsLabel = new Label();
+            newAppointmentButton = new Button();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)visitHistoryDataGridView).BeginInit();
@@ -96,7 +97,7 @@
             // 
             profileLabel.AutoSize = true;
             profileLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            profileLabel.Location = new Point(334, 65);
+            profileLabel.Location = new Point(325, 65);
             profileLabel.Margin = new Padding(4, 0, 4, 0);
             profileLabel.Name = "profileLabel";
             profileLabel.Size = new Size(454, 60);
@@ -118,6 +119,36 @@
             personalPanel.Name = "personalPanel";
             personalPanel.Size = new Size(1055, 213);
             personalPanel.TabIndex = 50;
+            // 
+            // activeLabel
+            // 
+            activeLabel.AutoSize = true;
+            activeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            activeLabel.Location = new Point(533, 173);
+            activeLabel.Name = "activeLabel";
+            activeLabel.Size = new Size(70, 28);
+            activeLabel.TabIndex = 51;
+            activeLabel.Text = "Active:";
+            // 
+            // addressLabel
+            // 
+            addressLabel.AutoSize = true;
+            addressLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addressLabel.Location = new Point(533, 91);
+            addressLabel.Name = "addressLabel";
+            addressLabel.Size = new Size(86, 28);
+            addressLabel.TabIndex = 17;
+            addressLabel.Text = "Address:";
+            // 
+            // genderLabel
+            // 
+            genderLabel.AutoSize = true;
+            genderLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            genderLabel.Location = new Point(16, 173);
+            genderLabel.Name = "genderLabel";
+            genderLabel.Size = new Size(80, 28);
+            genderLabel.TabIndex = 16;
+            genderLabel.Text = "Gender:";
             // 
             // phoneLabel
             // 
@@ -172,36 +203,6 @@
             patientHeaderLabel.Text = "Patient Information";
             patientHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // genderLabel
-            // 
-            genderLabel.AutoSize = true;
-            genderLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            genderLabel.Location = new Point(16, 173);
-            genderLabel.Name = "genderLabel";
-            genderLabel.Size = new Size(80, 28);
-            genderLabel.TabIndex = 16;
-            genderLabel.Text = "Gender:";
-            // 
-            // addressLabel
-            // 
-            addressLabel.AutoSize = true;
-            addressLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            addressLabel.Location = new Point(533, 91);
-            addressLabel.Name = "addressLabel";
-            addressLabel.Size = new Size(86, 28);
-            addressLabel.TabIndex = 17;
-            addressLabel.Text = "Address:";
-            // 
-            // activeLabel
-            // 
-            activeLabel.AutoSize = true;
-            activeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            activeLabel.Location = new Point(533, 173);
-            activeLabel.Name = "activeLabel";
-            activeLabel.Size = new Size(70, 28);
-            activeLabel.TabIndex = 51;
-            activeLabel.Text = "Active:";
-            // 
             // visitHistoryDataGridView
             // 
             visitHistoryDataGridView.AllowUserToAddRows = false;
@@ -229,20 +230,6 @@
             visitHistoryDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             visitHistoryDataGridView.Size = new Size(1055, 379);
             visitHistoryDataGridView.TabIndex = 51;
-            // 
-            // visitsLabel
-            // 
-            visitsLabel.BackColor = Color.Honeydew;
-            visitsLabel.BorderStyle = BorderStyle.FixedSingle;
-            visitsLabel.FlatStyle = FlatStyle.Flat;
-            visitsLabel.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            visitsLabel.ForeColor = Color.SeaGreen;
-            visitsLabel.Location = new Point(22, 383);
-            visitsLabel.Name = "visitsLabel";
-            visitsLabel.Size = new Size(1055, 35);
-            visitsLabel.TabIndex = 52;
-            visitsLabel.Text = "Visits";
-            visitsLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // appointment_id
             // 
@@ -317,11 +304,39 @@
             btnView.Text = "Details";
             btnView.UseColumnTextForButtonValue = true;
             // 
+            // visitsLabel
+            // 
+            visitsLabel.BackColor = Color.Honeydew;
+            visitsLabel.BorderStyle = BorderStyle.FixedSingle;
+            visitsLabel.FlatStyle = FlatStyle.Flat;
+            visitsLabel.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            visitsLabel.ForeColor = Color.SeaGreen;
+            visitsLabel.Location = new Point(22, 383);
+            visitsLabel.Name = "visitsLabel";
+            visitsLabel.Size = new Size(1055, 35);
+            visitsLabel.TabIndex = 52;
+            visitsLabel.Text = "Visits";
+            visitsLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // newAppointmentButton
+            // 
+            newAppointmentButton.BackColor = Color.RoyalBlue;
+            newAppointmentButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            newAppointmentButton.ForeColor = Color.White;
+            newAppointmentButton.Location = new Point(848, 74);
+            newAppointmentButton.Margin = new Padding(4);
+            newAppointmentButton.Name = "newAppointmentButton";
+            newAppointmentButton.Size = new Size(229, 51);
+            newAppointmentButton.TabIndex = 53;
+            newAppointmentButton.Text = "+ New Appointment";
+            newAppointmentButton.UseVisualStyleBackColor = false;
+            // 
             // PatientViewHistoryPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1117, 836);
+            Controls.Add(newAppointmentButton);
             Controls.Add(visitsLabel);
             Controls.Add(visitHistoryDataGridView);
             Controls.Add(personalPanel);
@@ -363,5 +378,6 @@
         private DataGridViewTextBoxColumn initial_diagnosis;
         private DataGridViewTextBoxColumn final_diagnosis;
         private DataGridViewButtonColumn btnView;
+        private Button newAppointmentButton;
     }
 }
