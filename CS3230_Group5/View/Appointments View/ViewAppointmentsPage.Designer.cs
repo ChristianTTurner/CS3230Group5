@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dashboardTitle = new Label();
             panel1 = new Panel();
             logoutButton = new Button();
@@ -216,13 +217,26 @@
             appointmentDataGridView.AllowUserToOrderColumns = true;
             appointmentDataGridView.AllowUserToResizeColumns = false;
             appointmentDataGridView.AllowUserToResizeRows = false;
+            appointmentDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            appointmentDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            appointmentDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             appointmentDataGridView.BackgroundColor = Color.White;
             appointmentDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             appointmentDataGridView.Columns.AddRange(new DataGridViewColumn[] { appointment_id, patient_name, patient_dob, doctor_name, appointment_datetime, reason, btnView });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            appointmentDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             appointmentDataGridView.GridColor = Color.White;
             appointmentDataGridView.Location = new Point(340, 275);
+            appointmentDataGridView.MultiSelect = false;
             appointmentDataGridView.Name = "appointmentDataGridView";
             appointmentDataGridView.RowHeadersWidth = 62;
+            appointmentDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             appointmentDataGridView.Size = new Size(944, 454);
             appointmentDataGridView.TabIndex = 15;
             // 
@@ -233,7 +247,6 @@
             appointment_id.Name = "appointment_id";
             appointment_id.ReadOnly = true;
             appointment_id.Visible = false;
-            appointment_id.Width = 150;
             // 
             // patient_name
             // 
@@ -241,7 +254,6 @@
             patient_name.MinimumWidth = 8;
             patient_name.Name = "patient_name";
             patient_name.ReadOnly = true;
-            patient_name.Width = 150;
             // 
             // patient_dob
             // 
@@ -249,7 +261,6 @@
             patient_dob.MinimumWidth = 8;
             patient_dob.Name = "patient_dob";
             patient_dob.ReadOnly = true;
-            patient_dob.Width = 150;
             // 
             // doctor_name
             // 
@@ -257,7 +268,6 @@
             doctor_name.MinimumWidth = 8;
             doctor_name.Name = "doctor_name";
             doctor_name.ReadOnly = true;
-            doctor_name.Width = 150;
             // 
             // appointment_datetime
             // 
@@ -265,7 +275,6 @@
             appointment_datetime.MinimumWidth = 8;
             appointment_datetime.Name = "appointment_datetime";
             appointment_datetime.ReadOnly = true;
-            appointment_datetime.Width = 150;
             // 
             // reason
             // 
@@ -273,15 +282,14 @@
             reason.MinimumWidth = 8;
             reason.Name = "reason";
             reason.ReadOnly = true;
-            reason.Width = 150;
             // 
             // btnView
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle1;
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.HeaderText = "Action";
             btnView.MinimumWidth = 8;
@@ -289,7 +297,6 @@
             btnView.ReadOnly = true;
             btnView.Text = "View";
             btnView.UseColumnTextForButtonValue = true;
-            btnView.Width = 80;
             // 
             // SearchErrorLabel
             // 
