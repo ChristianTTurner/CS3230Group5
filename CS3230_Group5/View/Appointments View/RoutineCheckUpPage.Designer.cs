@@ -384,7 +384,7 @@
         private TextBox weightTextBox;
         private TextBox symptomsTextBox;
         private Button saveButton;
-        private Button CancelButton;
+        private new Button CancelButton;
         private Label systolicErrorLabel;
         private Label diastolicErrorLabel;
         private Label pulseErrorLabel;

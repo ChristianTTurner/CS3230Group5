@@ -135,6 +135,6 @@
         private TextBox initialDiagnosisTextBox;
         private Label initialDiagnosisErrorLabel;
         private Button saveButton;
-        private Button CancelButton;
+        private new Button CancelButton;
     }
 }
