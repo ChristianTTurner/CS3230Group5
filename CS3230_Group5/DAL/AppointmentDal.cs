@@ -131,8 +131,8 @@ namespace CS3230_Group5.DAL
                     p.last_name as plname, d.first_name as dfname, d.last_name as dlname, datetime, reason
                     FROM appointment a INNER JOIN patient p ON a.patient_id = p.patient_id
                     INNER JOIN doctor d ON a.doctor_id = d.doctor_id";
-            const string filterQuery = @"WHERE p.first_name LIKE @filter OR p.last_name LIKE @filter 
-                    OR CONCAT(p.first_name, ' ', p.last_name) LIKE @filter
+            const string filterQuery = @"WHERE appointment_id LIKE @filter OR p.first_name LIKE @filter 
+                    OR p.last_name LIKE @filter OR CONCAT(p.first_name, ' ', p.last_name) LIKE @filter
                     OR d.first_name LIKE @filter OR d.last_name LIKE @filter
                     OR CONCAT(d.first_name, ' ', d.last_name) LIKE @filter
                     OR datetime LIKE @filter";
