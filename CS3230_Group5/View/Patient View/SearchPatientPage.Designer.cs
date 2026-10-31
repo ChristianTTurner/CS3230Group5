@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             searchPatientTextBox = new TextBox();
             addPatientButton = new Button();
             deletePatientButton = new Button();
@@ -317,20 +317,20 @@
             // btnView
             // 
             btnView.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle1;
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.HeaderText = "Visits";
             btnView.MinimumWidth = 8;
             btnView.Name = "btnView";
             btnView.ReadOnly = true;
             btnView.Resizable = DataGridViewTriState.True;
-            btnView.Text = "View Visits";
+            btnView.Text = "Visits";
             btnView.UseColumnTextForButtonValue = true;
-            btnView.Width = 110;
+            btnView.Width = 150;
             // 
             // SearchPatientPage
             // 

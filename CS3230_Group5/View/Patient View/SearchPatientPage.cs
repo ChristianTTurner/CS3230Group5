@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
+using CS3230_Group5.View.Appointments_View;
 using CS3230_Group5.View.Patient_View;
 using CS3230_Group5.View.Nurse_View;
 
@@ -34,7 +35,7 @@ namespace CS3230_Group5.View.Patient_View
                 PopulatePatientList();
 
             appointmentButton.Click += (s, e) =>
-                NavigateTo(new CreateAppointmentPage());
+                NavigateTo(new ViewAppointmentsPage());
 
             logoutButton.Click += (s, e) =>
                 NavigateTo(new LogInPage());
@@ -82,7 +83,7 @@ namespace CS3230_Group5.View.Patient_View
 
             btnView.Width = 110;
 
-            btnView.Text = "View Visits";
+            btnView.Text = "Visits";
             btnView.UseColumnTextForButtonValue = true;
 
             deletePatientButton.Enabled = false;
