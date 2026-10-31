@@ -65,7 +65,7 @@ namespace CS3230_Group5
 
         private void ManageAppointments_Click(object? sender, EventArgs e)
         {
-            var createAppointment = new CreateAppointmentPage();
+            var createAppointment = new ViewAppointmentsPage();
             createAppointment.Show();
             this.Hide();
         }

@@ -88,27 +88,62 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
-        public List<Appointment> GetAppointments()
+        public List<Appointment> GetAppointments(string? filter = null)
         {
             var appointments = new List<Appointment>();
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            using var command = new MySqlCommand(
-                @"SELECT appointment_id, p.first_name, p.last_name, d.first_name, d.last_name, datetime
-                    FROM appointment as a INNER JOIN patient as p ON a.patient_id = p.patient_id
-                    INNER JOIN doctor as d ON a.doctor_id = d.doctor_id
-                    ORDER BY appointment_id;", connection);
+            using var command = createSearchAppointmentsCommand(connection, filter);
 
             using var reader = command.ExecuteReader();
 
             while (reader.Read())
                 appointments.Add(new Appointment(reader.GetInt32("appointment_id"), 
-                    $"{reader.GetString("patient.first_name")} {reader.GetString("patient.last_name")}",
-                    $"{reader.GetString("doctor.first_name")} {reader.GetString("doctor.last_name")}",
+                    $"{reader.GetString("pfname")} {reader.GetString("plname")}",
+                    $"{reader.GetString("dfname")} {reader.GetString("dlname")}",
                     reader.GetDateTime("datetime"), reader.GetString("reason")));
 
             return appointments;
+        }
+
+        private MySqlCommand createSearchAppointmentsCommand(MySqlConnection connection, string? filter = null) 
+        {
+            bool hasFilter = !string.IsNullOrWhiteSpace(filter);
+
+            string query = buildAppointmentSearchQuery(hasFilter);
+
+            var command = new MySqlCommand(query, connection);
+
+            if (hasFilter)
+            {
+                command.Parameters.Add(
+                            "@filter", MySqlDbType.VarChar, 200)
+                        .Value = $"%{filter!.Trim()}%";
+            }
+
+            return command;
+        }
+
+        private string buildAppointmentSearchQuery(bool hasFilter) 
+        {
+            const string selectQuery = @"SELECT appointment_id, p.first_name as pfname, 
+                    p.last_name as plname, d.first_name as dfname, d.last_name as dlname, datetime, reason
+                    FROM appointment a INNER JOIN patient p ON a.patient_id = p.patient_id
+                    INNER JOIN doctor d ON a.doctor_id = d.doctor_id";
+            const string filterQuery = @"WHERE p.first_name LIKE @filter OR p.last_name LIKE @filter 
+                    OR CONCAT(p.first_name, ' ', p.last_name) LIKE @filter
+                    OR d.first_name LIKE @filter OR d.last_name LIKE @filter
+                    OR CONCAT(d.first_name, ' ', d.last_name) LIKE @filter
+                    OR datetime LIKE @filter";
+            const string orderByQuery = @"ORDER BY appointment_id;";
+
+            if (!hasFilter)
+            {
+                return $"{selectQuery} {orderByQuery}";
+            }
+
+            return $"{selectQuery} {filterQuery} {orderByQuery}";
         }
     }
 }

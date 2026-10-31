@@ -85,6 +85,7 @@
             bookAppointmentButton.TabIndex = 14;
             bookAppointmentButton.Text = "Book";
             bookAppointmentButton.UseVisualStyleBackColor = false;
+            bookAppointmentButton.Click += bookAppointmentButton_Click;
             // 
             // searchAppointmentTextBox
             // 
@@ -94,6 +95,7 @@
             searchAppointmentTextBox.PlaceholderText = "Search by name, doctor, or appointment date";
             searchAppointmentTextBox.Size = new Size(653, 34);
             searchAppointmentTextBox.TabIndex = 13;
+            searchAppointmentTextBox.TextChanged += searchAppointmentTextBox_TextChanged;
             // 
             // appointmentList
             // 
