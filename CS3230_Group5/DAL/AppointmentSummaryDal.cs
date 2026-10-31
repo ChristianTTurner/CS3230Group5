@@ -150,6 +150,39 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
+        /// Retrieves all tests ordered for one appointment.
+        /// </summary>
+        public DataTable GetOrderedTests(int appointmentId)
+        {
+            const string query = @"
+        SELECT
+            test_code,
+            performed_datetime,
+            result,
+            abnormal
+        FROM ordered_test
+        WHERE appointment_id = @appointmentId
+        ORDER BY test_code;";
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+
+            using var command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add(
+                "@appointmentId", MySqlDbType.Int32).Value = appointmentId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            var table = new DataTable();
+            table.Load(reader);
+
+            return table;
+        }
+
+        /// <summary>
         /// Saves a routine checkup using the SaveRoutineCheckup stored procedure.
         /// </summary>
         public void SaveCheckup(AppointmentSummary summary)
