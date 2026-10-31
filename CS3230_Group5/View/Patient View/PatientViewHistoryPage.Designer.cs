@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             panel1 = new Panel();
             dashboardTitle = new Label();
             backButton = new Button();
@@ -213,14 +213,14 @@
             visitHistoryDataGridView.BackgroundColor = Color.White;
             visitHistoryDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             visitHistoryDataGridView.Columns.AddRange(new DataGridViewColumn[] { appointment_id, visit_datetime, doctor_name, visit_reason, initial_diagnosis, final_diagnosis, btnView });
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = SystemColors.Window;
-            dataGridViewCellStyle12.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
-            visitHistoryDataGridView.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            visitHistoryDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
             visitHistoryDataGridView.GridColor = Color.White;
             visitHistoryDataGridView.Location = new Point(22, 421);
             visitHistoryDataGridView.MultiSelect = false;
@@ -242,10 +242,10 @@
             // 
             // visit_datetime
             // 
-            dataGridViewCellStyle7.Format = "g";
-            dataGridViewCellStyle7.NullValue = null;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            visit_datetime.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            visit_datetime.DefaultCellStyle = dataGridViewCellStyle1;
             visit_datetime.FillWeight = 120F;
             visit_datetime.HeaderText = "Date & Time";
             visit_datetime.MinimumWidth = 8;
@@ -261,8 +261,8 @@
             // 
             // visit_reason
             // 
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            visit_reason.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            visit_reason.DefaultCellStyle = dataGridViewCellStyle2;
             visit_reason.FillWeight = 130F;
             visit_reason.HeaderText = "Reason";
             visit_reason.MinimumWidth = 8;
@@ -271,8 +271,8 @@
             // 
             // initial_diagnosis
             // 
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle3;
             initial_diagnosis.FillWeight = 120F;
             initial_diagnosis.HeaderText = "Initial Diagnosis";
             initial_diagnosis.MinimumWidth = 8;
@@ -281,8 +281,8 @@
             // 
             // final_diagnosis
             // 
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle4;
             final_diagnosis.FillWeight = 120F;
             final_diagnosis.HeaderText = "Final Diagnosis";
             final_diagnosis.MinimumWidth = 8;
@@ -291,11 +291,11 @@
             // 
             // btnView
             // 
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle11.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle5;
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.HeaderText = "Action";
             btnView.MinimumWidth = 8;
@@ -345,6 +345,7 @@
             Controls.Add(panel1);
             Name = "PatientViewHistoryPage";
             Text = "Patient Visit History";
+            Load += PatientViewHistoryPage_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             personalPanel.ResumeLayout(false);

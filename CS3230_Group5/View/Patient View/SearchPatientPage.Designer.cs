@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            patientList = new ListView();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             searchPatientTextBox = new TextBox();
             addPatientButton = new Button();
             deletePatientButton = new Button();
@@ -43,23 +43,19 @@
             label1 = new Label();
             searchButton = new Button();
             editPatientButton = new Button();
+            dataGridView1 = new DataGridView();
+            patient_id = new DataGridViewTextBoxColumn();
+            first_name = new DataGridViewTextBoxColumn();
+            last_name = new DataGridViewTextBoxColumn();
+            dob = new DataGridViewTextBoxColumn();
+            phone = new DataGridViewTextBoxColumn();
+            gender = new DataGridViewTextBoxColumn();
+            active = new DataGridViewTextBoxColumn();
+            btnView = new DataGridViewButtonColumn();
             menuPanel.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // patientList
-            // 
-            patientList.FullRowSelect = true;
-            patientList.GridLines = true;
-            patientList.Location = new Point(342, 255);
-            patientList.Margin = new Padding(4);
-            patientList.MultiSelect = false;
-            patientList.Name = "patientList";
-            patientList.Size = new Size(958, 475);
-            patientList.TabIndex = 0;
-            patientList.UseCompatibleStateImageBehavior = false;
-            patientList.View = System.Windows.Forms.View.Details;
-            patientList.ItemSelectionChanged += patientList_ItemSelectionChanged;
             // 
             // searchPatientTextBox
             // 
@@ -68,7 +64,7 @@
             searchPatientTextBox.Margin = new Padding(4);
             searchPatientTextBox.Name = "searchPatientTextBox";
             searchPatientTextBox.PlaceholderText = "Search by name, phone or DOB";
-            searchPatientTextBox.Size = new Size(815, 39);
+            searchPatientTextBox.Size = new Size(828, 39);
             searchPatientTextBox.TabIndex = 1;
             searchPatientTextBox.TextChanged += searchPatientTextBox_TextChanged;
             // 
@@ -80,7 +76,7 @@
             addPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             addPatientButton.ForeColor = Color.White;
             addPatientButton.ImageAlign = ContentAlignment.TopCenter;
-            addPatientButton.Location = new Point(916, 118);
+            addPatientButton.Location = new Point(936, 118);
             addPatientButton.Margin = new Padding(4);
             addPatientButton.Name = "addPatientButton";
             addPatientButton.Size = new Size(173, 46);
@@ -201,7 +197,7 @@
             panel1.Controls.Add(dashboardTitle);
             panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1315, 71);
+            panel1.Size = new Size(1331, 71);
             panel1.TabIndex = 8;
             // 
             // label1
@@ -221,7 +217,7 @@
             searchButton.FlatStyle = FlatStyle.Flat;
             searchButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             searchButton.ForeColor = Color.White;
-            searchButton.Location = new Point(1174, 190);
+            searchButton.Location = new Point(1192, 190);
             searchButton.Name = "searchButton";
             searchButton.Size = new Size(112, 39);
             searchButton.TabIndex = 10;
@@ -235,19 +231,114 @@
             editPatientButton.FlatStyle = FlatStyle.Flat;
             editPatientButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             editPatientButton.ForeColor = Color.White;
-            editPatientButton.Location = new Point(1110, 118);
+            editPatientButton.Location = new Point(1128, 118);
             editPatientButton.Name = "editPatientButton";
             editPatientButton.Size = new Size(176, 46);
             editPatientButton.TabIndex = 11;
             editPatientButton.Text = "Edit Patient";
             editPatientButton.UseVisualStyleBackColor = false;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { patient_id, first_name, last_name, dob, phone, gender, active, btnView });
+            dataGridView1.Location = new Point(342, 236);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(962, 495);
+            dataGridView1.TabIndex = 12;
+            // 
+            // patient_id
+            // 
+            patient_id.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            patient_id.HeaderText = "Patient ID";
+            patient_id.MinimumWidth = 8;
+            patient_id.Name = "patient_id";
+            patient_id.ReadOnly = true;
+            // 
+            // first_name
+            // 
+            first_name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            first_name.HeaderText = "First Name";
+            first_name.MinimumWidth = 8;
+            first_name.Name = "first_name";
+            first_name.ReadOnly = true;
+            // 
+            // last_name
+            // 
+            last_name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            last_name.HeaderText = "Last Name";
+            last_name.MinimumWidth = 8;
+            last_name.Name = "last_name";
+            last_name.ReadOnly = true;
+            // 
+            // dob
+            // 
+            dob.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dob.HeaderText = "DOB";
+            dob.MinimumWidth = 8;
+            dob.Name = "dob";
+            dob.ReadOnly = true;
+            // 
+            // phone
+            // 
+            phone.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            phone.HeaderText = "Phone";
+            phone.MinimumWidth = 8;
+            phone.Name = "phone";
+            phone.ReadOnly = true;
+            // 
+            // gender
+            // 
+            gender.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gender.HeaderText = "Gender";
+            gender.MinimumWidth = 8;
+            gender.Name = "gender";
+            gender.ReadOnly = true;
+            // 
+            // active
+            // 
+            active.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            active.HeaderText = "Active";
+            active.MinimumWidth = 8;
+            active.Name = "active";
+            active.ReadOnly = true;
+            // 
+            // btnView
+            // 
+            btnView.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle2;
+            btnView.FlatStyle = FlatStyle.Flat;
+            btnView.HeaderText = "Visits";
+            btnView.MinimumWidth = 8;
+            btnView.Name = "btnView";
+            btnView.ReadOnly = true;
+            btnView.Resizable = DataGridViewTriState.True;
+            btnView.Text = "View Visits";
+            btnView.UseColumnTextForButtonValue = true;
+            btnView.Width = 110;
+            // 
             // SearchPatientPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(1313, 743);
+            ClientSize = new Size(1331, 743);
+            Controls.Add(dataGridView1);
             Controls.Add(editPatientButton);
             Controls.Add(searchButton);
             Controls.Add(label1);
@@ -255,7 +346,6 @@
             Controls.Add(menuPanel);
             Controls.Add(addPatientButton);
             Controls.Add(searchPatientTextBox);
-            Controls.Add(patientList);
             Margin = new Padding(4);
             Name = "SearchPatientPage";
             Text = "Patients";
@@ -263,13 +353,12 @@
             menuPanel.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private ListView patientList;
         private TextBox searchPatientTextBox;
         private Button addPatientButton;
         private Button deletePatientButton;
@@ -284,5 +373,14 @@
         private Label label1;
         private Button searchButton;
         private Button editPatientButton;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn patient_id;
+        private DataGridViewTextBoxColumn first_name;
+        private DataGridViewTextBoxColumn last_name;
+        private DataGridViewTextBoxColumn dob;
+        private DataGridViewTextBoxColumn phone;
+        private DataGridViewTextBoxColumn gender;
+        private DataGridViewTextBoxColumn active;
+        private DataGridViewButtonColumn btnView;
     }
 }

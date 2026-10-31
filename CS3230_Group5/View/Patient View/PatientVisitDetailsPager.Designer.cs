@@ -37,6 +37,17 @@
             backButton = new Button();
             appointmentIdLabel = new Label();
             personalPanel = new Panel();
+            doctorNameTextBox = new TextBox();
+            doctorIdTextBox = new TextBox();
+            textBox1 = new TextBox();
+            dateTimeTextBox = new TextBox();
+            appointmentIdTextBox = new TextBox();
+            patientPhoneTextBox = new TextBox();
+            patientDobTextBox = new TextBox();
+            patientNameTextBox = new TextBox();
+            patientIdTextBox = new TextBox();
+            doctorNameLabel = new Label();
+            doctorIdLabel = new Label();
             reasonLabel = new Label();
             dateTimeLabel = new Label();
             phoneNumberLabel = new Label();
@@ -44,17 +55,6 @@
             patientNameLabel = new Label();
             patientIdLabel = new Label();
             patientHeaderLabel = new Label();
-            doctorIdLabel = new Label();
-            doctorNameLabel = new Label();
-            patientIdTextBox = new TextBox();
-            patientNameTextBox = new TextBox();
-            patientDobTextBox = new TextBox();
-            patientPhoneTextBox = new TextBox();
-            appointmentIdTextBox = new TextBox();
-            dateTimeTextBox = new TextBox();
-            textBox1 = new TextBox();
-            doctorIdTextBox = new TextBox();
-            doctorNameTextBox = new TextBox();
             weightTextBox = new TextBox();
             heightTextBox = new TextBox();
             pulseTextBox = new TextBox();
@@ -74,16 +74,16 @@
             finalTextBox = new TextBox();
             initialTextBox = new TextBox();
             symptomsTextBox = new TextBox();
-            this.finalLabel = new Label();
-            this.initialLabel = new Label();
             symptomsLabel = new Label();
             testPanel = new Panel();
-            label4 = new Label();
             testsDataGridView = new DataGridView();
             test_code = new DataGridViewTextBoxColumn();
             performed_datetime = new DataGridViewTextBoxColumn();
             result = new DataGridViewTextBoxColumn();
             abnormal = new DataGridViewTextBoxColumn();
+            label4 = new Label();
+            iDiagnosisLabel = new Label();
+            fDiagnosisLabel = new Label();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             checkUpPanel.SuspendLayout();
@@ -171,6 +171,125 @@
             personalPanel.Size = new Size(1091, 258);
             personalPanel.TabIndex = 52;
             // 
+            // doctorNameTextBox
+            // 
+            doctorNameTextBox.BorderStyle = BorderStyle.FixedSingle;
+            doctorNameTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            doctorNameTextBox.Location = new Point(696, 215);
+            doctorNameTextBox.Name = "doctorNameTextBox";
+            doctorNameTextBox.ReadOnly = true;
+            doctorNameTextBox.Size = new Size(295, 34);
+            doctorNameTextBox.TabIndex = 55;
+            doctorNameTextBox.Text = "Dr. Name";
+            // 
+            // doctorIdTextBox
+            // 
+            doctorIdTextBox.BorderStyle = BorderStyle.FixedSingle;
+            doctorIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            doctorIdTextBox.Location = new Point(696, 175);
+            doctorIdTextBox.Name = "doctorIdTextBox";
+            doctorIdTextBox.ReadOnly = true;
+            doctorIdTextBox.Size = new Size(295, 34);
+            doctorIdTextBox.TabIndex = 60;
+            doctorIdTextBox.Text = "ID #";
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(696, 131);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(295, 34);
+            textBox1.TabIndex = 59;
+            textBox1.Text = "reason";
+            // 
+            // dateTimeTextBox
+            // 
+            dateTimeTextBox.BorderStyle = BorderStyle.FixedSingle;
+            dateTimeTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimeTextBox.Location = new Point(696, 91);
+            dateTimeTextBox.Name = "dateTimeTextBox";
+            dateTimeTextBox.ReadOnly = true;
+            dateTimeTextBox.Size = new Size(295, 34);
+            dateTimeTextBox.TabIndex = 58;
+            dateTimeTextBox.Text = "mm/dd/yyyy hh:mm";
+            // 
+            // appointmentIdTextBox
+            // 
+            appointmentIdTextBox.BorderStyle = BorderStyle.FixedSingle;
+            appointmentIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            appointmentIdTextBox.Location = new Point(696, 49);
+            appointmentIdTextBox.Name = "appointmentIdTextBox";
+            appointmentIdTextBox.ReadOnly = true;
+            appointmentIdTextBox.Size = new Size(295, 34);
+            appointmentIdTextBox.TabIndex = 55;
+            appointmentIdTextBox.Text = "ID #";
+            // 
+            // patientPhoneTextBox
+            // 
+            patientPhoneTextBox.BorderStyle = BorderStyle.FixedSingle;
+            patientPhoneTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientPhoneTextBox.Location = new Point(159, 175);
+            patientPhoneTextBox.Name = "patientPhoneTextBox";
+            patientPhoneTextBox.ReadOnly = true;
+            patientPhoneTextBox.Size = new Size(295, 34);
+            patientPhoneTextBox.TabIndex = 57;
+            patientPhoneTextBox.Text = "(xxx)-(xxx)-(xxxx)";
+            // 
+            // patientDobTextBox
+            // 
+            patientDobTextBox.BorderStyle = BorderStyle.FixedSingle;
+            patientDobTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientDobTextBox.Location = new Point(159, 135);
+            patientDobTextBox.Name = "patientDobTextBox";
+            patientDobTextBox.ReadOnly = true;
+            patientDobTextBox.Size = new Size(295, 34);
+            patientDobTextBox.TabIndex = 56;
+            patientDobTextBox.Text = "mm/dd/yyyy";
+            // 
+            // patientNameTextBox
+            // 
+            patientNameTextBox.BorderStyle = BorderStyle.FixedSingle;
+            patientNameTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientNameTextBox.Location = new Point(159, 89);
+            patientNameTextBox.Name = "patientNameTextBox";
+            patientNameTextBox.ReadOnly = true;
+            patientNameTextBox.Size = new Size(295, 34);
+            patientNameTextBox.TabIndex = 55;
+            patientNameTextBox.Text = "John Doe";
+            // 
+            // patientIdTextBox
+            // 
+            patientIdTextBox.BorderStyle = BorderStyle.FixedSingle;
+            patientIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientIdTextBox.Location = new Point(159, 48);
+            patientIdTextBox.Name = "patientIdTextBox";
+            patientIdTextBox.ReadOnly = true;
+            patientIdTextBox.Size = new Size(295, 34);
+            patientIdTextBox.TabIndex = 54;
+            patientIdTextBox.Text = "ID #";
+            // 
+            // doctorNameLabel
+            // 
+            doctorNameLabel.AutoSize = true;
+            doctorNameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            doctorNameLabel.Location = new Point(535, 214);
+            doctorNameLabel.Name = "doctorNameLabel";
+            doctorNameLabel.Size = new Size(134, 28);
+            doctorNameLabel.TabIndex = 53;
+            doctorNameLabel.Text = "Doctor Name:";
+            // 
+            // doctorIdLabel
+            // 
+            doctorIdLabel.AutoSize = true;
+            doctorIdLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            doctorIdLabel.Location = new Point(535, 173);
+            doctorIdLabel.Name = "doctorIdLabel";
+            doctorIdLabel.Size = new Size(101, 28);
+            doctorIdLabel.TabIndex = 52;
+            doctorIdLabel.Text = "Doctor ID:";
+            // 
             // reasonLabel
             // 
             reasonLabel.AutoSize = true;
@@ -244,125 +363,6 @@
             patientHeaderLabel.TabIndex = 0;
             patientHeaderLabel.Text = "Patient / Appointment Information";
             patientHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // doctorIdLabel
-            // 
-            doctorIdLabel.AutoSize = true;
-            doctorIdLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            doctorIdLabel.Location = new Point(535, 173);
-            doctorIdLabel.Name = "doctorIdLabel";
-            doctorIdLabel.Size = new Size(101, 28);
-            doctorIdLabel.TabIndex = 52;
-            doctorIdLabel.Text = "Doctor ID:";
-            // 
-            // doctorNameLabel
-            // 
-            doctorNameLabel.AutoSize = true;
-            doctorNameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            doctorNameLabel.Location = new Point(535, 214);
-            doctorNameLabel.Name = "doctorNameLabel";
-            doctorNameLabel.Size = new Size(134, 28);
-            doctorNameLabel.TabIndex = 53;
-            doctorNameLabel.Text = "Doctor Name:";
-            // 
-            // patientIdTextBox
-            // 
-            patientIdTextBox.BorderStyle = BorderStyle.FixedSingle;
-            patientIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            patientIdTextBox.Location = new Point(159, 48);
-            patientIdTextBox.Name = "patientIdTextBox";
-            patientIdTextBox.ReadOnly = true;
-            patientIdTextBox.Size = new Size(295, 34);
-            patientIdTextBox.TabIndex = 54;
-            patientIdTextBox.Text = "ID #";
-            // 
-            // patientNameTextBox
-            // 
-            patientNameTextBox.BorderStyle = BorderStyle.FixedSingle;
-            patientNameTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            patientNameTextBox.Location = new Point(159, 89);
-            patientNameTextBox.Name = "patientNameTextBox";
-            patientNameTextBox.ReadOnly = true;
-            patientNameTextBox.Size = new Size(295, 34);
-            patientNameTextBox.TabIndex = 55;
-            patientNameTextBox.Text = "John Doe";
-            // 
-            // patientDobTextBox
-            // 
-            patientDobTextBox.BorderStyle = BorderStyle.FixedSingle;
-            patientDobTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            patientDobTextBox.Location = new Point(159, 135);
-            patientDobTextBox.Name = "patientDobTextBox";
-            patientDobTextBox.ReadOnly = true;
-            patientDobTextBox.Size = new Size(295, 34);
-            patientDobTextBox.TabIndex = 56;
-            patientDobTextBox.Text = "mm/dd/yyyy";
-            // 
-            // patientPhoneTextBox
-            // 
-            patientPhoneTextBox.BorderStyle = BorderStyle.FixedSingle;
-            patientPhoneTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            patientPhoneTextBox.Location = new Point(159, 175);
-            patientPhoneTextBox.Name = "patientPhoneTextBox";
-            patientPhoneTextBox.ReadOnly = true;
-            patientPhoneTextBox.Size = new Size(295, 34);
-            patientPhoneTextBox.TabIndex = 57;
-            patientPhoneTextBox.Text = "(xxx)-(xxx)-(xxxx)";
-            // 
-            // appointmentIdTextBox
-            // 
-            appointmentIdTextBox.BorderStyle = BorderStyle.FixedSingle;
-            appointmentIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            appointmentIdTextBox.Location = new Point(696, 49);
-            appointmentIdTextBox.Name = "appointmentIdTextBox";
-            appointmentIdTextBox.ReadOnly = true;
-            appointmentIdTextBox.Size = new Size(295, 34);
-            appointmentIdTextBox.TabIndex = 55;
-            appointmentIdTextBox.Text = "ID #";
-            // 
-            // dateTimeTextBox
-            // 
-            dateTimeTextBox.BorderStyle = BorderStyle.FixedSingle;
-            dateTimeTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimeTextBox.Location = new Point(696, 91);
-            dateTimeTextBox.Name = "dateTimeTextBox";
-            dateTimeTextBox.ReadOnly = true;
-            dateTimeTextBox.Size = new Size(295, 34);
-            dateTimeTextBox.TabIndex = 58;
-            dateTimeTextBox.Text = "mm/dd/yyyy hh:mm";
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(696, 131);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(295, 34);
-            textBox1.TabIndex = 59;
-            textBox1.Text = "reason";
-            // 
-            // doctorIdTextBox
-            // 
-            doctorIdTextBox.BorderStyle = BorderStyle.FixedSingle;
-            doctorIdTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            doctorIdTextBox.Location = new Point(696, 175);
-            doctorIdTextBox.Name = "doctorIdTextBox";
-            doctorIdTextBox.ReadOnly = true;
-            doctorIdTextBox.Size = new Size(295, 34);
-            doctorIdTextBox.TabIndex = 60;
-            doctorIdTextBox.Text = "ID #";
-            // 
-            // doctorNameTextBox
-            // 
-            doctorNameTextBox.BorderStyle = BorderStyle.FixedSingle;
-            doctorNameTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            doctorNameTextBox.Location = new Point(696, 215);
-            doctorNameTextBox.Name = "doctorNameTextBox";
-            doctorNameTextBox.ReadOnly = true;
-            doctorNameTextBox.Size = new Size(295, 34);
-            doctorNameTextBox.TabIndex = 55;
-            doctorNameTextBox.Text = "Dr. Name";
             // 
             // weightTextBox
             // 
@@ -535,11 +535,11 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(fDiagnosisLabel);
+            panel2.Controls.Add(iDiagnosisLabel);
             panel2.Controls.Add(finalTextBox);
             panel2.Controls.Add(initialTextBox);
             panel2.Controls.Add(symptomsTextBox);
-            panel2.Controls.Add(this.finalLabel);
-            panel2.Controls.Add(this.initialLabel);
             panel2.Controls.Add(symptomsLabel);
             panel2.Controls.Add(symptomsHeaderLabel);
             panel2.Location = new Point(12, 634);
@@ -577,26 +577,6 @@
             symptomsTextBox.Size = new Size(819, 34);
             symptomsTextBox.TabIndex = 54;
             // 
-            // finalLabel
-            // 
-            this.finalLabel.AutoSize = true;
-            this.finalLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            this.finalLabel.Location = new Point(16, 135);
-            this.finalLabel.Name = "finalLabel";
-            this.finalLabel.Size = new Size(147, 28);
-            this.finalLabel.TabIndex = 1;
-            this.finalLabel.Text = "Final Diagnosis:";
-            // 
-            // initialLabel
-            // 
-            this.initialLabel.AutoSize = true;
-            this.initialLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            this.initialLabel.Location = new Point(16, 91);
-            this.initialLabel.Name = "initialLabel";
-            this.initialLabel.Size = new Size(154, 28);
-            this.initialLabel.TabIndex = 1;
-            this.initialLabel.Text = "Initial Diagnosis:";
-            // 
             // symptomsLabel
             // 
             symptomsLabel.AutoSize = true;
@@ -616,19 +596,6 @@
             testPanel.Name = "testPanel";
             testPanel.Size = new Size(1091, 246);
             testPanel.TabIndex = 55;
-            // 
-            // label4
-            // 
-            label4.BackColor = Color.LightSteelBlue;
-            label4.FlatStyle = FlatStyle.Flat;
-            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Navy;
-            label4.Location = new Point(0, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(1091, 40);
-            label4.TabIndex = 0;
-            label4.Text = "Tests Ordered and Performed";
-            label4.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // testsDataGridView
             // 
@@ -699,6 +666,39 @@
             abnormal.Name = "abnormal";
             abnormal.ReadOnly = true;
             abnormal.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // label4
+            // 
+            label4.BackColor = Color.LightSteelBlue;
+            label4.FlatStyle = FlatStyle.Flat;
+            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Navy;
+            label4.Location = new Point(0, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(1091, 40);
+            label4.TabIndex = 0;
+            label4.Text = "Tests Ordered and Performed";
+            label4.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // iDiagnosisLabel
+            // 
+            iDiagnosisLabel.AutoSize = true;
+            iDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            iDiagnosisLabel.Location = new Point(16, 91);
+            iDiagnosisLabel.Name = "iDiagnosisLabel";
+            iDiagnosisLabel.Size = new Size(154, 28);
+            iDiagnosisLabel.TabIndex = 57;
+            iDiagnosisLabel.Text = "Initial Diagnosis:";
+            // 
+            // fDiagnosisLabel
+            // 
+            fDiagnosisLabel.AutoSize = true;
+            fDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fDiagnosisLabel.Location = new Point(16, 135);
+            fDiagnosisLabel.Name = "fDiagnosisLabel";
+            fDiagnosisLabel.Size = new Size(147, 28);
+            fDiagnosisLabel.TabIndex = 58;
+            fDiagnosisLabel.Text = "Final Diagnosis:";
             // 
             // PatientVisitDetailsPager
             // 
@@ -788,5 +788,7 @@
         private DataGridViewTextBoxColumn performed_datetime;
         private DataGridViewTextBoxColumn result;
         private DataGridViewTextBoxColumn abnormal;
+        private Label fDiagnosisLabel;
+        private Label iDiagnosisLabel;
     }
 }

@@ -1,11 +1,17 @@
-﻿using CS3230_Group5.DAL;
+﻿
+using System;
+using System.Windows.Forms;
+using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
+using CS3230_Group5.View.Patient_View;
 using CS3230_Group5.View.Nurse_View;
 
 namespace CS3230_Group5.View.Patient_View
 {
     /// <summary>
-    /// Displays and searches patient records. Database work is delegated to PatientDal.
+    /// Displays and searches patient records.
+    /// Allows users to add, edit, delete, and view patient visits.
+    /// Database operations are delegated to PatientDal.
     /// </summary>
     public partial class SearchPatientPage : Form
     {
@@ -14,61 +20,97 @@ namespace CS3230_Group5.View.Patient_View
         public SearchPatientPage()
         {
             InitializeComponent();
-            this.ConfigurePatientList();
-            this.PopulatePatientList();
 
-            homeButton.Click += (s, e) => this.NavigateTo(new homePageButton());
-            nurseButton.Click += (s, e) => this.NavigateTo(new ViewNursesPage());
-            patientsButton.Click += (s, e) => this.PopulatePatientList();
-            appointmentButton.Click += (s, e) => this.NavigateTo(new CreateAppointmentPage());
-            logoutButton.Click += (s, e) => this.NavigateTo(new LogInPage());
-            searchButton.Click += (s, e) => this.SearchPatients();
-            editPatientButton.Click += (s, e) => this.EditSelectedPatient();
+            ConfigurePatientGrid();
+            PopulatePatientList();
+
+            homeButton.Click += (s, e) =>
+                NavigateTo(new homePageButton());
+
+            nurseButton.Click += (s, e) =>
+                NavigateTo(new ViewNursesPage());
+
+            patientsButton.Click += (s, e) =>
+                PopulatePatientList();
+
+            appointmentButton.Click += (s, e) =>
+                NavigateTo(new CreateAppointmentPage());
+
+            logoutButton.Click += (s, e) =>
+                NavigateTo(new LogInPage());
+
+            searchButton.Click += (s, e) =>
+                SearchPatients();
+
+            editPatientButton.Click += (s, e) =>
+                EditSelectedPatient();
+
+            dataGridView1.SelectionChanged +=
+                dataGridView1_SelectionChanged;
+
+            dataGridView1.CellContentClick +=
+                dataGridView1_CellContentClick;
         }
 
-        private void ConfigurePatientList()
+        private void ConfigurePatientGrid()
         {
-            patientList.View = System.Windows.Forms.View.Details;
-            patientList.FullRowSelect = true;
-            patientList.MultiSelect = false;
-            patientList.Columns.Clear();
-            patientList.Columns.Add("ID", 60, HorizontalAlignment.Left);
-            patientList.Columns.Add("First Name", 120, HorizontalAlignment.Left);
-            patientList.Columns.Add("Last Name", 120, HorizontalAlignment.Left);
-            patientList.Columns.Add("DOB", 100, HorizontalAlignment.Left);
-            patientList.Columns.Add("Phone", 120, HorizontalAlignment.Left);
-            patientList.Columns.Add("Gender", 80, HorizontalAlignment.Left);
-            patientList.Columns.Add("Active", 60, HorizontalAlignment.Left);
-        }
-        private void AutoResizePatientColumns()
-        {
-            foreach (ColumnHeader column in patientList.Columns)
-            {
-                column.Width = -2;
-            }
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeRows = false;
+
+            dataGridView1.ReadOnly = true;
+            dataGridView1.MultiSelect = false;
+
+            dataGridView1.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView1.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
+            dataGridView1.AutoSizeRowsMode =
+                DataGridViewAutoSizeRowsMode.AllCells;
+
+            dataGridView1.ScrollBars = ScrollBars.Both;
+            dataGridView1.RowHeadersVisible = false;
+
+            dataGridView1.DefaultCellStyle.WrapMode =
+                DataGridViewTriState.True;
+
+            btnView.AutoSizeMode =
+                DataGridViewAutoSizeColumnMode.None;
+
+            btnView.Width = 110;
+
+            btnView.Text = "View Visits";
+            btnView.UseColumnTextForButtonValue = true;
+
+            deletePatientButton.Enabled = false;
         }
 
         private void PopulatePatientList(string? filter = null)
         {
             try
             {
-                patientList.Items.Clear();
+                dataGridView1.Rows.Clear();
 
-                foreach (Patient patient in this._patientDal.GetPatients(filter))
+                foreach (Patient patient in _patientDal.GetPatients(filter))
                 {
-                    var item = new ListViewItem(patient.PatientId.ToString());
-                    item.SubItems.Add(patient.FirstName);
-                    item.SubItems.Add(patient.LastName);
-                    item.SubItems.Add(patient.DateOfBirth?.ToString("yyyy-MM-dd") ?? string.Empty);
-                    item.SubItems.Add(patient.Phone);
-                    item.SubItems.Add(patient.Gender);
-                    item.SubItems.Add(patient.Active.ToString());
-                    patientList.Items.Add(item);
+                    dataGridView1.Rows.Add(
+                        patient.PatientId,
+                        patient.FirstName,
+                        patient.LastName,
+                        patient.DateOfBirth?.ToString("yyyy-MM-dd")
+                        ?? string.Empty,
+                        patient.Phone,
+                        patient.Gender,
+                        patient.Active.ToString(),
+                        "View Visits"
+                    );
                 }
 
-                this.AutoResizePatientColumns();
-
-                deletePatientButton.Enabled = patientList.SelectedItems.Count > 0;
+                dataGridView1.ClearSelection();
+                deletePatientButton.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -78,40 +120,42 @@ namespace CS3230_Group5.View.Patient_View
 
         private void SearchPatients()
         {
-            this.PopulatePatientList(searchPatientTextBox.Text.Trim());
+            PopulatePatientList(searchPatientTextBox.Text.Trim());
         }
 
-        private void searchPatientTextBox_TextChanged(object sender, EventArgs e)
+        private void searchPatientTextBox_TextChanged(
+            object sender, EventArgs e)
         {
-            this.SearchPatients();
+            SearchPatients();
         }
 
-        private void EditSelectedPatient()
+        private void dataGridView1_SelectionChanged(
+            object sender, EventArgs e)
         {
-            if (!this.TryGetSelectedPatientId(out int patientId))
-                return;
-
-            var editForm = new CreatePatientPage();
-            editForm.LoadForEdit(patientId);
-            this.NavigateTo(editForm);
+            deletePatientButton.Enabled =
+                dataGridView1.SelectedRows.Count > 0;
         }
-
         private bool TryGetSelectedPatientId(out int patientId)
         {
             patientId = 0;
 
-            if (patientList.SelectedItems.Count == 0)
+            if (dataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
                     "Please select a patient first.",
                     "No Patient Selected",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return false;
             }
 
-            if (int.TryParse((string?)patientList.SelectedItems[0].SubItems[0].Text,
-                    out patientId) && patientId > 0)
+            object? value = dataGridView1.SelectedRows[0]
+                .Cells["patient_id"].Value;
+
+            if (value != null &&
+                int.TryParse(value.ToString(), out patientId) &&
+                patientId > 0)
             {
                 return true;
             }
@@ -121,18 +165,53 @@ namespace CS3230_Group5.View.Patient_View
                 "Invalid Patient",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
+
             return false;
         }
 
-        private void patientList_ItemSelectionChanged(
-            object sender, ListViewItemSelectionChangedEventArgs e)
+        private void EditSelectedPatient()
         {
-            deletePatientButton.Enabled = patientList.SelectedItems.Count > 0;
+            if (!TryGetSelectedPatientId(out int patientId))
+                return;
+
+            var editForm = new CreatePatientPage();
+            editForm.LoadForEdit(patientId);
+
+            NavigateTo(editForm);
         }
 
-        private void deletePatientButton_Click(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(
+            object sender, DataGridViewCellEventArgs e)
         {
-            if (!this.TryGetSelectedPatientId(out int patientId))
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "btnView")
+                return;
+
+            object? value = dataGridView1.Rows[e.RowIndex]
+                .Cells["patient_id"].Value;
+
+            if (value == null ||
+                !int.TryParse(value.ToString(), out int patientId) ||
+                patientId <= 0)
+            {
+                MessageBox.Show(
+                    "The selected patient ID is invalid.",
+                    "Invalid Patient",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            var historyPage = new PatientViewHistoryPage(patientId);
+            NavigateTo(historyPage);
+        }
+        private void deletePatientButton_Click(
+            object sender, EventArgs e)
+        {
+            if (!TryGetSelectedPatientId(out int patientId))
                 return;
 
             DialogResult confirmation = MessageBox.Show(
@@ -146,8 +225,10 @@ namespace CS3230_Group5.View.Patient_View
 
             try
             {
-                this._patientDal.DeletePatient(patientId);
-                this.PopulatePatientList(searchPatientTextBox.Text.Trim());
+                _patientDal.DeletePatient(patientId);
+
+                PopulatePatientList(searchPatientTextBox.Text.Trim());
+
                 MessageBox.Show(
                     "Patient deleted.",
                     "Deleted",
@@ -160,23 +241,24 @@ namespace CS3230_Group5.View.Patient_View
             }
         }
 
-        private void addPatientButton_Click(object sender, EventArgs e)
+        private void addPatientButton_Click(
+            object sender, EventArgs e)
         {
-            this.NavigateTo(new CreatePatientPage());
+            NavigateTo(new CreatePatientPage());
         }
 
-        private void SearchPatientPage_Load(object sender, EventArgs e)
+        private void SearchPatientPage_Load(
+            object sender, EventArgs e)
         {
-           
         }
-
         private void NavigateTo(Form nextForm)
         {
             nextForm.Show();
             Hide();
         }
 
-        private static void ShowError(string title, Exception exception)
+        private static void ShowError(
+            string title, Exception exception)
         {
             MessageBox.Show(
                 $"{title}: {exception.Message}",
