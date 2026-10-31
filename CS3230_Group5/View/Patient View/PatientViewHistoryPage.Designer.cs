@@ -321,6 +321,7 @@
             // newAppointmentButton
             // 
             newAppointmentButton.BackColor = Color.RoyalBlue;
+            newAppointmentButton.FlatStyle = FlatStyle.Flat;
             newAppointmentButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             newAppointmentButton.ForeColor = Color.White;
             newAppointmentButton.Location = new Point(848, 74);

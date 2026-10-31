@@ -110,6 +110,46 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
+        /// Retrieves all appointments and diagnosis information for one patient.
+        /// </summary>
+        public DataTable GetPatientVisitHistory(int patientId)
+        {
+            const string query = @"
+        SELECT
+            a.appointment_id,
+            a.patient_id,
+            a.datetime AS visit_datetime,
+            CONCAT(d.first_name, ' ', d.last_name) AS doctor_name,
+            a.reason AS visit_reason,
+            s.initial_diagnosis,
+            s.final_diagnosis
+        FROM appointment a
+        INNER JOIN doctor d
+            ON a.doctor_id = d.doctor_id
+        LEFT JOIN appointment_summary s
+            ON a.appointment_id = s.appointment_id
+        WHERE a.patient_id = @patientId
+        ORDER BY a.datetime DESC;";
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+
+            using var command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add(
+                "@patientId", MySqlDbType.Int32).Value = patientId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            var table = new DataTable();
+            table.Load(reader);
+
+            return table;
+        }
+
+        /// <summary>
         /// Saves a routine checkup using the SaveRoutineCheckup stored procedure.
         /// </summary>
         public void SaveCheckup(AppointmentSummary summary)

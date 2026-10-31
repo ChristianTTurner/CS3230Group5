@@ -206,7 +206,7 @@ namespace CS3230_Group5.View.Patient_View
                 return;
             }
 
-            var historyPage = new PatientViewHistoryPage(patientId);
+            var historyPage = new PatientViewHistoryPage(patientId, this);
             NavigateTo(historyPage);
         }
         private void deletePatientButton_Click(

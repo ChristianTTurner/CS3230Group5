@@ -8,11 +8,14 @@ using System.Windows.Forms;
 
 namespace CS3230_Group5.View.Patient_View
 {
-    public partial class PatientVisitDetailsPager : Form
+    public partial class PatientVisitDetailsPage : Form
     {
-        public PatientVisitDetailsPager()
+        private readonly int _appointmentId;
+
+        public PatientVisitDetailsPage(int appointmentId)
         {
             InitializeComponent();
+            _appointmentId = appointmentId;
         }
 
         private void fnameLabel_Click(object sender, EventArgs e)
@@ -21,6 +24,11 @@ namespace CS3230_Group5.View.Patient_View
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PatientVisitDetailsPage_Load(object sender, EventArgs e)
         {
 
         }

@@ -1,6 +1,6 @@
 ﻿namespace CS3230_Group5.View.Patient_View
 {
-    partial class PatientVisitDetailsPager
+    partial class PatientVisitDetailsPage
     {
         /// <summary>
         /// Required designer variable.
@@ -71,6 +71,8 @@
             checkUpPanel = new Panel();
             symptomsHeaderLabel = new Label();
             panel2 = new Panel();
+            fDiagnosisLabel = new Label();
+            iDiagnosisLabel = new Label();
             finalTextBox = new TextBox();
             initialTextBox = new TextBox();
             symptomsTextBox = new TextBox();
@@ -82,8 +84,6 @@
             result = new DataGridViewTextBoxColumn();
             abnormal = new DataGridViewTextBoxColumn();
             label4 = new Label();
-            iDiagnosisLabel = new Label();
-            fDiagnosisLabel = new Label();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             checkUpPanel.SuspendLayout();
@@ -547,6 +547,26 @@
             panel2.Size = new Size(1091, 193);
             panel2.TabIndex = 54;
             // 
+            // fDiagnosisLabel
+            // 
+            fDiagnosisLabel.AutoSize = true;
+            fDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fDiagnosisLabel.Location = new Point(16, 135);
+            fDiagnosisLabel.Name = "fDiagnosisLabel";
+            fDiagnosisLabel.Size = new Size(147, 28);
+            fDiagnosisLabel.TabIndex = 58;
+            fDiagnosisLabel.Text = "Final Diagnosis:";
+            // 
+            // iDiagnosisLabel
+            // 
+            iDiagnosisLabel.AutoSize = true;
+            iDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            iDiagnosisLabel.Location = new Point(16, 91);
+            iDiagnosisLabel.Name = "iDiagnosisLabel";
+            iDiagnosisLabel.Size = new Size(154, 28);
+            iDiagnosisLabel.TabIndex = 57;
+            iDiagnosisLabel.Text = "Initial Diagnosis:";
+            // 
             // finalTextBox
             // 
             finalTextBox.BorderStyle = BorderStyle.FixedSingle;
@@ -680,27 +700,7 @@
             label4.Text = "Tests Ordered and Performed";
             label4.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // iDiagnosisLabel
-            // 
-            iDiagnosisLabel.AutoSize = true;
-            iDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            iDiagnosisLabel.Location = new Point(16, 91);
-            iDiagnosisLabel.Name = "iDiagnosisLabel";
-            iDiagnosisLabel.Size = new Size(154, 28);
-            iDiagnosisLabel.TabIndex = 57;
-            iDiagnosisLabel.Text = "Initial Diagnosis:";
-            // 
-            // fDiagnosisLabel
-            // 
-            fDiagnosisLabel.AutoSize = true;
-            fDiagnosisLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            fDiagnosisLabel.Location = new Point(16, 135);
-            fDiagnosisLabel.Name = "fDiagnosisLabel";
-            fDiagnosisLabel.Size = new Size(147, 28);
-            fDiagnosisLabel.TabIndex = 58;
-            fDiagnosisLabel.Text = "Final Diagnosis:";
-            // 
-            // PatientVisitDetailsPager
+            // PatientVisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -712,8 +712,9 @@
             Controls.Add(patientDetailsHeaderLabel);
             Controls.Add(backButton);
             Controls.Add(panel1);
-            Name = "PatientVisitDetailsPager";
+            Name = "PatientVisitDetailsPage";
             Text = "PatientVisitDetailsPager";
+            Load += PatientVisitDetailsPage_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             personalPanel.ResumeLayout(false);
