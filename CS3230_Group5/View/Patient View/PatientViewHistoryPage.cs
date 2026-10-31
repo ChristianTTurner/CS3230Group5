@@ -213,10 +213,10 @@ namespace CS3230_Group5.View.Patient_View
             }
 
             var detailsPage =
-                new PatientVisitDetailsPage(appointmentId);
+                new PatientVisitDetailsPage(appointmentId, this);
 
-            detailsPage.Show();
             Hide();
+            detailsPage.Show();
         }
 
         /// <summary>
