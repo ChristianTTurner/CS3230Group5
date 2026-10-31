@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             panel1 = new Panel();
             dashboardTitle = new Label();
             backButton = new Button();
@@ -44,8 +44,8 @@
             genderLabel = new Label();
             phoneLabel = new Label();
             dobLabel = new Label();
-            lnameLabel = new Label();
-            fnameLabel = new Label();
+            patientNameLabel = new Label();
+            patientIdLabel = new Label();
             patientHeaderLabel = new Label();
             visitHistoryDataGridView = new DataGridView();
             appointment_id = new DataGridViewTextBoxColumn();
@@ -112,8 +112,8 @@
             personalPanel.Controls.Add(genderLabel);
             personalPanel.Controls.Add(phoneLabel);
             personalPanel.Controls.Add(dobLabel);
-            personalPanel.Controls.Add(lnameLabel);
-            personalPanel.Controls.Add(fnameLabel);
+            personalPanel.Controls.Add(patientNameLabel);
+            personalPanel.Controls.Add(patientIdLabel);
             personalPanel.Controls.Add(patientHeaderLabel);
             personalPanel.Location = new Point(22, 149);
             personalPanel.Name = "personalPanel";
@@ -170,25 +170,25 @@
             dobLabel.TabIndex = 1;
             dobLabel.Text = "Date of Birth:";
             // 
-            // lnameLabel
+            // patientNameLabel
             // 
-            lnameLabel.AutoSize = true;
-            lnameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lnameLabel.Location = new Point(16, 91);
-            lnameLabel.Name = "lnameLabel";
-            lnameLabel.Size = new Size(107, 28);
-            lnameLabel.TabIndex = 1;
-            lnameLabel.Text = "Last Name:";
+            patientNameLabel.AutoSize = true;
+            patientNameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientNameLabel.Location = new Point(16, 91);
+            patientNameLabel.Name = "patientNameLabel";
+            patientNameLabel.Size = new Size(68, 28);
+            patientNameLabel.TabIndex = 1;
+            patientNameLabel.Text = "Name:";
             // 
-            // fnameLabel
+            // patientIdLabel
             // 
-            fnameLabel.AutoSize = true;
-            fnameLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            fnameLabel.Location = new Point(13, 49);
-            fnameLabel.Name = "fnameLabel";
-            fnameLabel.Size = new Size(110, 28);
-            fnameLabel.TabIndex = 1;
-            fnameLabel.Text = "First Name:";
+            patientIdLabel.AutoSize = true;
+            patientIdLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientIdLabel.Location = new Point(13, 49);
+            patientIdLabel.Name = "patientIdLabel";
+            patientIdLabel.Size = new Size(100, 28);
+            patientIdLabel.TabIndex = 1;
+            patientIdLabel.Text = "Patient ID:";
             // 
             // patientHeaderLabel
             // 
@@ -213,14 +213,14 @@
             visitHistoryDataGridView.BackgroundColor = Color.White;
             visitHistoryDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             visitHistoryDataGridView.Columns.AddRange(new DataGridViewColumn[] { appointment_id, visit_datetime, doctor_name, visit_reason, initial_diagnosis, final_diagnosis, btnView });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Window;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            visitHistoryDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = SystemColors.Window;
+            dataGridViewCellStyle12.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            visitHistoryDataGridView.DefaultCellStyle = dataGridViewCellStyle12;
             visitHistoryDataGridView.GridColor = Color.White;
             visitHistoryDataGridView.Location = new Point(22, 421);
             visitHistoryDataGridView.MultiSelect = false;
@@ -242,10 +242,10 @@
             // 
             // visit_datetime
             // 
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            visit_datetime.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Format = "g";
+            dataGridViewCellStyle7.NullValue = null;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            visit_datetime.DefaultCellStyle = dataGridViewCellStyle7;
             visit_datetime.FillWeight = 120F;
             visit_datetime.HeaderText = "Date & Time";
             visit_datetime.MinimumWidth = 8;
@@ -261,8 +261,8 @@
             // 
             // visit_reason
             // 
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            visit_reason.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            visit_reason.DefaultCellStyle = dataGridViewCellStyle8;
             visit_reason.FillWeight = 130F;
             visit_reason.HeaderText = "Reason";
             visit_reason.MinimumWidth = 8;
@@ -271,8 +271,8 @@
             // 
             // initial_diagnosis
             // 
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle9;
             initial_diagnosis.FillWeight = 120F;
             initial_diagnosis.HeaderText = "Initial Diagnosis";
             initial_diagnosis.MinimumWidth = 8;
@@ -281,8 +281,8 @@
             // 
             // final_diagnosis
             // 
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle10;
             final_diagnosis.FillWeight = 120F;
             final_diagnosis.HeaderText = "Final Diagnosis";
             final_diagnosis.MinimumWidth = 8;
@@ -291,11 +291,11 @@
             // 
             // btnView
             // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle11.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle11;
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.HeaderText = "Action";
             btnView.MinimumWidth = 8;
@@ -363,8 +363,8 @@
         private Panel personalPanel;
         private Label phoneLabel;
         private Label dobLabel;
-        private Label lnameLabel;
-        private Label fnameLabel;
+        private Label patientNameLabel;
+        private Label patientIdLabel;
         private Label patientHeaderLabel;
         private Label activeLabel;
         private Label addressLabel;

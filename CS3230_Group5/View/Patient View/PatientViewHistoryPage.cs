@@ -14,5 +14,10 @@ namespace CS3230_Group5.View.Patient_View
         {
             InitializeComponent();
         }
+
+        private void patientHeaderLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
