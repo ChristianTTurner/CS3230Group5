@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            searchButton = new Button();
+            editButton = new Button();
             label1 = new Label();
             bookAppointmentButton = new Button();
             searchAppointmentTextBox = new TextBox();
@@ -45,20 +45,21 @@
             menuPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // searchButton
+            // editButton
             // 
-            searchButton.BackColor = Color.RoyalBlue;
-            searchButton.FlatAppearance.BorderSize = 0;
-            searchButton.FlatStyle = FlatStyle.Flat;
-            searchButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            searchButton.ForeColor = Color.White;
-            searchButton.Location = new Point(937, 142);
-            searchButton.Margin = new Padding(2);
-            searchButton.Name = "searchButton";
-            searchButton.Size = new Size(90, 31);
-            searchButton.TabIndex = 16;
-            searchButton.Text = "Search";
-            searchButton.UseVisualStyleBackColor = false;
+            editButton.BackColor = Color.RoyalBlue;
+            editButton.FlatAppearance.BorderSize = 0;
+            editButton.FlatStyle = FlatStyle.Flat;
+            editButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            editButton.ForeColor = Color.White;
+            editButton.Location = new Point(937, 142);
+            editButton.Margin = new Padding(2);
+            editButton.Name = "editButton";
+            editButton.Size = new Size(90, 31);
+            editButton.TabIndex = 16;
+            editButton.Text = "Edit";
+            editButton.UseVisualStyleBackColor = false;
+            editButton.Click += editButton_Click;
             // 
             // label1
             // 
@@ -108,6 +109,8 @@
             appointmentList.TabIndex = 12;
             appointmentList.UseCompatibleStateImageBehavior = false;
             appointmentList.View = System.Windows.Forms.View.Details;
+            appointmentList.Click += appointmentList_Click;
+            appointmentList.Leave += appointmentList_Leave;
             // 
             // appointmentButton
             // 
@@ -228,7 +231,7 @@
             ClientSize = new Size(1066, 611);
             Controls.Add(panel1);
             Controls.Add(menuPanel);
-            Controls.Add(searchButton);
+            Controls.Add(editButton);
             Controls.Add(label1);
             Controls.Add(bookAppointmentButton);
             Controls.Add(searchAppointmentTextBox);
@@ -243,7 +246,7 @@
         }
 
         #endregion
-        private Button searchButton;
+        private Button editButton;
         private Label label1;
         private Button bookAppointmentButton;
         private TextBox searchAppointmentTextBox;

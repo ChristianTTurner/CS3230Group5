@@ -18,6 +18,7 @@ namespace CS3230_Group5.View.Nurse_View
         public ViewAppointmentsPage()
         {
             InitializeComponent();
+            editButton.Enabled = false;
             initializeMenuButtons();
             configureAppointmentList();
 
@@ -81,11 +82,37 @@ namespace CS3230_Group5.View.Nurse_View
         private void searchAppointmentTextBox_TextChanged(object sender, EventArgs e)
         {
             PopulateAppointments(searchAppointmentTextBox.Text);
+            updateEditButtonEnable();
         }
 
         private void bookAppointmentButton_Click(object sender, EventArgs e)
         {
             NavigateTo(new CreateAppointmentPage());
+        }
+
+        private void appointmentList_Click(object sender, EventArgs e)
+        {
+            updateEditButtonEnable();
+        }
+
+        private void appointmentList_Leave(object sender, EventArgs e)
+        {
+            updateEditButtonEnable();
+        }
+
+        private void updateEditButtonEnable()
+        {
+            editButton.Enabled = appointmentList.SelectedItems.Count > 0;
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (appointmentList.SelectedItems.Count > 0)
+            {
+                var selectedAppointment = appointmentList.SelectedItems[0];
+
+                NavigateTo(new EditAppointmentPage(selectedAppointment));
+            }
         }
     }
 }
