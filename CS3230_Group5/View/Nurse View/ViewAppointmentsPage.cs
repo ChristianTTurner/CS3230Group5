@@ -63,7 +63,7 @@ namespace CS3230_Group5.View.Nurse_View
                 var item = new ListViewItem(appointment.AppointmentID.ToString());
                 item.SubItems.Add(appointment.PatientName);
                 item.SubItems.Add(appointment.DoctorName);
-                item.SubItems.Add(appointment.DateTime?.ToString("MM-dd-yyyy h:mm tt") ?? string.Empty);
+                item.SubItems.Add(appointment.DateTime.ToString("MM-dd-yyyy h:mm tt") ?? string.Empty);
                 item.SubItems.Add(appointment.Reason);
                 appointmentList.Items.Add(item);
             }

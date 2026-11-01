@@ -9,12 +9,12 @@ namespace CS3230_Group5.Model
         public int? AppointmentID { get; set; }
         public int? PatientID { get; set; }
         public string? PatientName { get; set; }
-        public int? DoctorID { get; set; }
+        public int DoctorID { get; set; }
         public string? DoctorName { get; set; }
-        public DateTime? DateTime {  get; set; }
+        public DateTime DateTime {  get; set; }
         public string? Reason { get; set; }
 
-        public Appointment (int? appointmentID, string? patientName, string? doctorName, DateTime? dateTime, string? reason)
+        public Appointment (int? appointmentID, string? patientName, string? doctorName, DateTime dateTime, string? reason)
         { 
             if (this.isValidInput(appointmentID, patientName, doctorName, dateTime))
             {

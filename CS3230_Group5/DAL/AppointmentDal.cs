@@ -97,12 +97,18 @@ namespace CS3230_Group5.DAL
             using var command = createSearchAppointmentsCommand(connection, filter);
 
             using var reader = command.ExecuteReader();
-
+            Appointment newAppt;
             while (reader.Read())
-                appointments.Add(new Appointment(reader.GetInt32("appointment_id"), 
+            {
+                newAppt = new Appointment(reader.GetInt32("appointment_id"),
                     $"{reader.GetString("pfname")} {reader.GetString("plname")}",
                     $"{reader.GetString("dfname")} {reader.GetString("dlname")}",
-                    reader.GetDateTime("datetime"), reader.GetString("reason")));
+                    reader.GetDateTime("datetime"), reader.GetString("reason"));
+                newAppt.DoctorID = reader.GetInt32("doctor_id");
+                newAppt.PatientID = reader.GetInt32("patient_id");
+                appointments.Add(newAppt);
+            }
+
 
             return appointments;
         }
@@ -128,7 +134,7 @@ namespace CS3230_Group5.DAL
         private string buildAppointmentSearchQuery(bool hasFilter) 
         {
             const string selectQuery = @"SELECT appointment_id, p.first_name as pfname, 
-                    p.last_name as plname, d.first_name as dfname, d.last_name as dlname, datetime, reason
+                    p.last_name as plname, p.patient_id, d.first_name as dfname, d.last_name as dlname, d.doctor_id, datetime, reason
                     FROM appointment a INNER JOIN patient p ON a.patient_id = p.patient_id
                     INNER JOIN doctor d ON a.doctor_id = d.doctor_id";
             const string filterQuery = @"WHERE appointment_id LIKE @filter OR p.first_name LIKE @filter 
