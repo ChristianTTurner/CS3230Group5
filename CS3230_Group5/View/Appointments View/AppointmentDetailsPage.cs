@@ -32,6 +32,8 @@ namespace CS3230_Group5.View.Appointments_View
         private Label heightValue = null!;
         private Label weightValue = null!;
 
+        private readonly OrderedTestDal _testDal = new OrderedTestDal();
+
         public AppointmentDetailsPage() : this(0)
         {
         }
@@ -71,11 +73,7 @@ namespace CS3230_Group5.View.Appointments_View
                 // Open the partner's Order Tests form.
             };
 
-            // TODO (Task C): Connect test results.
-            viewTestButton.Click += (s, e) =>
-            {
-                // Open the partner's Test Results form.
-            };
+            viewTestButton.Click += viewTestButton_Click;
 
             // TODO (Task C): Connect final diagnosis and confirmation.
             finalDiagnosisButton.Click += (s, e) =>
@@ -224,7 +222,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             DisplayMeasurements(summary);
             DisplaySymptomsAndDiagnoses(summary);
-            // TODO (Task C): Populate orderedTestDataGridView.
+            DisplayOrderedTests();
         }
 
         private void DisplayEmptySummary()
@@ -354,6 +352,51 @@ namespace CS3230_Group5.View.Appointments_View
                 ShowErrorMessage(
                     "Unable to open the initial diagnosis page: " + ex.Message,
                     "Diagnosis Error");
+            }
+        }
+
+        private void viewTestButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
+                return;
+            }
+
+            try
+            {
+                using var resultsPage = new EnterTestResultsPage(_appointmentId);
+                resultsPage.ShowDialog(this);
+
+                // Always refresh: results may have been saved before the page closed.
+                LoadPageData();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    "Unable to open the test results page: " + ex.Message,
+                    "Test Results Error");
+            }
+        }
+
+        private void DisplayOrderedTests()
+        {
+            orderedTestDataGridView.Rows.Clear();
+
+            foreach (OrderedTest test in _testDal.GetOrderedTests(_appointmentId))
+            {
+                string performed = test.PerformedDateTime?.ToString("MM/dd/yyyy h:mm tt")
+                    ?? "Not performed";
+
+                string result = test.HasResult
+                    ? $"{test.Result} {test.UnitMeasurement}".Trim()
+                    : "Not entered yet";
+
+                orderedTestDataGridView.Rows.Add(
+                    test.TestCode,
+                    test.TestName,
+                    performed,
+                    result,
+                    test.StatusText);
             }
         }
 
