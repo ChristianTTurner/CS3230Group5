@@ -22,6 +22,8 @@ namespace CS3230_Group5.View.Patient_View
         {
             InitializeComponent();
 
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             ConfigurePatientGrid();
             PopulatePatientList();
 

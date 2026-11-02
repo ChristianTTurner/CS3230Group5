@@ -1,5 +1,6 @@
 ﻿
 using CS3230_Group5.DAL;
+using CS3230_Group5.Model;
 using CS3230_Group5.View.Nurse_View;
 using MySqlConnector;
 using System;
@@ -13,6 +14,8 @@ namespace CS3230_Group5.View.Appointments_View
         public ViewAppointmentsPage()
         {
             InitializeComponent();
+
+            nurseButton.Visible = SignedInUser.IsAdmin;
 
             appointmentDataGridView.AutoGenerateColumns = false;
             appointmentDataGridView.AllowUserToAddRows = false;

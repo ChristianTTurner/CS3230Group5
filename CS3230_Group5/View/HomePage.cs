@@ -15,6 +15,8 @@ namespace CS3230_Group5
         {
             InitializeComponent();
 
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             homeButton.Click += HomeButton_Click;
             nurseButton.Click += NurseButton_Click;
             patientsButton.Click += PatientsButton_Click;

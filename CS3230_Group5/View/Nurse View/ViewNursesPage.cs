@@ -1,8 +1,9 @@
 ﻿
+using CS3230_Group5.DAL;
+using CS3230_Group5.Model;
+using CS3230_Group5.View.Appointments_View;
 using System;
 using System.Windows.Forms;
-using CS3230_Group5.DAL;
-using CS3230_Group5.View.Appointments_View;
 
 namespace CS3230_Group5.View.Nurse_View
 {
@@ -13,6 +14,9 @@ namespace CS3230_Group5.View.Nurse_View
         public ViewNursesPage()
         {
             InitializeComponent();
+
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             setUpNursesList();
             loadNurses();
            
