@@ -14,6 +14,7 @@ namespace CS3230_Group5.View.Nurse_View
     public partial class ViewAppointmentsPage : Form
     {
         private AppointmentDal _appointmentDal = new AppointmentDal();
+        private List<Appointment> appointments = new List<Appointment>();
 
         public ViewAppointmentsPage()
         {
@@ -54,11 +55,12 @@ namespace CS3230_Group5.View.Nurse_View
             appointmentList.Columns.Add("Reason", 200, HorizontalAlignment.Left);
         }
 
-        private void PopulateAppointments(string? filter = null)
+        public void PopulateAppointments(string? filter = null)
         {
             appointmentList.Items.Clear();
-
-            foreach (Appointment appointment in _appointmentDal.GetAppointments(filter))
+            appointments.AddRange(_appointmentDal.GetAppointments(filter));
+            
+            foreach (Appointment appointment in appointments)
             {
                 var item = new ListViewItem(appointment.AppointmentID.ToString());
                 item.SubItems.Add(appointment.PatientName);
@@ -111,7 +113,17 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 var selectedAppointment = appointmentList.SelectedItems[0];
 
-                NavigateTo(new EditAppointmentPage(selectedAppointment));
+                for (int i = 0; i < appointments.Count; i++)
+                {
+                    bool equal = selectedAppointment.Text == appointments[i].AppointmentID.ToString();
+
+                    if (equal)
+                    {
+                        NavigateTo(new EditAppointmentPage(appointments[i]));
+                        break;
+                    }
+                }
+
             }
         }
     }

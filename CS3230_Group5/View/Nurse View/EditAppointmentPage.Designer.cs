@@ -111,6 +111,7 @@
             confirmAppointmentButton.TabIndex = 26;
             confirmAppointmentButton.Text = "Confirm";
             confirmAppointmentButton.UseVisualStyleBackColor = false;
+            confirmAppointmentButton.Click += confirmAppointmentButton_Click;
             // 
             // dateTimeLabel
             // 

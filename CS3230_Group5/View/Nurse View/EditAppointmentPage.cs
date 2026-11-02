@@ -20,33 +20,12 @@ namespace CS3230_Group5.View.Nurse_View
         private AppointmentDal _Appointment = new AppointmentDal();
         private Appointment selectedAppointment;
 
-        public EditAppointmentPage(ListViewItem selectedItem)
+        public EditAppointmentPage(Appointment selectedAppointment)
         {
             InitializeComponent();
             patientName.Enabled = false;
-            SelectedItem = selectedItem;
-            convertToAppointment(SelectedItem);
+            this.selectedAppointment = selectedAppointment;
             populateDynamicFields();
-        }
-
-        private void convertToAppointment(ListViewItem item)
-        {
-            var appointmentId = 0;
-            var patientName = "";
-            var doctorName = "";
-            DateTime date = DateTime.MinValue;
-            var reason = "";
-
-            if (item != null)
-            {
-                appointmentId = int.Parse(item.SubItems[0].Text);
-                patientName = item.SubItems[1].Text;
-                doctorName = item.SubItems[2].Text;
-                date = DateTime.ParseExact(item.SubItems[3].Text, "MM-dd-yyyy h:mm tt", CultureInfo.InvariantCulture);
-                reason = item.SubItems[4].Text;
-            }
-
-            selectedAppointment = new Appointment(appointmentId, patientName, doctorName, date, reason);
         }
 
         private void populateDynamicFields()
@@ -88,6 +67,42 @@ namespace CS3230_Group5.View.Nurse_View
             }
 
             Close();
+        }
+
+        private void confirmAppointmentButton_Click(object sender, EventArgs e)
+        {
+            Appointment updatedAppointment = new Appointment(selectedAppointment.AppointmentID,
+                patientName.Text, doctorComboBox.SelectedText, dateTimePicker.Value, reasonTextBox.Text);
+            updatedAppointment.PatientID = selectedAppointment.PatientID;
+            updatedAppointment.DoctorID = doctorComboBox.SelectedIndex;
+            string message = "";
+
+            if (_Appointment.UpdateAppointment(updatedAppointment, out message))
+            {
+                selectedAppointment.DoctorName = updatedAppointment.DoctorName;
+                selectedAppointment.DoctorID = updatedAppointment.DoctorID;
+                selectedAppointment.DateTime = updatedAppointment.DateTime;
+                selectedAppointment.Reason = updatedAppointment.Reason;
+
+                //indicate successful save
+
+                foreach (Form open in Application.OpenForms)
+                {
+                    if (open is ViewAppointmentsPage viewAppointments)
+                    {
+                        viewAppointments.PopulateAppointments();
+                        viewAppointments.Show();
+                        viewAppointments.BringToFront();
+                        break;
+                    }
+                }
+
+                Close();
+
+            } else
+            {
+                //display error message
+            }
         }
     }
 }

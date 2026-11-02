@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CS3230_Group5.Model;
+﻿using CS3230_Group5.Model;
 using MySqlConnector;
+using System;
+using System.Collections.Generic;
+using static System.Net.WebRequestMethods;
 
 namespace CS3230_Group5.DAL
 {
@@ -86,6 +87,62 @@ namespace CS3230_Group5.DAL
             command.Parameters.Add("@reason", MySqlDbType.VarChar, 255).Value = reason.Trim();
             command.ExecuteNonQuery();
             return checked((int)command.LastInsertedId);
+        }
+
+        public bool UpdateAppointment(Appointment appointment, out string message)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            var command = createUpdateAppointmentCommand(connection, appointment);
+
+            try
+            {
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    message = "Edits saved successfully";
+                    return true;
+                }
+
+                message = "Error saving edits to database";
+                return false;
+            }
+            catch (Exception ex) {
+                message = "Error saving edits to database: " + ex.Message;
+                return false;
+            }
+        }
+
+        private MySqlCommand createUpdateAppointmentCommand(MySqlConnection connection, Appointment appointment)
+        {
+            var query = buildUpdateAppointmentQuery(appointment);
+            var command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add(
+            "@appointmentId", MySqlDbType.Int64)
+        .Value = $"{appointment.AppointmentID}";
+            command.Parameters.Add(
+            "@patientId", MySqlDbType.Int64)
+        .Value = $"{appointment.PatientID}";
+            command.Parameters.Add(
+            "@doctorId", MySqlDbType.Int64)
+        .Value = $"{appointment.DoctorID}";
+            command.Parameters.Add(
+            "@datetime", MySqlDbType.DateTime)
+        .Value = $"{appointment.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+            command.Parameters.Add(
+            "@reason", MySqlDbType.Int64)
+        .Value = $"{appointment.Reason}";
+
+            return command;
+        }
+
+        private string buildUpdateAppointmentQuery(Appointment appointment)
+        {
+            return @"UPDATE appointment
+                   SET patient_id = @patientId, doctor_id = @doctorId, datetime = @datetime, reason = @reason
+                   WHERE appointment_id = @appointmentId;";
         }
 
         public List<Appointment> GetAppointments(string? filter = null)
