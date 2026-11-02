@@ -1,18 +1,52 @@
 ﻿
 using CS3230_Group5.DAL;
 using CS3230_Group5.View.Appointments_View;
+using CS3230_Group5.View.Patient_View;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace CS3230_Group5.View.Nurse_View
 {
     public partial class CreateAppointmentPage : Form
     {
-        private readonly AppointmentDal appointmentDal = new AppointmentDal();
+        private readonly AppointmentDal appointmentDal =
+            new AppointmentDal();
 
-        public CreateAppointmentPage()
+        private readonly int? _preselectedPatientId;
+        private readonly Form? _previousPage;
+
+        // Normal constructor: opened without a preselected patient.
+        public CreateAppointmentPage() : this(null, null)
+        {
+        }
+
+        // Constructor: opened with a specific patient.
+        public CreateAppointmentPage(int patientId)
+            : this((int?)patientId, null)
+        {
+        }
+
+        // Constructor: accepts a nullable patient ID.
+        public CreateAppointmentPage(int? patientId)
+            : this(patientId, null)
+        {
+        }
+
+        // Constructor: opened from another page with a specific patient.
+        public CreateAppointmentPage(int patientId, Form previousPage)
+            : this((int?)patientId, previousPage)
+        {
+        }
+
+        private CreateAppointmentPage(
+            int? patientId,
+            Form? previousPage)
         {
             InitializeComponent();
+
+            _preselectedPatientId = patientId;
+            _previousPage = previousPage;
 
             cancelButton.Click -= cancelButton_Click;
             cancelButton.Click += cancelButton_Click;
@@ -72,13 +106,16 @@ namespace CS3230_Group5.View.Nurse_View
 
             if (defaultTime <= now)
             {
-                defaultTime = DateTime.Today.AddDays(1).AddHours(8);
+                defaultTime =
+                    DateTime.Today.AddDays(1).AddHours(8);
             }
 
             dateTimePicker.Value = defaultTime;
         }
 
-        private void CreateAppointmentPage_Load(object? sender, EventArgs e)
+        private void CreateAppointmentPage_Load(
+            object? sender,
+            EventArgs e)
         {
             loadPatients();
             loadDoctors();
@@ -93,25 +130,56 @@ namespace CS3230_Group5.View.Nurse_View
 
                 var patientList = appointmentDal.GetPatients();
 
-                patients.DataSource = new BindingSource(patientList, null);
+                patients.DataSource =
+                    new BindingSource(patientList, null);
+
                 patients.DisplayMember = "Value";
                 patients.ValueMember = "Key";
                 patients.SelectedIndex = -1;
 
+                if (_preselectedPatientId.HasValue)
+                {
+                    bool patientFound = false;
+
+                    for (int i = 0; i < patients.Items.Count; i++)
+                    {
+                        if (patients.Items[i]
+                                is KeyValuePair<int, string> patient &&
+                            patient.Key == _preselectedPatientId.Value)
+                        {
+                            patients.SelectedIndex = i;
+                            patientFound = true;
+                            break;
+                        }
+                    }
+
+                    if (patientFound)
+                    {
+                        patients.Enabled = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "The current patient was not found in the active patient list.",
+                            "Patient Not Found",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
+
                 clearValidationError(patientValidation);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 patients.DataSource = null;
 
                 MessageBox.Show(
-                    "Could not load the current patient list.",
+                    $"Could not load the current patient list: {ex.Message}",
                     "Loading Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
-
         private void loadDoctors()
         {
             try
@@ -121,7 +189,9 @@ namespace CS3230_Group5.View.Nurse_View
 
                 var doctorList = appointmentDal.GetDoctors();
 
-                doctor.DataSource = new BindingSource(doctorList, null);
+                doctor.DataSource =
+                    new BindingSource(doctorList, null);
+
                 doctor.DisplayMember = "Value";
                 doctor.ValueMember = "Key";
                 doctor.SelectedIndex = -1;
@@ -139,7 +209,9 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxIcon.Error);
             }
         }
-        private void bookAppointmentButton_Click(object? sender, EventArgs e)
+        private void bookAppointmentButton_Click(
+            object? sender,
+            EventArgs e)
         {
             clearAllValidationErrors();
 
@@ -194,7 +266,6 @@ namespace CS3230_Group5.View.Nurse_View
 
             return isValid;
         }
-
         private bool validateAppointmentDate()
         {
             DateTime appointmentTime = dateTimePicker.Value;
@@ -231,13 +302,15 @@ namespace CS3230_Group5.View.Nurse_View
 
             return true;
         }
-
         private void saveAppointment()
         {
             try
             {
-                int patientId = Convert.ToInt32(patients.SelectedValue);
-                int doctorId = Convert.ToInt32(doctor.SelectedValue);
+                int patientId =
+                    Convert.ToInt32(patients.SelectedValue);
+
+                int doctorId =
+                    Convert.ToInt32(doctor.SelectedValue);
 
                 string reason = reasonTextBox.Text.Trim();
 
@@ -253,7 +326,7 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                this.returnToViewAppointmentsPage();
+                returnToPreviousPage();
             }
             catch (InvalidOperationException ex)
             {
@@ -273,11 +346,14 @@ namespace CS3230_Group5.View.Nurse_View
             }
         }
 
-        private void showValidationError(Label label, string message)
+        private void showValidationError(
+            Label label,
+            string message)
         {
             label.Text = message;
             label.Visible = true;
         }
+
         private void clearValidationError(Label label)
         {
             label.Text = "";
@@ -291,14 +367,32 @@ namespace CS3230_Group5.View.Nurse_View
             clearValidationError(dateValidation);
             clearValidationError(reasonValidation);
         }
-        private void returnToViewAppointmentsPage()
+
+        private void returnToPreviousPage()
         {
+            if (_previousPage != null &&
+                !_previousPage.IsDisposed)
+            {
+
+                if (_previousPage is PatientViewHistoryPage historyPage)
+                {
+                    historyPage.RefreshVisitHistory();
+                }
+
+                _previousPage.Show();
+                _previousPage.BringToFront();
+
+                Close();
+                return;
+            }
+
             foreach (Form open in Application.OpenForms)
             {
                 if (open is ViewAppointmentsPage appointmentsPage)
                 {
                     appointmentsPage.Show();
                     appointmentsPage.BringToFront();
+
                     Close();
                     return;
                 }
@@ -306,12 +400,14 @@ namespace CS3230_Group5.View.Nurse_View
 
             var newAppointmentsPage = new ViewAppointmentsPage();
             newAppointmentsPage.Show();
+
             Close();
         }
-
-        private void cancelButton_Click(object? sender, EventArgs e)
+        private void cancelButton_Click(
+            object? sender,
+            EventArgs e)
         {
-            this.returnToViewAppointmentsPage();
+            returnToPreviousPage();
         }
     }
 }

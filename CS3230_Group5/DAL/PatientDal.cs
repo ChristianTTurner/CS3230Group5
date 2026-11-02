@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using CS3230_Group5.Model;
 using MySqlConnector;
 
@@ -27,6 +28,53 @@ namespace CS3230_Group5.DAL
             using var reader = command.ExecuteReader();
 
             return ReadPatients(reader);
+        }
+
+        /// <summary>
+        /// Retrieves one patient's information, including their address.
+        /// </summary>
+        public DataTable GetPatientDetails(int patientId)
+        {
+            const string query = @"
+        SELECT
+            p.patient_id,
+            p.first_name,
+            p.last_name,
+            p.date_of_birth,
+            p.phone,
+            p.gender,
+            p.active,
+        CONCAT_WS(', ',
+            NULLIF(a.address1, ''),
+            NULLIF(a.address2, '')
+        ) AS street_address,
+
+        CONCAT_WS(', ',
+            NULLIF(a.city, ''),
+            NULLIF(a.state, ''),
+            NULLIF(a.zip, '')
+        ) AS city_state_zip
+        FROM patient p
+        LEFT JOIN address a
+            ON p.address_id = a.address_id
+        WHERE p.patient_id = @patientId;";
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+
+            using var command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add(
+                "@patientId", MySqlDbType.Int32).Value = patientId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            var table = new DataTable();
+            table.Load(reader);
+
+            return table;
         }
 
         /// <summary>
