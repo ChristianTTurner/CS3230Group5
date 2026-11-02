@@ -67,11 +67,7 @@ namespace CS3230_Group5.View.Appointments_View
                 // Open the partner's Edit Appointment form.
             };
 
-            // TODO (Task C): Connect test ordering.
-            orderTestButton.Click += (s, e) =>
-            {
-                // Open the partner's Order Tests form.
-            };
+            orderTestButton.Click += orderTestButton_Click;
 
             viewTestButton.Click += viewTestButton_Click;
 
@@ -400,6 +396,26 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
+        private void orderTestButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
+                return;
+            }
+
+            try
+            {
+                using var orderPage = new OrderTestsPage(_appointmentId);
+                RefreshAfterSuccessfulDialog(orderPage);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    "Unable to open the order tests page: " + ex.Message,
+                    "Order Tests Error");
+            }
+        }
+
         private bool EnsureAppointmentSelected()
         {
             if (_appointmentId > 0)
@@ -453,7 +469,7 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void profileLabel_Click(object? sender, EventArgs e)
         {
-            
+
         }
     }
 }
