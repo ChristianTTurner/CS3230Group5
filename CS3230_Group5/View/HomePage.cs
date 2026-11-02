@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using CS3230_Group5.Model;
 using CS3230_Group5.View;
+using CS3230_Group5.View.Admin_View;
 using CS3230_Group5.View.Appointments_View;
 using CS3230_Group5.View.Nurse_View;
 using SearchPatientPage = CS3230_Group5.View.Patient_View.SearchPatientPage;
@@ -25,11 +26,17 @@ namespace CS3230_Group5
             manageAppointments.Click += ManageAppointments_Click;
             manageNurse.Click += ManageNurse_Click;
             manageProfile.Click += ManageProfile_Click;
+            adminStats.Click += AdminStatistics_Click;
 
             userNameLabel.Text = "Username: " + SignedInUser.Username;
             idLabel.Text = "User ID: " + SignedInUser.UserID;
             manageNurse.Visible = SignedInUser.IsAdmin;
-            manageNurseLabel.Visible = manageNurse.Visible;
+            manageNurseLabel.Visible = SignedInUser.IsAdmin;
+
+            adminStats.Visible = SignedInUser.IsAdmin;
+            adminStatsLabel.Visible = SignedInUser.IsAdmin;
+
+            adminStatsLabel.BringToFront();
         }
 
         private void HomeButton_Click(object? sender, EventArgs e)
@@ -41,6 +48,19 @@ namespace CS3230_Group5
         {
             var viewNurse = new ViewNursesPage();
             viewNurse.Show();
+            this.Hide();
+        }
+        private void AdminStatistics_Click(object? sender, EventArgs e)
+        {
+            if (!SignedInUser.IsAdmin)
+            {
+                MessageBox.Show("Access denied.");
+                return;
+            }
+
+            var statisticsPage = new AdminStatisticsPage(this);
+
+            statisticsPage.Show();
             this.Hide();
         }
 

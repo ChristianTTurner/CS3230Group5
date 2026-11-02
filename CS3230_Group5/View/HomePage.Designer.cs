@@ -47,6 +47,8 @@
             manageNurse = new Button();
             manageProfileLabel = new Label();
             manageProfile = new Button();
+            adminStats = new Button();
+            adminStatsLabel = new Label();
             menuPanel.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -61,7 +63,7 @@
             menuPanel.Controls.Add(homeButton);
             menuPanel.Location = new Point(1, 56);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(316, 675);
+            menuPanel.Size = new Size(316, 779);
             menuPanel.TabIndex = 0;
             // 
             // logoutButton
@@ -71,7 +73,7 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             logoutButton.ForeColor = Color.White;
-            logoutButton.Location = new Point(3, 591);
+            logoutButton.Location = new Point(3, 695);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(310, 81);
             logoutButton.TabIndex = 4;
@@ -293,12 +295,41 @@
             manageProfile.TextAlign = ContentAlignment.TopCenter;
             manageProfile.UseVisualStyleBackColor = false;
             // 
+            // adminStats
+            // 
+            adminStats.BackColor = Color.FromArgb(221, 211, 238);
+            adminStats.FlatAppearance.BorderSize = 0;
+            adminStats.FlatStyle = FlatStyle.Flat;
+            adminStats.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            adminStats.ForeColor = Color.Indigo;
+            adminStats.Location = new Point(353, 658);
+            adminStats.Name = "adminStats";
+            adminStats.Size = new Size(330, 149);
+            adminStats.TabIndex = 13;
+            adminStats.Text = "📊\r\nAdmin Statistics";
+            adminStats.TextAlign = ContentAlignment.TopCenter;
+            adminStats.UseVisualStyleBackColor = false;
+            // 
+            // adminStatsLabel
+            // 
+            adminStatsLabel.AutoSize = true;
+            adminStatsLabel.BackColor = Color.FromArgb(221, 211, 238);
+            adminStatsLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            adminStatsLabel.ForeColor = Color.Black;
+            adminStatsLabel.Location = new Point(444, 751);
+            adminStatsLabel.Name = "adminStatsLabel";
+            adminStatsLabel.Size = new Size(139, 28);
+            adminStatsLabel.TabIndex = 14;
+            adminStatsLabel.Text = "View statistics";
+            // 
             // homePageButton
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(1166, 730);
+            ClientSize = new Size(1166, 834);
+            Controls.Add(adminStatsLabel);
+            Controls.Add(adminStats);
             Controls.Add(manageProfileLabel);
             Controls.Add(manageProfile);
             Controls.Add(manageNurseLabel);
@@ -344,5 +375,7 @@
         private Button manageNurse;
         private Label manageProfileLabel;
         private Button manageProfile;
+        private Button adminStats;
+        private Label adminStatsLabel;
     }
 }
