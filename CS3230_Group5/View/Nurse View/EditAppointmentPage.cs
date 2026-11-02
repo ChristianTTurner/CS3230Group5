@@ -50,10 +50,6 @@ namespace CS3230_Group5.View.Nurse_View
             this.reasonTextBox.Text = selectedAppointment.Reason;
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            returnToViewAppointmentsPage();
-        }
         private void returnToViewAppointmentsPage()
         {
             foreach (Form open in Application.OpenForms)
@@ -84,25 +80,25 @@ namespace CS3230_Group5.View.Nurse_View
                 selectedAppointment.DateTime = updatedAppointment.DateTime;
                 selectedAppointment.Reason = updatedAppointment.Reason;
 
-                //indicate successful save
+                //TODO implement successful save modal pop up
 
-                foreach (Form open in Application.OpenForms)
-                {
-                    if (open is ViewAppointmentsPage viewAppointments)
-                    {
-                        viewAppointments.PopulateAppointments();
-                        viewAppointments.Show();
-                        viewAppointments.BringToFront();
-                        break;
-                    }
-                }
 
-                Close();
-
-            } else
-            {
-                //display error message
+                returnToViewAppointmentsPage();
             }
+            else
+            {
+                //TODO implement error message modal pop up
+            }
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            returnToViewAppointmentsPage();
+        }
+
+        private void cancelAppointmentButton_Click(object sender, EventArgs e)
+        {
+            //TODO Implement cancel appointment
         }
     }
 }

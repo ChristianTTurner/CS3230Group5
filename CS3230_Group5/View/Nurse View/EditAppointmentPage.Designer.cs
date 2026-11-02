@@ -30,7 +30,7 @@
         {
             dashboardTitle = new Label();
             panel1 = new Panel();
-            cancelButton = new Button();
+            cancelAppointmentButton = new Button();
             reasonLabel = new Label();
             reasonTextBox = new RichTextBox();
             confirmAppointmentButton = new Button();
@@ -41,6 +41,7 @@
             patientNameLabel = new Label();
             editAppointmentLabel = new Label();
             patientName = new TextBox();
+            backButton = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,17 +67,17 @@
             panel1.Size = new Size(800, 59);
             panel1.TabIndex = 21;
             // 
-            // cancelButton
+            // cancelAppointmentButton
             // 
-            cancelButton.BackColor = Color.White;
-            cancelButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cancelButton.Location = new Point(681, 486);
-            cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(91, 34);
-            cancelButton.TabIndex = 29;
-            cancelButton.Text = "Cancel";
-            cancelButton.UseVisualStyleBackColor = false;
-            cancelButton.Click += cancelButton_Click;
+            cancelAppointmentButton.BackColor = Color.White;
+            cancelAppointmentButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cancelAppointmentButton.Location = new Point(561, 485);
+            cancelAppointmentButton.Name = "cancelAppointmentButton";
+            cancelAppointmentButton.Size = new Size(211, 35);
+            cancelAppointmentButton.TabIndex = 29;
+            cancelAppointmentButton.Text = "Cancel Appointment";
+            cancelAppointmentButton.UseVisualStyleBackColor = false;
+            cancelAppointmentButton.Click += cancelAppointmentButton_Click;
             // 
             // reasonLabel
             // 
@@ -105,11 +106,11 @@
             confirmAppointmentButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             confirmAppointmentButton.ForeColor = Color.White;
             confirmAppointmentButton.ImageAlign = ContentAlignment.TopLeft;
-            confirmAppointmentButton.Location = new Point(570, 485);
+            confirmAppointmentButton.Location = new Point(461, 485);
             confirmAppointmentButton.Name = "confirmAppointmentButton";
             confirmAppointmentButton.Size = new Size(94, 35);
             confirmAppointmentButton.TabIndex = 26;
-            confirmAppointmentButton.Text = "Confirm";
+            confirmAppointmentButton.Text = "Save";
             confirmAppointmentButton.UseVisualStyleBackColor = false;
             confirmAppointmentButton.Click += confirmAppointmentButton_Click;
             // 
@@ -164,7 +165,7 @@
             // 
             editAppointmentLabel.AutoSize = true;
             editAppointmentLabel.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            editAppointmentLabel.Location = new Point(18, 73);
+            editAppointmentLabel.Location = new Point(45, 77);
             editAppointmentLabel.Name = "editAppointmentLabel";
             editAppointmentLabel.Size = new Size(394, 60);
             editAppointmentLabel.TabIndex = 30;
@@ -178,15 +179,26 @@
             patientName.Size = new Size(406, 27);
             patientName.TabIndex = 32;
             // 
+            // backButton
+            // 
+            backButton.Location = new Point(12, 90);
+            backButton.Name = "backButton";
+            backButton.Size = new Size(39, 31);
+            backButton.TabIndex = 33;
+            backButton.Text = "<";
+            backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
+            // 
             // EditAppointmentPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 542);
+            Controls.Add(backButton);
             Controls.Add(patientName);
             Controls.Add(patientNameLabel);
             Controls.Add(editAppointmentLabel);
-            Controls.Add(cancelButton);
+            Controls.Add(cancelAppointmentButton);
             Controls.Add(reasonLabel);
             Controls.Add(reasonTextBox);
             Controls.Add(confirmAppointmentButton);
@@ -207,7 +219,7 @@
 
         private Label dashboardTitle;
         private Panel panel1;
-        private Button cancelButton;
+        private Button cancelAppointmentButton;
         private Label reasonLabel;
         private RichTextBox reasonTextBox;
         private Button confirmAppointmentButton;
@@ -218,5 +230,6 @@
         private Label patientNameLabel;
         private Label editAppointmentLabel;
         private TextBox patientName;
+        private Button backButton;
     }
 }
