@@ -58,6 +58,8 @@ namespace CS3230_Group5.View.Nurse_View
         public void PopulateAppointments(string? filter = null)
         {
             appointmentList.Items.Clear();
+            appointments.Clear();
+
             appointments.AddRange(_appointmentDal.GetAppointments(filter));
             
             foreach (Appointment appointment in appointments)
@@ -104,7 +106,17 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void updateEditButtonEnable()
         {
-            editButton.Enabled = appointmentList.SelectedItems.Count > 0;
+            if (appointmentList.SelectedItems.Count > 0) 
+            {
+                string appointmentDate = appointmentList.SelectedItems[0].SubItems[3].Text.ToString().Substring(0, 10);
+                string currDate = DateTime.Now.ToString("MM-dd-yyyy");
+                bool isEditable = !appointmentDate.Equals(currDate);
+                editButton.Enabled = isEditable;
+            } else
+            {
+                editButton.Enabled = false;
+            }
+
         }
 
         private void editButton_Click(object sender, EventArgs e)
