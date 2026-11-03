@@ -70,7 +70,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             if (doctorId == 0) 
             {
-                //TODO implement error
+                displayError("Error: Error saving appointment information.");
                 return;
             }
             Appointment updatedAppointment = new Appointment(selectedAppointment.AppointmentId,
@@ -86,14 +86,15 @@ namespace CS3230_Group5.View.Nurse_View
                 selectedAppointment.DateTime = updatedAppointment.DateTime;
                 selectedAppointment.Reason = updatedAppointment.Reason;
 
-                //TODO implement successful save modal pop up
-
-
-                returnToViewAppointmentsPage();
+                DialogResult result = MessageBox.Show("Saved infromation successfully.", "Confirmation", MessageBoxButtons.OK);
+                if (result == DialogResult.OK)
+                {
+                    returnToViewAppointmentsPage();
+                }
             }
             else
             {
-                //TODO implement error message modal pop up
+                displayError("Error: " + message);
             }
         }
 
@@ -116,15 +117,23 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void cancelAppointmentButton_Click(object sender, EventArgs e)
         {
-            //TODO Implement confirmation pop up
-
-            if (_Appointment.DeleteAppointment(selectedAppointment.AppointmentId))
+            DialogResult result = MessageBox.Show("Are you sure you want to cancel the appointment?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
             {
-                returnToViewAppointmentsPage();
-            } else
-            {
-                //display error
+                if (_Appointment.DeleteAppointment(selectedAppointment.AppointmentId))
+                {
+                    returnToViewAppointmentsPage();
+                }
+                else
+                {
+                    displayError("Error canceling appointment");
+                }
             }
+        }
+
+        private void displayError(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

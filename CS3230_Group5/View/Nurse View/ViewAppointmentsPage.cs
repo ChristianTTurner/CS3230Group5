@@ -61,6 +61,9 @@ namespace CS3230_Group5.View.Nurse_View
 
         public void PopulateAppointments(string? filter = null)
         {
+            this.editButton.Enabled = false;
+            this.viewSummaryButton.Enabled = false;
+
             appointmentList.Items.Clear();
             appointments.Clear();
 
