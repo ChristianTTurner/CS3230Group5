@@ -46,6 +46,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             CreateValueLabels();
             ConfigureReadOnlyFields();
+            ConfigureTestsGrid();
             AttachEventHandlers();
         }
 
@@ -54,6 +55,22 @@ namespace CS3230_Group5.View.Appointments_View
             symptomsTextBox.ReadOnly = true;
             initialDiagnosisTextBox.ReadOnly = true;
             finalDiagnosisTextBox.ReadOnly = true;
+        }
+
+        /// <summary>
+        /// Lets the tests grid fill its width and wrap long text instead of cutting it off.
+        /// </summary>
+        private void ConfigureTestsGrid()
+        {
+            orderedTestDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            orderedTestDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            orderedTestDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            testCodeColumn.FillWeight = 60;
+            testNameColumn.FillWeight = 120;
+            performedDateTimeColumn.FillWeight = 110;
+            resultColumn.FillWeight = 110;
+            statusColumn.FillWeight = 80;
         }
 
         private void AttachEventHandlers()
@@ -68,19 +85,11 @@ namespace CS3230_Group5.View.Appointments_View
                 // Open the partner's Edit Appointment form.
             };
 
-            // TODO (Task C): Connect test ordering.
-            orderTestButton.Click += (s, e) =>
-            {
-                // Open the partner's Order Tests form.
-            };
+            orderTestButton.Click += orderTestButton_Click;
 
             viewTestButton.Click += viewTestButton_Click;
 
-            // TODO (Task C): Connect final diagnosis and confirmation.
-            finalDiagnosisButton.Click += (s, e) =>
-            {
-                // Open the partner's Final Diagnosis form.
-            };
+            finalDiagnosisButton.Click += finalDiagnosisButton_Click;
         }
 
         private void AppointmentDetailsPage_Load(object? sender, EventArgs e)
@@ -233,7 +242,9 @@ namespace CS3230_Group5.View.Appointments_View
             initialDiagnosisTextBox.Text = "Not entered yet.";
             finalDiagnosisTextBox.Text = "Not entered yet.";
 
-            // TODO (Task C): Load ordered tests and their results.
+            SetVisitLocked(false);
+
+            // No check-up yet, so there cannot be any ordered tests.
             orderedTestDataGridView.Rows.Clear();
         }
 
@@ -252,8 +263,9 @@ namespace CS3230_Group5.View.Appointments_View
             symptomsTextBox.Text = DisplayText(summary.Symptoms);
             initialDiagnosisTextBox.Text = DisplayText(summary.InitialDiagnosis);
 
-            // TODO (Task C): Apply final-diagnosis workflow and locking rules.
             finalDiagnosisTextBox.Text = DisplayText(summary.FinalDiagnosis);
+
+            SetVisitLocked(!string.IsNullOrWhiteSpace(summary.FinalDiagnosis));
         }
 
         private void SetMeasurementDefaults()
@@ -379,6 +391,39 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
+        private void finalDiagnosisButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
+                return;
+            }
+
+            try
+            {
+                using var finalDiagnosisPage = new EnterFinalDiagnosisPage(_appointmentId);
+                RefreshAfterSuccessfulDialog(finalDiagnosisPage);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    "Unable to open the final diagnosis page: " + ex.Message,
+                    "Final Diagnosis Error");
+            }
+        }
+
+        /// <summary>
+        /// Once a final diagnosis exists the visit is read-only, so the buttons
+        /// that change it are turned off. View Test Result stays on so the
+        /// results can still be read.
+        /// </summary>
+        private void SetVisitLocked(bool locked)
+        {
+            checkUpButton.Enabled = !locked;
+            initialDiagnosisButton.Enabled = !locked;
+            orderTestButton.Enabled = !locked;
+            finalDiagnosisButton.Enabled = !locked;
+        }
+
         private void DisplayOrderedTests()
         {
             orderedTestDataGridView.Rows.Clear();
@@ -398,6 +443,29 @@ namespace CS3230_Group5.View.Appointments_View
                     performed,
                     result,
                     test.StatusText);
+            }
+        }
+
+        private void orderTestButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
+                return;
+            }
+
+            try
+            {
+                using var orderPage = new OrderTestsPage(_appointmentId);
+                orderPage.ShowDialog(this);
+
+                // Always refresh: a test may have been removed before the page closed.
+                LoadPageData();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    "Unable to open the order tests page: " + ex.Message,
+                    "Order Tests Error");
             }
         }
 
@@ -455,7 +523,7 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void profileLabel_Click(object? sender, EventArgs e)
         {
-            
+
         }
     }
 }
