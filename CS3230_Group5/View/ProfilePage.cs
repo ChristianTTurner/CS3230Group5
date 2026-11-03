@@ -63,17 +63,6 @@ namespace CS3230_Group5.View
             this.Hide();
         }
 
-        private void editPatientProfileLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
-        }
-
-        private void editProfileButton_Click(object sender, EventArgs e)
-        {
-            // Edit profile not implemented yet - placeholder behavior
-            MessageBox.Show("Edit profile is not implemented yet.", "Not Implemented", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void label1_Click(object sender, EventArgs e)
         {
 
