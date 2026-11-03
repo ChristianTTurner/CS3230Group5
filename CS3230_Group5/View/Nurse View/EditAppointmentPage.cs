@@ -116,7 +116,15 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void cancelAppointmentButton_Click(object sender, EventArgs e)
         {
-            //TODO Implement cancel appointment
+            //TODO Implement confirmation pop up
+
+            if (_Appointment.DeleteAppointment(selectedAppointment.AppointmentId))
+            {
+                returnToViewAppointmentsPage();
+            } else
+            {
+                //display error
+            }
         }
     }
 }
