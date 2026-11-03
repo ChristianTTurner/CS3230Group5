@@ -1,34 +1,57 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CS3230_Group5.Model
 {
+    /// <summary>
+    /// Represents a scheduled patient appointment.
+    /// </summary>
     public class Appointment
     {
-        public int? AppointmentID { get; set; }
-        public int? PatientID { get; set; }
-        public string? PatientName { get; set; }
-        public int DoctorID { get; set; }
-        public string? DoctorName { get; set; }
+        public int AppointmentId { get; set; }
+        public int PatientId { get; set; }
+        public string PatientName { get; set; }
+        public int DoctorId { get; set; }
+        public string DoctorName { get; set; }
         public DateTime DateTime {  get; set; }
-        public string? Reason { get; set; }
+        public string Reason { get; set; }
 
-        public Appointment (int? appointmentID, string? patientName, string? doctorName, DateTime dateTime, string? reason)
-        { 
-            if (this.isValidInput(appointmentID, patientName, doctorName, dateTime))
-            {
-                AppointmentID = appointmentID;
-                PatientName = patientName;
-                DoctorName = doctorName;
-                DateTime = dateTime;
-                Reason = reason;
-            }
-        }
 
-        private bool isValidInput(int? aID, string? pName, string? dName, DateTime? dateTime)
+
+
+        /// <summary>
+        /// Initializes an appointment.
+        /// </summary>
+        public Appointment(int appointmentId, int patientId, int doctorId,
+            DateTime dateTime, string reason)
         {
-            return aID != null && pName != null && dName != null && dateTime != null;
+            if (appointmentId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(appointmentId),"Appointment ID must be positive.");
+            }
+
+            if (patientId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(patientId),"Patient ID must be positive.");
+            }
+
+            if (doctorId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(doctorId),"Doctor ID must be positive.");
+            }
+
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                throw new ArgumentException(nameof(reason),"Appointment reason cannot be empty.");
+            }
+
+            AppointmentId = appointmentId;
+            PatientId = patientId;
+            DoctorId = doctorId;
+            DateTime = dateTime;
+            Reason = reason.Trim();
         }
     }
 }

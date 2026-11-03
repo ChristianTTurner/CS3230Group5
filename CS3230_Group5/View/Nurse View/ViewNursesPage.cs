@@ -1,7 +1,9 @@
 ﻿
+using CS3230_Group5.DAL;
+using CS3230_Group5.Model;
+using CS3230_Group5.View.Appointments_View;
 using System;
 using System.Windows.Forms;
-using CS3230_Group5.DAL;
 
 namespace CS3230_Group5.View.Nurse_View
 {
@@ -12,6 +14,9 @@ namespace CS3230_Group5.View.Nurse_View
         public ViewNursesPage()
         {
             InitializeComponent();
+
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             setUpNursesList();
             loadNurses();
            
@@ -24,14 +29,14 @@ namespace CS3230_Group5.View.Nurse_View
             nurseButton.Click += (s, e) => { };
             patientsButton.Click += (s, e) =>
             {
-                var viewPatient = new SearchPatientPage();
+                var viewPatient = new Patient_View.SearchPatientPage();
                 viewPatient.Show();
                 this.Hide();
             };
             appointmentButton.Click += (s, e) =>
             {
-                var createAppointment = new CreateAppointmentPage();
-                createAppointment.Show();
+                var viewAppointment = new ViewAppointmentsPage();
+                viewAppointment.Show();
                 this.Hide();
             };
             logoutButton.Click += (s, e) =>
@@ -85,14 +90,6 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxIcon.Error);
             }
         }
-
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            var home = new CS3230_Group5.homePageButton();
-            home.Show();
-            Hide();
-        }
-
         private void addNurseButton_Click(object sender, EventArgs e)
         {
             var addNursePage = new AddNursePage();

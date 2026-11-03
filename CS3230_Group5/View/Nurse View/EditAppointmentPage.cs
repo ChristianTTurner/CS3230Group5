@@ -67,16 +67,16 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void confirmAppointmentButton_Click(object sender, EventArgs e)
         {
-            Appointment updatedAppointment = new Appointment(selectedAppointment.AppointmentID,
+            Appointment updatedAppointment = new Appointment(selectedAppointment.AppointmentId,
                 patientName.Text, doctorComboBox.SelectedText, dateTimePicker.Value, reasonTextBox.Text);
-            updatedAppointment.PatientID = selectedAppointment.PatientID;
-            updatedAppointment.DoctorID = doctorComboBox.SelectedIndex;
+            updatedAppointment.PatientId = selectedAppointment.PatientId;
+            updatedAppointment.DoctorId = doctorComboBox.SelectedIndex;
             string message = "";
 
             if (_Appointment.UpdateAppointment(updatedAppointment, out message))
             {
                 selectedAppointment.DoctorName = updatedAppointment.DoctorName;
-                selectedAppointment.DoctorID = updatedAppointment.DoctorID;
+                selectedAppointment.DoctorId = updatedAppointment.DoctorId;
                 selectedAppointment.DateTime = updatedAppointment.DateTime;
                 selectedAppointment.Reason = updatedAppointment.Reason;
 

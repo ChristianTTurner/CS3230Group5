@@ -121,13 +121,13 @@ namespace CS3230_Group5.DAL
 
             command.Parameters.Add(
             "@appointmentId", MySqlDbType.Int64)
-        .Value = $"{appointment.AppointmentID}";
+        .Value = $"{appointment.AppointmentId}";
             command.Parameters.Add(
             "@patientId", MySqlDbType.Int64)
-        .Value = $"{appointment.PatientID}";
+        .Value = $"{appointment.PatientId}";
             command.Parameters.Add(
             "@doctorId", MySqlDbType.Int64)
-        .Value = $"{appointment.DoctorID}";
+        .Value = $"{appointment.DoctorId}";
             command.Parameters.Add(
             "@datetime", MySqlDbType.DateTime)
         .Value = $"{appointment.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}";
@@ -161,8 +161,8 @@ namespace CS3230_Group5.DAL
                     $"{reader.GetString("pfname")} {reader.GetString("plname")}",
                     $"{reader.GetString("dfname")} {reader.GetString("dlname")}",
                     reader.GetDateTime("datetime"), reader.GetString("reason"));
-                newAppt.DoctorID = reader.GetInt32("doctor_id");
-                newAppt.PatientID = reader.GetInt32("patient_id");
+                newAppt.DoctorId = reader.GetInt32("doctor_id");
+                newAppt.PatientId = reader.GetInt32("patient_id");
                 appointments.Add(newAppt);
             }
 

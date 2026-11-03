@@ -64,7 +64,7 @@ namespace CS3230_Group5.View.Nurse_View
             
             foreach (Appointment appointment in appointments)
             {
-                var item = new ListViewItem(appointment.AppointmentID.ToString());
+                var item = new ListViewItem(appointment.AppointmentId.ToString());
                 item.SubItems.Add(appointment.PatientName);
                 item.SubItems.Add(appointment.DoctorName);
                 item.SubItems.Add(appointment.DateTime.ToString("MM-dd-yyyy h:mm tt") ?? string.Empty);
@@ -127,7 +127,7 @@ namespace CS3230_Group5.View.Nurse_View
 
                 for (int i = 0; i < appointments.Count; i++)
                 {
-                    bool equal = selectedAppointment.Text == appointments[i].AppointmentID.ToString();
+                    bool equal = selectedAppointment.Text == appointments[i].AppointmentId.ToString();
 
                     if (equal)
                     {
