@@ -51,7 +51,6 @@
             add2Label = new Label();
             add1Label = new Label();
             addressHeaderLabel = new Label();
-            editProfileButton = new Button();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             accountPanel.SuspendLayout();
@@ -83,14 +82,17 @@
             // 
             // logOutButton
             // 
-            logOutButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logOutButton.Location = new Point(12, 955);
+            logOutButton.BackColor = Color.RoyalBlue;
+            logOutButton.FlatStyle = FlatStyle.Flat;
+            logOutButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logOutButton.ForeColor = Color.White;
+            logOutButton.Location = new Point(880, 955);
             logOutButton.Margin = new Padding(4);
             logOutButton.Name = "logOutButton";
             logOutButton.Size = new Size(172, 50);
             logOutButton.TabIndex = 10;
             logOutButton.Text = "➜] Logout";
-            logOutButton.UseVisualStyleBackColor = true;
+            logOutButton.UseVisualStyleBackColor = false;
             logOutButton.Click += logOutButton_Click;
             // 
             // dashboardTitle
@@ -313,28 +315,12 @@
             addressHeaderLabel.Text = "Address";
             addressHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // editProfileButton
-            // 
-            editProfileButton.BackColor = Color.RoyalBlue;
-            editProfileButton.FlatAppearance.BorderSize = 0;
-            editProfileButton.FlatStyle = FlatStyle.Flat;
-            editProfileButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            editProfileButton.ForeColor = Color.White;
-            editProfileButton.Location = new Point(932, 956);
-            editProfileButton.Name = "editProfileButton";
-            editProfileButton.Size = new Size(131, 50);
-            editProfileButton.TabIndex = 15;
-            editProfileButton.Text = "✎ Edit";
-            editProfileButton.UseVisualStyleBackColor = false;
-            editProfileButton.Click += editProfileButton_Click;
-            // 
             // ProfilePage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1075, 1018);
-            Controls.Add(editProfileButton);
             Controls.Add(addressPanel);
             Controls.Add(accountPanel);
             Controls.Add(personalPanel);
@@ -384,7 +370,5 @@
         private Label label2;
         private Label stateLabel;
         private Label cityLabel;
-        private Label accountInfo;
-        private Button editProfileButton;
     }
 }
