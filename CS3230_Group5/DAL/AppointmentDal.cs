@@ -158,11 +158,11 @@ namespace CS3230_Group5.DAL
             while (reader.Read())
             {
                 newAppt = new Appointment(reader.GetInt32("appointment_id"),
-                    $"{reader.GetString("pfname")} {reader.GetString("plname")}",
-                    $"{reader.GetString("dfname")} {reader.GetString("dlname")}",
+                    reader.GetInt32("patient_id"), reader.GetInt32("doctor_id"),
                     reader.GetDateTime("datetime"), reader.GetString("reason"));
-                newAppt.DoctorId = reader.GetInt32("doctor_id");
-                newAppt.PatientId = reader.GetInt32("patient_id");
+                newAppt.PatientName = $"{reader.GetString("pfname")} {reader.GetString("plname")}";
+                newAppt.DoctorName = $"{reader.GetString("dfname")} {reader.GetString("dlname")}";
+                
                 appointments.Add(newAppt);
             }
 

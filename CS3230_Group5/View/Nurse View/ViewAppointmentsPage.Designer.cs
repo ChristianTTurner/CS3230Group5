@@ -41,6 +41,7 @@
             dashboardTitle = new Label();
             menuPanel = new Panel();
             logoutButton = new Button();
+            viewSummaryButton = new Button();
             panel1.SuspendLayout();
             menuPanel.SuspendLayout();
             SuspendLayout();
@@ -52,7 +53,7 @@
             editButton.FlatStyle = FlatStyle.Flat;
             editButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             editButton.ForeColor = Color.White;
-            editButton.Location = new Point(937, 142);
+            editButton.Location = new Point(935, 90);
             editButton.Margin = new Padding(2);
             editButton.Name = "editButton";
             editButton.Size = new Size(90, 31);
@@ -80,7 +81,7 @@
             bookAppointmentButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             bookAppointmentButton.ForeColor = Color.White;
             bookAppointmentButton.ImageAlign = ContentAlignment.TopCenter;
-            bookAppointmentButton.Location = new Point(945, 86);
+            bookAppointmentButton.Location = new Point(943, 139);
             bookAppointmentButton.Name = "bookAppointmentButton";
             bookAppointmentButton.Size = new Size(82, 37);
             bookAppointmentButton.TabIndex = 14;
@@ -224,11 +225,24 @@
             logoutButton.Text = "➜] Logout";
             logoutButton.UseVisualStyleBackColor = false;
             // 
+            // viewSummaryButton
+            // 
+            viewSummaryButton.FlatStyle = FlatStyle.Flat;
+            viewSummaryButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            viewSummaryButton.Location = new Point(762, 90);
+            viewSummaryButton.Name = "viewSummaryButton";
+            viewSummaryButton.Size = new Size(163, 32);
+            viewSummaryButton.TabIndex = 20;
+            viewSummaryButton.Text = "View Summary";
+            viewSummaryButton.UseVisualStyleBackColor = true;
+            viewSummaryButton.Click += viewAppointment_Click;
+            // 
             // ViewAppointmentsPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1066, 611);
+            Controls.Add(viewSummaryButton);
             Controls.Add(panel1);
             Controls.Add(menuPanel);
             Controls.Add(editButton);
@@ -259,5 +273,6 @@
         private Label dashboardTitle;
         private Panel menuPanel;
         private Button logoutButton;
+        private Button viewSummaryButton;
     }
 }

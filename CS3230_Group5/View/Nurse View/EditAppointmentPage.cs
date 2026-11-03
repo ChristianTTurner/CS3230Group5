@@ -14,11 +14,9 @@ namespace CS3230_Group5.View.Nurse_View
 {
     public partial class EditAppointmentPage : Form
     {
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ListViewItem SelectedItem { get; set; }
-
         private AppointmentDal _Appointment = new AppointmentDal();
         private Appointment selectedAppointment;
+        private Dictionary<int,string> doctors = new Dictionary<int,string>();
 
         public EditAppointmentPage(Appointment selectedAppointment)
         {
@@ -30,7 +28,7 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void populateDynamicFields()
         {
-            var doctors = _Appointment.GetDoctors();
+            doctors = _Appointment.GetDoctors();
 
             this.patientName.Text = selectedAppointment.PatientName;
 
@@ -56,6 +54,7 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 if (open is ViewAppointmentsPage viewAppointments)
                 {
+                    viewAppointments.PopulateAppointments();
                     viewAppointments.Show();
                     viewAppointments.BringToFront();
                     break;
@@ -67,10 +66,17 @@ namespace CS3230_Group5.View.Nurse_View
 
         private void confirmAppointmentButton_Click(object sender, EventArgs e)
         {
+            int doctorId = getSelectedDoctorId();
+
+            if (doctorId == 0) 
+            {
+                //TODO implement error
+                return;
+            }
             Appointment updatedAppointment = new Appointment(selectedAppointment.AppointmentId,
-                patientName.Text, doctorComboBox.SelectedText, dateTimePicker.Value, reasonTextBox.Text);
-            updatedAppointment.PatientId = selectedAppointment.PatientId;
-            updatedAppointment.DoctorId = doctorComboBox.SelectedIndex;
+                selectedAppointment.PatientId, doctorId, dateTimePicker.Value, reasonTextBox.Text);
+            updatedAppointment.PatientName = patientName.Text;
+            updatedAppointment.DoctorName = doctorComboBox.SelectedItem.ToString();
             string message = "";
 
             if (_Appointment.UpdateAppointment(updatedAppointment, out message))
@@ -89,6 +95,18 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 //TODO implement error message modal pop up
             }
+        }
+
+        private int getSelectedDoctorId()
+        {
+            if (doctorComboBox.SelectedValue == null)
+            {
+                return 0;
+            }
+
+            int doctorId = (int)doctorComboBox.SelectedValue;
+
+            return doctorId;
         }
 
         private void backButton_Click(object sender, EventArgs e)

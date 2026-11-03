@@ -126,6 +126,7 @@
             // 
             // doctorComboBox
             // 
+            doctorComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             doctorComboBox.Font = new Font("Segoe UI", 12F);
             doctorComboBox.FormattingEnabled = true;
             doctorComboBox.Location = new Point(128, 206);
