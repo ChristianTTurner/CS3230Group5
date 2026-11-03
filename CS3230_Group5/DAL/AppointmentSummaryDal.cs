@@ -1,5 +1,4 @@
-﻿
-using CS3230_Group5.Model;
+﻿using CS3230_Group5.Model;
 using MySqlConnector;
 using System;
 using System.Data;
@@ -262,6 +261,10 @@ namespace CS3230_Group5.DAL
             ).Value = summary.Symptoms.Trim();
 
             connection.Open();
+
+            // Once a final diagnosis exists, the visit is read-only.
+            EnsureNotFinalized(connection, summary.AppointmentId);
+
             command.ExecuteNonQuery();
         }
 
@@ -276,7 +279,8 @@ namespace CS3230_Group5.DAL
             const string query = @"
                 UPDATE appointment_summary
                 SET initial_diagnosis = @diagnosis
-                WHERE appointment_id = @appointmentId;";
+                WHERE appointment_id = @appointmentId
+                  AND final_diagnosis IS NULL;";
 
             using var connection =
                 new MySqlConnection(Connection.ConnectionString());
@@ -297,10 +301,45 @@ namespace CS3230_Group5.DAL
 
             int rowsAffected = command.ExecuteNonQuery();
 
-            if (rowsAffected == 0 && !SummaryExists(connection, appointmentId))
+            if (rowsAffected == 0)
             {
-                throw new InvalidOperationException(
-                    "Save the routine checkup before entering the initial diagnosis.");
+                if (!SummaryExists(connection, appointmentId))
+                {
+                    throw new InvalidOperationException(
+                        "Save the routine checkup before entering the initial diagnosis.");
+                }
+
+                // The row exists, so it was skipped because it is finalized.
+                throw new InvalidOperationException(FinalizedMessage);
+            }
+        }
+
+        private const string FinalizedMessage =
+            "A final diagnosis has been entered, so this visit is read-only.";
+
+        /// <summary>
+        /// Throws if the visit already has a final diagnosis.
+        /// </summary>
+        private static void EnsureNotFinalized(
+            MySqlConnection connection, int appointmentId)
+        {
+            const string query = @"
+                SELECT final_diagnosis
+                FROM appointment_summary
+                WHERE appointment_id = @appointmentId;";
+
+            using var command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add(
+                "@appointmentId", MySqlDbType.Int32
+            ).Value = appointmentId;
+
+            object? value = command.ExecuteScalar();
+
+            if (value != null && value != DBNull.Value &&
+                !string.IsNullOrWhiteSpace(Convert.ToString(value)))
+            {
+                throw new InvalidOperationException(FinalizedMessage);
             }
         }
 
