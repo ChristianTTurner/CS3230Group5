@@ -45,6 +45,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             CreateValueLabels();
             ConfigureReadOnlyFields();
+            ConfigureTestsGrid();
             AttachEventHandlers();
         }
 
@@ -53,6 +54,22 @@ namespace CS3230_Group5.View.Appointments_View
             symptomsTextBox.ReadOnly = true;
             initialDiagnosisTextBox.ReadOnly = true;
             finalDiagnosisTextBox.ReadOnly = true;
+        }
+
+        /// <summary>
+        /// Lets the tests grid fill its width and wrap long text instead of cutting it off.
+        /// </summary>
+        private void ConfigureTestsGrid()
+        {
+            orderedTestDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            orderedTestDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            orderedTestDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            testCodeColumn.FillWeight = 60;
+            testNameColumn.FillWeight = 120;
+            performedDateTimeColumn.FillWeight = 110;
+            resultColumn.FillWeight = 110;
+            statusColumn.FillWeight = 80;
         }
 
         private void AttachEventHandlers()
@@ -67,11 +84,7 @@ namespace CS3230_Group5.View.Appointments_View
                 // Open the partner's Edit Appointment form.
             };
 
-            // TODO (Task C): Connect test ordering.
-            orderTestButton.Click += (s, e) =>
-            {
-                // Open the partner's Order Tests form.
-            };
+            orderTestButton.Click += orderTestButton_Click;
 
             viewTestButton.Click += viewTestButton_Click;
 
@@ -429,6 +442,29 @@ namespace CS3230_Group5.View.Appointments_View
                     performed,
                     result,
                     test.StatusText);
+            }
+        }
+
+        private void orderTestButton_Click(object? sender, EventArgs e)
+        {
+            if (!EnsureAppointmentSelected())
+            {
+                return;
+            }
+
+            try
+            {
+                using var orderPage = new OrderTestsPage(_appointmentId);
+                orderPage.ShowDialog(this);
+
+                // Always refresh: a test may have been removed before the page closed.
+                LoadPageData();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    "Unable to open the order tests page: " + ex.Message,
+                    "Order Tests Error");
             }
         }
 

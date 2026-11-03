@@ -39,11 +39,11 @@ namespace CS3230_Group5.Model
                 if (LowValue.HasValue && HighValue.HasValue)
                     return $"{LowValue:0.00} to {HighValue:0.00}{unit}";
                 if (LowValue.HasValue)
-                    return $"{LowValue:0.00} or higher{unit}";
+                    return $"At least {LowValue:0.00}{unit}";
                 if (HighValue.HasValue)
-                    return $"{HighValue:0.00} or lower{unit}";
+                    return $"Up to {HighValue:0.00}{unit}";
 
-                return "No range (nurse decides)";
+                return "Nurse decides";
             }
         }
 
