@@ -390,6 +390,7 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 if (open is ViewAppointmentsPage appointmentsPage)
                 {
+                    appointmentsPage.PopulateAppointments();
                     appointmentsPage.Show();
                     appointmentsPage.BringToFront();
 

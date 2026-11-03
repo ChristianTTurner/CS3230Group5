@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CS3230_Group5.Model
 {
@@ -9,44 +11,41 @@ namespace CS3230_Group5.Model
     public class Appointment
     {
         public int AppointmentId { get; set; }
-
         public int PatientId { get; set; }
-
+        public string PatientName { get; set; }
         public int DoctorId { get; set; }
-
-        public DateTime DateTime { get; set; }
-
+        public string DoctorName { get; set; }
+        public DateTime DateTime {  get; set; }
         public string Reason { get; set; }
+
+
+
 
         /// <summary>
         /// Initializes an appointment.
         /// </summary>
-        public Appointment(
-            int appointmentId,
-            int patientId,
-            int doctorId,
-            DateTime dateTime,
-            string reason)
+        public Appointment(int appointmentId, int patientId, int doctorId,
+            DateTime dateTime, string reason)
         {
             if (appointmentId <= 0)
-                throw new ArgumentOutOfRangeException(
-                    nameof(appointmentId),
-                    "Appointment ID must be positive.");
+            {
+                throw new ArgumentOutOfRangeException(nameof(appointmentId),"Appointment ID must be positive.");
+            }
 
             if (patientId <= 0)
-                throw new ArgumentOutOfRangeException(
-                    nameof(patientId),
-                    "Patient ID must be positive.");
+            {
+                throw new ArgumentOutOfRangeException(nameof(patientId),"Patient ID must be positive.");
+            }
 
             if (doctorId <= 0)
-                throw new ArgumentOutOfRangeException(
-                    nameof(doctorId),
-                    "Doctor ID must be positive.");
+            {
+                throw new ArgumentOutOfRangeException(nameof(doctorId),"Doctor ID must be positive.");
+            }
 
             if (string.IsNullOrWhiteSpace(reason))
-                throw new ArgumentException(
-                    "Appointment reason cannot be empty.",
-                    nameof(reason));
+            {
+                throw new ArgumentException(nameof(reason),"Appointment reason cannot be empty.");
+            }
 
             AppointmentId = appointmentId;
             PatientId = patientId;

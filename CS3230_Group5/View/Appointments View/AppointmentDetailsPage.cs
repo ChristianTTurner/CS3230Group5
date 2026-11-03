@@ -1,5 +1,6 @@
 ﻿using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
+using CS3230_Group5.View.Nurse_View;
 using System;
 using System.Data;
 using System.Drawing;
@@ -498,6 +499,7 @@ namespace CS3230_Group5.View.Appointments_View
             {
                 if (openForm is ViewAppointmentsPage appointmentsPage)
                 {
+                    appointmentsPage.PopulateAppointments();
                     appointmentsPage.Show();
                     appointmentsPage.BringToFront();
                     Close();
