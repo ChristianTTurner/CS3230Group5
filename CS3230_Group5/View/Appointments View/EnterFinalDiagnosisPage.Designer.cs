@@ -173,9 +173,9 @@
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(560, 632);
+            saveButton.Location = new Point(520, 632);
+            saveButton.Size = new Size(240, 47);
             saveButton.Name = "saveButton";
-            saveButton.Size = new Size(200, 47);
             saveButton.TabIndex = 11;
             saveButton.Text = "Save Final Diagnosis";
             saveButton.UseVisualStyleBackColor = false;
