@@ -99,6 +99,8 @@ namespace CS3230_Group5.View.Appointments_View
             addButton.Click += (s, e) => AddSelectedTests();
             removeButton.Click += (s, e) => RemoveSelectedTests();
             orderButton.Click += orderButton_Click;
+            orderedList.SelectedIndexChanged += (s, e) => UpdateButtons();
+            removeOrderedButton.Click += removeOrderedButton_Click;
             closeButton.Click += (s, e) => Close();
         }
 
@@ -110,7 +112,7 @@ namespace CS3230_Group5.View.Appointments_View
 
         // ---------- Loading ----------
 
-        private void LoadVisit()
+        private void LoadVisit(bool keepPending = false)
         {
             try
             {
@@ -140,7 +142,10 @@ namespace CS3230_Group5.View.Appointments_View
 
                 _standardTests = _orderDal.GetStandardTests();
                 _alreadyOrdered = _visitDal.GetOrderedTests(_appointmentId);
-                _pendingCodes.Clear();
+                if (!keepPending)
+                {
+                    _pendingCodes.Clear();
+                }
 
                 string notice = string.Empty;
 
@@ -210,7 +215,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             foreach (OrderedTest test in _alreadyOrdered)
             {
-                var item = new ListViewItem(test.TestCode);
+                var item = new ListViewItem(test.TestCode) { Tag = test };
                 item.SubItems.Add(test.TestName);
                 item.SubItems.Add(test.StatusText);
                 orderedList.Items.Add(item);
@@ -222,7 +227,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             orderedLabel.Text = _alreadyOrdered.Count == 0
                 ? "Already Ordered For This Visit: none"
-                : "Already Ordered For This Visit:";
+                : "Already Ordered For This Visit (tests without results can be removed):";
 
             UpdateButtons();
         }
@@ -242,10 +247,23 @@ namespace CS3230_Group5.View.Appointments_View
             availableList.Enabled = _canOrder;
             pendingList.Enabled = _canOrder;
 
+            OrderedTest? ordered = GetSelectedOrderedTest();
+            removeOrderedButton.Enabled = _canOrder && ordered != null && !ordered.HasResult;
+
             orderButton.Enabled = _canOrder && _pendingCodes.Count > 0;
             orderButton.Text = _pendingCodes.Count == 0
                 ? "Order Tests"
                 : $"Order {_pendingCodes.Count} Test(s)";
+        }
+
+        private OrderedTest? GetSelectedOrderedTest()
+        {
+            if (orderedList.SelectedItems.Count == 0)
+            {
+                return null;
+            }
+
+            return orderedList.SelectedItems[0].Tag as OrderedTest;
         }
 
         private void AddSelectedTests()
@@ -348,6 +366,67 @@ namespace CS3230_Group5.View.Appointments_View
                 MessageBox.Show(
                     "Unable to order the tests: " + ex.Message,
                     "Order Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        // ---------- Removing an ordered test ----------
+
+        private void removeOrderedButton_Click(object? sender, EventArgs e)
+        {
+            ClearError();
+
+            OrderedTest? test = GetSelectedOrderedTest();
+
+            if (test == null)
+            {
+                ShowError("Select an ordered test to remove.");
+                return;
+            }
+
+            if (test.HasResult)
+            {
+                ShowError("This test already has a result, so it cannot be removed.");
+                return;
+            }
+
+            DialogResult answer = MessageBox.Show(
+                $"Remove {test.TestCode} - {test.TestName} from the order for {_patientName}?\n\n" +
+                "This cannot be undone.",
+                "Confirm Remove Test",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (answer != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                _orderDal.RemoveOrderedTest(_appointmentId, test.TestCode);
+
+                // Keep any tests the user has already picked for the new order.
+                LoadVisit(keepPending: true);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Finalized or a result was entered while this page was open.
+                MessageBox.Show(
+                    ex.Message,
+                    "Unable to Remove",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                LoadVisit(keepPending: true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Unable to remove the test: " + ex.Message,
+                    "Remove Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }

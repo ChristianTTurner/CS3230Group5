@@ -49,6 +49,9 @@ namespace CS3230_Group5.View.Appointments_View
             testsListView.Columns.Add("Performed", 140);
             testsListView.Columns.Add("Result", 120);
             testsListView.Columns.Add("Status", 90);
+
+            // Hovering a row shows the full text, even if a column is too narrow.
+            testsListView.ShowItemToolTips = true;
         }
 
         private void ResizeListColumns()
@@ -60,7 +63,7 @@ namespace CS3230_Group5.View.Appointments_View
                 return;
             }
 
-            double[] share = { 0.07, 0.25, 0.21, 0.20, 0.15, 0.12 };
+            double[] share = { 0.07, 0.24, 0.22, 0.20, 0.14, 0.13 };
 
             for (int i = 0; i < share.Length; i++)
             {
@@ -159,6 +162,7 @@ namespace CS3230_Group5.View.Appointments_View
             foreach (OrderedTest test in _tests)
             {
                 var item = new ListViewItem(test.TestCode) { Tag = test };
+                item.ToolTipText = $"{test.TestName}\nNormal range: {test.NormalRangeText}";
                 item.SubItems.Add(test.TestName);
                 item.SubItems.Add(test.NormalRangeText);
                 item.SubItems.Add(test.PerformedDateTime?.ToString(DateTimeFormat) ?? "Not performed");
@@ -241,7 +245,7 @@ namespace CS3230_Group5.View.Appointments_View
                 : "This test has no normal range. Choose whether the result is normal or abnormal.";
 
             unitLabel.Text = test.UnitMeasurement ?? string.Empty;
-            performedPicker.Value = test.PerformedDateTime ?? NowToTheMinute();
+            performedPicker.Value = test.PerformedDateTime ?? DefaultPerformedTime();
             resultTextBox.Text = test.Result ?? string.Empty;
 
             SetAbnormalRowVisible(!test.HasRange);
@@ -268,6 +272,15 @@ namespace CS3230_Group5.View.Appointments_View
         {
             abnormalLabel.Visible = visible;
             abnormalComboBox.Visible = visible;
+        }
+
+        /// <summary>
+        /// Now, or the visit time if the visit has not happened yet.
+        /// </summary>
+        private DateTime DefaultPerformedTime()
+        {
+            DateTime now = NowToTheMinute();
+            return now < _appointmentDateTime ? _appointmentDateTime : now;
         }
 
         private static DateTime NowToTheMinute()
@@ -354,12 +367,7 @@ namespace CS3230_Group5.View.Appointments_View
             DateTime picked = performedPicker.Value;
             performed = new DateTime(picked.Year, picked.Month, picked.Day, picked.Hour, picked.Minute, 0);
 
-            if (performed > DateTime.Now)
-            {
-                ShowError(performedErrorLabel, "Date and time performed cannot be in the future.");
-                isValid = false;
-            }
-            else if (performed.Date < _appointmentDateTime.Date)
+            if (performed.Date < _appointmentDateTime.Date)
             {
                 ShowError(
                     performedErrorLabel,

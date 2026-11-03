@@ -42,6 +42,7 @@
             orderedList = new ListView();
             errorLabel = new Label();
             orderButton = new Button();
+            removeOrderedButton = new Button();
             closeButton = new Button();
             SuspendLayout();
             // 
@@ -201,6 +202,19 @@
             orderButton.Text = "Order Tests";
             orderButton.UseVisualStyleBackColor = false;
             // 
+            // removeOrderedButton
+            // 
+            removeOrderedButton.BackColor = Color.White;
+            removeOrderedButton.FlatStyle = FlatStyle.Flat;
+            removeOrderedButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            removeOrderedButton.ForeColor = Color.Firebrick;
+            removeOrderedButton.Location = new Point(20, 632);
+            removeOrderedButton.Name = "removeOrderedButton";
+            removeOrderedButton.Size = new Size(240, 47);
+            removeOrderedButton.TabIndex = 15;
+            removeOrderedButton.Text = "Remove Ordered Test";
+            removeOrderedButton.UseVisualStyleBackColor = false;
+            // 
             // closeButton
             // 
             closeButton.BackColor = Color.White;
@@ -219,6 +233,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(900, 700);
+            Controls.Add(removeOrderedButton);
             Controls.Add(closeButton);
             Controls.Add(orderButton);
             Controls.Add(errorLabel);
@@ -261,6 +276,7 @@
         private ListView orderedList;
         private Label errorLabel;
         private Button orderButton;
+        private Button removeOrderedButton;
         private Button closeButton;
     }
 }

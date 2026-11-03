@@ -45,6 +45,7 @@ namespace CS3230_Group5.View.Appointments_View
 
             CreateValueLabels();
             ConfigureReadOnlyFields();
+            ConfigureTestsGrid();
             AttachEventHandlers();
         }
 
@@ -53,6 +54,22 @@ namespace CS3230_Group5.View.Appointments_View
             symptomsTextBox.ReadOnly = true;
             initialDiagnosisTextBox.ReadOnly = true;
             finalDiagnosisTextBox.ReadOnly = true;
+        }
+
+        /// <summary>
+        /// Lets the tests grid fill its width and wrap long text instead of cutting it off.
+        /// </summary>
+        private void ConfigureTestsGrid()
+        {
+            orderedTestDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            orderedTestDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            orderedTestDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            testCodeColumn.FillWeight = 60;
+            testNameColumn.FillWeight = 120;
+            performedDateTimeColumn.FillWeight = 110;
+            resultColumn.FillWeight = 110;
+            statusColumn.FillWeight = 80;
         }
 
         private void AttachEventHandlers()
@@ -406,7 +423,10 @@ namespace CS3230_Group5.View.Appointments_View
             try
             {
                 using var orderPage = new OrderTestsPage(_appointmentId);
-                RefreshAfterSuccessfulDialog(orderPage);
+                orderPage.ShowDialog(this);
+
+                // Always refresh: a test may have been removed before the page closed.
+                LoadPageData();
             }
             catch (Exception ex)
             {
