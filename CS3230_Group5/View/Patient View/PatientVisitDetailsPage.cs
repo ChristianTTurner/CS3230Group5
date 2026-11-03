@@ -269,12 +269,12 @@ namespace CS3230_Group5.View.Patient_View
 
                 if (tests.Rows.Count == 0)
                 {
-                    label4.Text =
+                    testHeaderLabel.Text =
                         "Tests Ordered and Performed — No tests ordered for this visit.";
                 }
                 else
                 {
-                    label4.Text =
+                    testHeaderLabel.Text =
                         $"Tests Ordered and Performed — {tests.Rows.Count} test(s)";
                 }
             }

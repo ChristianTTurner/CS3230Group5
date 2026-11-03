@@ -370,6 +370,5 @@
         private Label label2;
         private Label stateLabel;
         private Label cityLabel;
-        private Label accountInfo;
     }
 }

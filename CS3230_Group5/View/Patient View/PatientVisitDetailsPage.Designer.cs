@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             dashboardTitle = new Label();
             panel1 = new Panel();
             patientDetailsHeaderLabel = new Label();
@@ -83,7 +83,7 @@
             performed_datetime = new DataGridViewTextBoxColumn();
             result = new DataGridViewTextBoxColumn();
             abnormal = new DataGridViewTextBoxColumn();
-            label4 = new Label();
+            testHeaderLabel = new Label();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             checkUpPanel.SuspendLayout();
@@ -611,7 +611,7 @@
             // 
             testPanel.BackColor = Color.White;
             testPanel.Controls.Add(testsDataGridView);
-            testPanel.Controls.Add(label4);
+            testPanel.Controls.Add(testHeaderLabel);
             testPanel.Location = new Point(12, 847);
             testPanel.Name = "testPanel";
             testPanel.Size = new Size(1091, 246);
@@ -625,14 +625,14 @@
             testsDataGridView.BackgroundColor = Color.White;
             testsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             testsDataGridView.Columns.AddRange(new DataGridViewColumn[] { test_code, performed_datetime, result, abnormal });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            testsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            testsDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
             testsDataGridView.Location = new Point(16, 53);
             testsDataGridView.MultiSelect = false;
             testsDataGridView.Name = "testsDataGridView";
@@ -655,9 +655,9 @@
             // performed_datetime
             // 
             performed_datetime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            performed_datetime.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Format = "g";
+            dataGridViewCellStyle4.NullValue = null;
+            performed_datetime.DefaultCellStyle = dataGridViewCellStyle4;
             performed_datetime.FillWeight = 97.72727F;
             performed_datetime.HeaderText = "Performed Date & Time";
             performed_datetime.MinimumWidth = 160;
@@ -668,8 +668,8 @@
             // result
             // 
             result.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            result.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            result.DefaultCellStyle = dataGridViewCellStyle5;
             result.FillWeight = 180F;
             result.HeaderText = "Result";
             result.MinimumWidth = 150;
@@ -687,18 +687,18 @@
             abnormal.ReadOnly = true;
             abnormal.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // label4
+            // testHeaderLabel
             // 
-            label4.BackColor = Color.LightSteelBlue;
-            label4.FlatStyle = FlatStyle.Flat;
-            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Navy;
-            label4.Location = new Point(0, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(1091, 40);
-            label4.TabIndex = 0;
-            label4.Text = "Tests Ordered and Performed";
-            label4.TextAlign = ContentAlignment.MiddleLeft;
+            testHeaderLabel.BackColor = Color.LightSteelBlue;
+            testHeaderLabel.FlatStyle = FlatStyle.Flat;
+            testHeaderLabel.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            testHeaderLabel.ForeColor = Color.Navy;
+            testHeaderLabel.Location = new Point(0, 0);
+            testHeaderLabel.Name = "testHeaderLabel";
+            testHeaderLabel.Size = new Size(1091, 40);
+            testHeaderLabel.TabIndex = 0;
+            testHeaderLabel.Text = "Tests Ordered and Performed";
+            testHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // PatientVisitDetailsPage
             // 
@@ -771,20 +771,13 @@
         private Panel checkUpPanel;
         private Label symptomsHeaderLabel;
         private Panel panel2;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private TextBox textBox4;
         private TextBox finalTextBox;
         private TextBox initialTextBox;
         private TextBox symptomsTextBox;
-        private Label label2;
-        private Label label3;
-        private Label label5;
-        private Label label6;
         private Label symptomsLabel;
         private Panel testPanel;
         private DataGridView testsDataGridView;
-        private Label label4;
+        private Label testHeaderLabel;
         private DataGridViewTextBoxColumn test_code;
         private DataGridViewTextBoxColumn performed_datetime;
         private DataGridViewTextBoxColumn result;
