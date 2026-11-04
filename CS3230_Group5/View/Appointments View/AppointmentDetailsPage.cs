@@ -79,12 +79,6 @@ namespace CS3230_Group5.View.Appointments_View
             initialDiagnosisButton.Click += initialDiagnosisButton_Click;
             backButton.Click += backButton_Click;
 
-            // TODO (Task B): Connect Edit Appointment.
-            editAppointmentButton.Click += (s, e) =>
-            {
-                // Open the partner's Edit Appointment form.
-            };
-
             orderTestButton.Click += orderTestButton_Click;
 
             viewTestButton.Click += viewTestButton_Click;

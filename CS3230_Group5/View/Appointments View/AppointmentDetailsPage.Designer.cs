@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dashboardTitle = new Label();
             panel1 = new Panel();
             backButton = new Button();
             appointmentDetailsLabel = new Label();
             patientInfoPanel = new Panel();
+            patientIdLabel = new Label();
             phoneLabel = new Label();
             dobLabel = new Label();
             lnameLabel = new Label();
@@ -45,36 +46,34 @@
             datetimeLabel = new Label();
             appointmentIdLabel = new Label();
             appointmentHeaderLabel = new Label();
-            patientIdLabel = new Label();
             checkUpHeaderLabel = new Label();
             checkUpPanel = new Panel();
-            systolicLabel = new Label();
-            diastolicLabel = new Label();
-            pulseLabel = new Label();
-            symptomsLabel = new Label();
-            temperatureLabel = new Label();
-            heightLabel = new Label();
-            weightLabel = new Label();
-            labDiagnosisPanel = new Panel();
-            diagnosisLabel = new Label();
-            labDiagnosisLabel = new Label();
-            editAppointmentButton = new Button();
-            symptomsTextBox = new TextBox();
             checkUpButton = new Button();
-            initialDiagnosisTextBox = new TextBox();
-            initialDiagnosisButton = new Button();
-            orderedTestLabel = new Label();
+            symptomsTextBox = new TextBox();
+            weightLabel = new Label();
+            heightLabel = new Label();
+            temperatureLabel = new Label();
+            symptomsLabel = new Label();
+            pulseLabel = new Label();
+            diastolicLabel = new Label();
+            systolicLabel = new Label();
+            labDiagnosisPanel = new Panel();
+            finalDiagnosisLabel = new Label();
+            finalDiagnosisButton = new Button();
+            finalDiagnosisTextBox = new TextBox();
+            orderTestButton = new Button();
+            viewTestButton = new Button();
             orderedTestDataGridView = new DataGridView();
             testCodeColumn = new DataGridViewTextBoxColumn();
             testNameColumn = new DataGridViewTextBoxColumn();
             performedDateTimeColumn = new DataGridViewTextBoxColumn();
             resultColumn = new DataGridViewTextBoxColumn();
             statusColumn = new DataGridViewTextBoxColumn();
-            viewTestButton = new Button();
-            orderTestButton = new Button();
-            finalDiagnosisTextBox = new TextBox();
-            finalDiagnosisButton = new Button();
-            finalDiagnosisLabel = new Label();
+            orderedTestLabel = new Label();
+            initialDiagnosisButton = new Button();
+            initialDiagnosisTextBox = new TextBox();
+            diagnosisLabel = new Label();
+            labDiagnosisLabel = new Label();
             panel1.SuspendLayout();
             patientInfoPanel.SuspendLayout();
             appointmentPanel.SuspendLayout();
@@ -140,6 +139,16 @@
             patientInfoPanel.Size = new Size(616, 248);
             patientInfoPanel.TabIndex = 15;
             // 
+            // patientIdLabel
+            // 
+            patientIdLabel.AutoSize = true;
+            patientIdLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientIdLabel.Location = new Point(17, 49);
+            patientIdLabel.Name = "patientIdLabel";
+            patientIdLabel.Size = new Size(100, 28);
+            patientIdLabel.TabIndex = 16;
+            patientIdLabel.Text = "Patient ID:";
+            // 
             // phoneLabel
             // 
             phoneLabel.AutoSize = true;
@@ -196,7 +205,6 @@
             // appointmentPanel
             // 
             appointmentPanel.BackColor = Color.White;
-            appointmentPanel.Controls.Add(editAppointmentButton);
             appointmentPanel.Controls.Add(reasonLabel);
             appointmentPanel.Controls.Add(doctorLabel);
             appointmentPanel.Controls.Add(datetimeLabel);
@@ -260,16 +268,6 @@
             appointmentHeaderLabel.Text = "Appointment Information";
             appointmentHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // patientIdLabel
-            // 
-            patientIdLabel.AutoSize = true;
-            patientIdLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            patientIdLabel.Location = new Point(17, 49);
-            patientIdLabel.Name = "patientIdLabel";
-            patientIdLabel.Size = new Size(100, 28);
-            patientIdLabel.TabIndex = 16;
-            patientIdLabel.Text = "Patient ID:";
-            // 
             // checkUpHeaderLabel
             // 
             checkUpHeaderLabel.BackColor = Color.Wheat;
@@ -301,55 +299,41 @@
             checkUpPanel.Size = new Size(1246, 309);
             checkUpPanel.TabIndex = 17;
             // 
-            // systolicLabel
+            // checkUpButton
             // 
-            systolicLabel.AutoSize = true;
-            systolicLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            systolicLabel.Location = new Point(16, 53);
-            systolicLabel.Name = "systolicLabel";
-            systolicLabel.Size = new Size(186, 28);
-            systolicLabel.TabIndex = 16;
-            systolicLabel.Text = "Systolic BP (mmHg):";
+            checkUpButton.BackColor = Color.RoyalBlue;
+            checkUpButton.FlatStyle = FlatStyle.Flat;
+            checkUpButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkUpButton.ForeColor = Color.White;
+            checkUpButton.Location = new Point(965, 43);
+            checkUpButton.Name = "checkUpButton";
+            checkUpButton.Size = new Size(267, 48);
+            checkUpButton.TabIndex = 24;
+            checkUpButton.Text = "Enter / Update Check-up";
+            checkUpButton.UseVisualStyleBackColor = false;
             // 
-            // diastolicLabel
+            // symptomsTextBox
             // 
-            diastolicLabel.AutoSize = true;
-            diastolicLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            diastolicLabel.Location = new Point(18, 92);
-            diastolicLabel.Name = "diastolicLabel";
-            diastolicLabel.Size = new Size(195, 28);
-            diastolicLabel.TabIndex = 17;
-            diastolicLabel.Text = "Diastolic BP (mmHg):";
+            symptomsTextBox.BackColor = Color.WhiteSmoke;
+            symptomsTextBox.BorderStyle = BorderStyle.FixedSingle;
+            symptomsTextBox.Location = new Point(24, 208);
+            symptomsTextBox.Multiline = true;
+            symptomsTextBox.Name = "symptomsTextBox";
+            symptomsTextBox.ReadOnly = true;
+            symptomsTextBox.ScrollBars = ScrollBars.Vertical;
+            symptomsTextBox.Size = new Size(1208, 88);
+            symptomsTextBox.TabIndex = 23;
+            symptomsTextBox.TabStop = false;
             // 
-            // pulseLabel
+            // weightLabel
             // 
-            pulseLabel.AutoSize = true;
-            pulseLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pulseLabel.Location = new Point(18, 131);
-            pulseLabel.Name = "pulseLabel";
-            pulseLabel.Size = new Size(119, 28);
-            pulseLabel.TabIndex = 18;
-            pulseLabel.Text = "Pulse (bpm):";
-            // 
-            // symptomsLabel
-            // 
-            symptomsLabel.AutoSize = true;
-            symptomsLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            symptomsLabel.Location = new Point(18, 174);
-            symptomsLabel.Name = "symptomsLabel";
-            symptomsLabel.Size = new Size(109, 28);
-            symptomsLabel.TabIndex = 19;
-            symptomsLabel.Text = "Symptoms:";
-            // 
-            // temperatureLabel
-            // 
-            temperatureLabel.AutoSize = true;
-            temperatureLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            temperatureLabel.Location = new Point(457, 53);
-            temperatureLabel.Name = "temperatureLabel";
-            temperatureLabel.Size = new Size(160, 28);
-            temperatureLabel.TabIndex = 20;
-            temperatureLabel.Text = "Temperature (°F):";
+            weightLabel.AutoSize = true;
+            weightLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            weightLabel.Location = new Point(457, 131);
+            weightLabel.Name = "weightLabel";
+            weightLabel.Size = new Size(121, 28);
+            weightLabel.TabIndex = 22;
+            weightLabel.Text = "Weight (lbs):";
             // 
             // heightLabel
             // 
@@ -361,15 +345,55 @@
             heightLabel.TabIndex = 21;
             heightLabel.Text = "Height (in):";
             // 
-            // weightLabel
+            // temperatureLabel
             // 
-            weightLabel.AutoSize = true;
-            weightLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            weightLabel.Location = new Point(457, 131);
-            weightLabel.Name = "weightLabel";
-            weightLabel.Size = new Size(121, 28);
-            weightLabel.TabIndex = 22;
-            weightLabel.Text = "Weight (lbs):";
+            temperatureLabel.AutoSize = true;
+            temperatureLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            temperatureLabel.Location = new Point(457, 53);
+            temperatureLabel.Name = "temperatureLabel";
+            temperatureLabel.Size = new Size(160, 28);
+            temperatureLabel.TabIndex = 20;
+            temperatureLabel.Text = "Temperature (°F):";
+            // 
+            // symptomsLabel
+            // 
+            symptomsLabel.AutoSize = true;
+            symptomsLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            symptomsLabel.Location = new Point(18, 174);
+            symptomsLabel.Name = "symptomsLabel";
+            symptomsLabel.Size = new Size(109, 28);
+            symptomsLabel.TabIndex = 19;
+            symptomsLabel.Text = "Symptoms:";
+            // 
+            // pulseLabel
+            // 
+            pulseLabel.AutoSize = true;
+            pulseLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pulseLabel.Location = new Point(18, 131);
+            pulseLabel.Name = "pulseLabel";
+            pulseLabel.Size = new Size(119, 28);
+            pulseLabel.TabIndex = 18;
+            pulseLabel.Text = "Pulse (bpm):";
+            // 
+            // diastolicLabel
+            // 
+            diastolicLabel.AutoSize = true;
+            diastolicLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            diastolicLabel.Location = new Point(18, 92);
+            diastolicLabel.Name = "diastolicLabel";
+            diastolicLabel.Size = new Size(195, 28);
+            diastolicLabel.TabIndex = 17;
+            diastolicLabel.Text = "Diastolic BP (mmHg):";
+            // 
+            // systolicLabel
+            // 
+            systolicLabel.AutoSize = true;
+            systolicLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            systolicLabel.Location = new Point(16, 53);
+            systolicLabel.Name = "systolicLabel";
+            systolicLabel.Size = new Size(186, 28);
+            systolicLabel.TabIndex = 16;
+            systolicLabel.Text = "Systolic BP (mmHg):";
             // 
             // labDiagnosisPanel
             // 
@@ -390,102 +414,66 @@
             labDiagnosisPanel.Size = new Size(1246, 293);
             labDiagnosisPanel.TabIndex = 18;
             // 
-            // diagnosisLabel
+            // finalDiagnosisLabel
             // 
-            diagnosisLabel.AutoSize = true;
-            diagnosisLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            diagnosisLabel.Location = new Point(3, 40);
-            diagnosisLabel.Name = "diagnosisLabel";
-            diagnosisLabel.Size = new Size(161, 28);
-            diagnosisLabel.TabIndex = 16;
-            diagnosisLabel.Text = "Initial Diagnosis:";
+            finalDiagnosisLabel.AutoSize = true;
+            finalDiagnosisLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            finalDiagnosisLabel.Location = new Point(936, 46);
+            finalDiagnosisLabel.Name = "finalDiagnosisLabel";
+            finalDiagnosisLabel.Size = new Size(153, 28);
+            finalDiagnosisLabel.TabIndex = 25;
+            finalDiagnosisLabel.Text = "Final Diagnosis:";
             // 
-            // labDiagnosisLabel
+            // finalDiagnosisButton
             // 
-            labDiagnosisLabel.BackColor = Color.FromArgb(192, 192, 255);
-            labDiagnosisLabel.FlatStyle = FlatStyle.Flat;
-            labDiagnosisLabel.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labDiagnosisLabel.ForeColor = Color.DarkSlateBlue;
-            labDiagnosisLabel.Location = new Point(0, 0);
-            labDiagnosisLabel.Name = "labDiagnosisLabel";
-            labDiagnosisLabel.Size = new Size(1246, 40);
-            labDiagnosisLabel.TabIndex = 15;
-            labDiagnosisLabel.Text = "Lab Tests / Diagnosis";
-            labDiagnosisLabel.TextAlign = ContentAlignment.MiddleLeft;
+            finalDiagnosisButton.BackColor = Color.GhostWhite;
+            finalDiagnosisButton.FlatStyle = FlatStyle.Flat;
+            finalDiagnosisButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            finalDiagnosisButton.ForeColor = Color.Indigo;
+            finalDiagnosisButton.Location = new Point(936, 227);
+            finalDiagnosisButton.Name = "finalDiagnosisButton";
+            finalDiagnosisButton.Size = new Size(300, 49);
+            finalDiagnosisButton.TabIndex = 24;
+            finalDiagnosisButton.Text = "Enter Final Diagnosis";
+            finalDiagnosisButton.UseVisualStyleBackColor = false;
             // 
-            // editAppointmentButton
+            // finalDiagnosisTextBox
             // 
-            editAppointmentButton.BackColor = Color.AliceBlue;
-            editAppointmentButton.FlatStyle = FlatStyle.Flat;
-            editAppointmentButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            editAppointmentButton.ForeColor = Color.RoyalBlue;
-            editAppointmentButton.Location = new Point(406, 43);
-            editAppointmentButton.Name = "editAppointmentButton";
-            editAppointmentButton.Size = new Size(183, 34);
-            editAppointmentButton.TabIndex = 16;
-            editAppointmentButton.Text = "Edit Appointment";
-            editAppointmentButton.UseVisualStyleBackColor = false;
+            finalDiagnosisTextBox.BorderStyle = BorderStyle.FixedSingle;
+            finalDiagnosisTextBox.Location = new Point(936, 77);
+            finalDiagnosisTextBox.Multiline = true;
+            finalDiagnosisTextBox.Name = "finalDiagnosisTextBox";
+            finalDiagnosisTextBox.ReadOnly = true;
+            finalDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
+            finalDiagnosisTextBox.Size = new Size(296, 144);
+            finalDiagnosisTextBox.TabIndex = 23;
+            finalDiagnosisTextBox.TabStop = false;
             // 
-            // symptomsTextBox
+            // orderTestButton
             // 
-            symptomsTextBox.BackColor = Color.WhiteSmoke;
-            symptomsTextBox.BorderStyle = BorderStyle.FixedSingle;
-            symptomsTextBox.Location = new Point(24, 208);
-            symptomsTextBox.Multiline = true;
-            symptomsTextBox.Name = "symptomsTextBox";
-            symptomsTextBox.ReadOnly = true;
-            symptomsTextBox.ScrollBars = ScrollBars.Vertical;
-            symptomsTextBox.Size = new Size(1208, 88);
-            symptomsTextBox.TabIndex = 23;
-            symptomsTextBox.TabStop = false;
+            orderTestButton.BackColor = Color.AliceBlue;
+            orderTestButton.FlatStyle = FlatStyle.Flat;
+            orderTestButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            orderTestButton.ForeColor = Color.RoyalBlue;
+            orderTestButton.Location = new Point(709, 227);
+            orderTestButton.Name = "orderTestButton";
+            orderTestButton.Size = new Size(202, 49);
+            orderTestButton.TabIndex = 22;
+            orderTestButton.Text = "+ Order Test";
+            orderTestButton.UseVisualStyleBackColor = false;
             // 
-            // checkUpButton
+            // viewTestButton
             // 
-            checkUpButton.BackColor = Color.RoyalBlue;
-            checkUpButton.FlatStyle = FlatStyle.Flat;
-            checkUpButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkUpButton.ForeColor = Color.White;
-            checkUpButton.Location = new Point(965, 43);
-            checkUpButton.Name = "checkUpButton";
-            checkUpButton.Size = new Size(267, 48);
-            checkUpButton.TabIndex = 24;
-            checkUpButton.Text = "Enter / Update Check-up";
-            checkUpButton.UseVisualStyleBackColor = false;
-            // 
-            // initialDiagnosisTextBox
-            // 
-            initialDiagnosisTextBox.BorderStyle = BorderStyle.FixedSingle;
-            initialDiagnosisTextBox.Location = new Point(12, 77);
-            initialDiagnosisTextBox.Multiline = true;
-            initialDiagnosisTextBox.Name = "initialDiagnosisTextBox";
-            initialDiagnosisTextBox.ReadOnly = true;
-            initialDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
-            initialDiagnosisTextBox.Size = new Size(296, 144);
-            initialDiagnosisTextBox.TabIndex = 17;
-            initialDiagnosisTextBox.TabStop = false;
-            // 
-            // initialDiagnosisButton
-            // 
-            initialDiagnosisButton.BackColor = Color.GhostWhite;
-            initialDiagnosisButton.FlatStyle = FlatStyle.Flat;
-            initialDiagnosisButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            initialDiagnosisButton.ForeColor = Color.Indigo;
-            initialDiagnosisButton.Location = new Point(8, 227);
-            initialDiagnosisButton.Name = "initialDiagnosisButton";
-            initialDiagnosisButton.Size = new Size(300, 49);
-            initialDiagnosisButton.TabIndex = 18;
-            initialDiagnosisButton.Text = "Enter / Update Initial Diagnosis";
-            initialDiagnosisButton.UseVisualStyleBackColor = false;
-            // 
-            // orderedTestLabel
-            // 
-            orderedTestLabel.AutoSize = true;
-            orderedTestLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            orderedTestLabel.Location = new Point(331, 40);
-            orderedTestLabel.Name = "orderedTestLabel";
-            orderedTestLabel.Size = new Size(143, 28);
-            orderedTestLabel.TabIndex = 19;
-            orderedTestLabel.Text = "Ordered Tests:";
+            viewTestButton.BackColor = Color.AliceBlue;
+            viewTestButton.FlatStyle = FlatStyle.Flat;
+            viewTestButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            viewTestButton.ForeColor = Color.RoyalBlue;
+            viewTestButton.Location = new Point(331, 227);
+            viewTestButton.Name = "viewTestButton";
+            viewTestButton.Size = new Size(202, 49);
+            viewTestButton.TabIndex = 21;
+            viewTestButton.Text = "View Test Result";
+            viewTestButton.UseVisualStyleBackColor = false;
             // 
             // orderedTestDataGridView
             // 
@@ -521,9 +509,9 @@
             // 
             // performedDateTimeColumn
             // 
-            dataGridViewCellStyle2.Format = "g";
-            dataGridViewCellStyle2.NullValue = null;
-            performedDateTimeColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            performedDateTimeColumn.DefaultCellStyle = dataGridViewCellStyle1;
             performedDateTimeColumn.HeaderText = "Performed DateTime";
             performedDateTimeColumn.MinimumWidth = 8;
             performedDateTimeColumn.Name = "performedDateTimeColumn";
@@ -547,66 +535,63 @@
             statusColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             statusColumn.Width = 66;
             // 
-            // viewTestButton
+            // orderedTestLabel
             // 
-            viewTestButton.BackColor = Color.AliceBlue;
-            viewTestButton.FlatStyle = FlatStyle.Flat;
-            viewTestButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            viewTestButton.ForeColor = Color.RoyalBlue;
-            viewTestButton.Location = new Point(331, 227);
-            viewTestButton.Name = "viewTestButton";
-            viewTestButton.Size = new Size(202, 49);
-            viewTestButton.TabIndex = 21;
-            viewTestButton.Text = "View Test Result";
-            viewTestButton.UseVisualStyleBackColor = false;
+            orderedTestLabel.AutoSize = true;
+            orderedTestLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            orderedTestLabel.Location = new Point(331, 40);
+            orderedTestLabel.Name = "orderedTestLabel";
+            orderedTestLabel.Size = new Size(143, 28);
+            orderedTestLabel.TabIndex = 19;
+            orderedTestLabel.Text = "Ordered Tests:";
             // 
-            // orderTestButton
+            // initialDiagnosisButton
             // 
-            orderTestButton.BackColor = Color.AliceBlue;
-            orderTestButton.FlatStyle = FlatStyle.Flat;
-            orderTestButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            orderTestButton.ForeColor = Color.RoyalBlue;
-            orderTestButton.Location = new Point(709, 227);
-            orderTestButton.Name = "orderTestButton";
-            orderTestButton.Size = new Size(202, 49);
-            orderTestButton.TabIndex = 22;
-            orderTestButton.Text = "+ Order Test";
-            orderTestButton.UseVisualStyleBackColor = false;
+            initialDiagnosisButton.BackColor = Color.GhostWhite;
+            initialDiagnosisButton.FlatStyle = FlatStyle.Flat;
+            initialDiagnosisButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            initialDiagnosisButton.ForeColor = Color.Indigo;
+            initialDiagnosisButton.Location = new Point(8, 227);
+            initialDiagnosisButton.Name = "initialDiagnosisButton";
+            initialDiagnosisButton.Size = new Size(300, 49);
+            initialDiagnosisButton.TabIndex = 18;
+            initialDiagnosisButton.Text = "Enter / Update Initial Diagnosis";
+            initialDiagnosisButton.UseVisualStyleBackColor = false;
             // 
-            // finalDiagnosisTextBox
+            // initialDiagnosisTextBox
             // 
-            finalDiagnosisTextBox.BorderStyle = BorderStyle.FixedSingle;
-            finalDiagnosisTextBox.Location = new Point(936, 77);
-            finalDiagnosisTextBox.Multiline = true;
-            finalDiagnosisTextBox.Name = "finalDiagnosisTextBox";
-            finalDiagnosisTextBox.ReadOnly = true;
-            finalDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
-            finalDiagnosisTextBox.Size = new Size(296, 144);
-            finalDiagnosisTextBox.TabIndex = 23;
-            finalDiagnosisTextBox.TabStop = false;
+            initialDiagnosisTextBox.BorderStyle = BorderStyle.FixedSingle;
+            initialDiagnosisTextBox.Location = new Point(12, 77);
+            initialDiagnosisTextBox.Multiline = true;
+            initialDiagnosisTextBox.Name = "initialDiagnosisTextBox";
+            initialDiagnosisTextBox.ReadOnly = true;
+            initialDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
+            initialDiagnosisTextBox.Size = new Size(296, 144);
+            initialDiagnosisTextBox.TabIndex = 17;
+            initialDiagnosisTextBox.TabStop = false;
             // 
-            // finalDiagnosisButton
+            // diagnosisLabel
             // 
-            finalDiagnosisButton.BackColor = Color.GhostWhite;
-            finalDiagnosisButton.FlatStyle = FlatStyle.Flat;
-            finalDiagnosisButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            finalDiagnosisButton.ForeColor = Color.Indigo;
-            finalDiagnosisButton.Location = new Point(936, 227);
-            finalDiagnosisButton.Name = "finalDiagnosisButton";
-            finalDiagnosisButton.Size = new Size(300, 49);
-            finalDiagnosisButton.TabIndex = 24;
-            finalDiagnosisButton.Text = "Enter Final Diagnosis";
-            finalDiagnosisButton.UseVisualStyleBackColor = false;
+            diagnosisLabel.AutoSize = true;
+            diagnosisLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            diagnosisLabel.Location = new Point(3, 40);
+            diagnosisLabel.Name = "diagnosisLabel";
+            diagnosisLabel.Size = new Size(161, 28);
+            diagnosisLabel.TabIndex = 16;
+            diagnosisLabel.Text = "Initial Diagnosis:";
             // 
-            // finalDiagnosisLabel
+            // labDiagnosisLabel
             // 
-            finalDiagnosisLabel.AutoSize = true;
-            finalDiagnosisLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            finalDiagnosisLabel.Location = new Point(936, 46);
-            finalDiagnosisLabel.Name = "finalDiagnosisLabel";
-            finalDiagnosisLabel.Size = new Size(153, 28);
-            finalDiagnosisLabel.TabIndex = 25;
-            finalDiagnosisLabel.Text = "Final Diagnosis:";
+            labDiagnosisLabel.BackColor = Color.FromArgb(192, 192, 255);
+            labDiagnosisLabel.FlatStyle = FlatStyle.Flat;
+            labDiagnosisLabel.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labDiagnosisLabel.ForeColor = Color.DarkSlateBlue;
+            labDiagnosisLabel.Location = new Point(0, 0);
+            labDiagnosisLabel.Name = "labDiagnosisLabel";
+            labDiagnosisLabel.Size = new Size(1246, 40);
+            labDiagnosisLabel.TabIndex = 15;
+            labDiagnosisLabel.Text = "Lab Tests / Diagnosis";
+            labDiagnosisLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // AppointmentDetailsPage
             // 
@@ -622,7 +607,7 @@
             Controls.Add(panel1);
             Name = "AppointmentDetailsPage";
             Text = "EditAppointmentPage";
-            Load += this.AppointmentDetailsPage_Load;
+            Load += AppointmentDetailsPage_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             patientInfoPanel.ResumeLayout(false);
@@ -669,7 +654,6 @@
         private Panel labDiagnosisPanel;
         private Label diagnosisLabel;
         private Label labDiagnosisLabel;
-        private Button editAppointmentButton;
         private TextBox symptomsTextBox;
         private Button checkUpButton;
         private TextBox initialDiagnosisTextBox;
