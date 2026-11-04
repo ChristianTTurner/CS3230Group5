@@ -3,14 +3,20 @@ Usernames and passwords needed:
 Database username: cs3230f26_g5
 Database password: xS4!IKEf9}O9kF_f.@Gm
 
+ADMIN
+Username: admin1
+password: admin123
+
+NURSES
 Username: nurse1 
-password: nurse123 to login on the form
+password: nurse123
+
+username: nurse5
+password: 12345
  
-Known issues or incomplete features:
+Known issues or incomplete features: storing hashed passwords
 
-None
-
-##Stored Procedures
+STORED PROCEDURE
 1. SaveRoutineCheckup
  - Saves routine checkup information for a patient's appointment in the appointment_summary table.
  Implemented in AppointmentSummaryDal.cs class in SaveCheckup(AppointmentSummary summary) method.
