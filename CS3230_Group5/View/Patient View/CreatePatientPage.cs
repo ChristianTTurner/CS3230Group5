@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using CS3230_Group5.DAL;
-using MySqlConnector;
+using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Nurse_View
 {
@@ -18,6 +18,8 @@ namespace CS3230_Group5.View.Nurse_View
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class CreatePatientPage : Form
     {
+        private readonly PatientDal patientDal = new PatientDal();
+
         private int? editingPatientId = null;
         private int? editingAddressId = null;
         private bool isEditMode = false;
@@ -26,63 +28,49 @@ namespace CS3230_Group5.View.Nurse_View
         {
             try
             {
-                using var conn = new MySqlConnection(Connection.ConnectionString());
-                conn.Open();
+                var result = patientDal.GetPatientForEdit(patientId);
 
-                var sql = @"SELECT p.patient_id, p.first_name, p.last_name, p.date_of_birth, p.phone, p.gender, p.active,
-                                  p.address_id, a.address1, a.address2, a.city, a.state, a.zip
-                             FROM patient p
-                             LEFT JOIN address a ON p.address_id = a.address_id
-                             WHERE p.patient_id = @pid";
-
-                using var cmd = new MySqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@pid", patientId);
-                using var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    editingPatientId = patientId;
-                    editingAddressId = reader["address_id"] != DBNull.Value ? Convert.ToInt32(reader["address_id"]) : (int?)null;
-
-                    patientFName.Text = reader["first_name"]?.ToString() ?? string.Empty;
-                    patientLName.Text = reader["last_name"]?.ToString() ?? string.Empty;
-
-                    if (reader["date_of_birth"] != DBNull.Value)
-                    {
-                        var dob = Convert.ToDateTime(reader["date_of_birth"]);
-                        patientBirthMonth.Value = dob.Month;
-                        patientBirthDay.Value = dob.Day;
-                        patientBirthYear.Value = Math.Max(patientBirthYear.Minimum, Math.Min(patientBirthYear.Maximum, dob.Year));
-                    }
-
-                    patientPhoneNumber.Text = reader["phone"]?.ToString() ?? string.Empty;
-                    patientAddress1.Text = reader["address1"]?.ToString() ?? string.Empty;
-                    patientAddress2.Text = reader["address2"]?.ToString() ?? string.Empty;
-                    patientCity.Text = reader["city"]?.ToString() ?? string.Empty;
-
-                    var stateVal = reader["state"]?.ToString() ?? string.Empty;
-                    if (!string.IsNullOrEmpty(stateVal))
-                    {
-                        try { patientState.SelectedItem = stateVal; } catch { }
-                    }
-
-                    patientZip.Text = reader["zip"]?.ToString() ?? string.Empty;
-
-                    var genderVal = reader["gender"]?.ToString() ?? string.Empty;
-                    if (!string.IsNullOrEmpty(genderVal))
-                    {
-                        try { patientGender.SelectedItem = genderVal; } catch { }
-                    }
-
-                    var activeVal = reader["active"]?.ToString() ?? string.Empty;
-                    patientIsActive.Checked = (activeVal == "1" || activeVal.Equals("true", StringComparison.OrdinalIgnoreCase));
-
-                    isEditMode = true;
-                    addPatientButton.Text = "Update";
-                }
-                else
+                if (result == null)
                 {
                     MessageBox.Show("Patient not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                var (patient, address) = result.Value;
+
+                editingPatientId = patient.PatientId;
+                editingAddressId = address?.AddressId;
+
+                patientFName.Text = patient.FirstName;
+                patientLName.Text = patient.LastName;
+
+                if (patient.DateOfBirth is DateTime dob)
+                {
+                    patientBirthMonth.Value = dob.Month;
+                    patientBirthDay.Value = dob.Day;
+                    patientBirthYear.Value = Math.Max(patientBirthYear.Minimum, Math.Min(patientBirthYear.Maximum, dob.Year));
+                }
+
+                patientPhoneNumber.Text = patient.Phone;
+
+                if (address != null)
+                {
+                    patientAddress1.Text = address.Address1;
+                    patientAddress2.Text = address.Address2 ?? string.Empty;
+                    patientCity.Text = address.City;
+                    patientState.SelectedItem = address.State;
+                    patientZip.Text = address.Zip;
+                }
+
+                if (!string.IsNullOrEmpty(patient.Gender))
+                {
+                    patientGender.SelectedItem = patient.Gender;
+                }
+
+                patientIsActive.Checked = patient.Active;
+
+                isEditMode = true;
+                addPatientButton.Text = "Update";
             }
             catch (Exception ex)
             {
@@ -99,8 +87,15 @@ namespace CS3230_Group5.View.Nurse_View
             patientPhoneNumber.KeyPress += NumericTextBox_KeyPress;
             patientZip.KeyPress += NumericTextBox_KeyPress;
 
-            patientPhoneNumber.MaxLength = 10;
+            // Phone: digits only, auto-formatted as (xxx)-xxx-xxxx (14 chars with formatting).
+            patientPhoneNumber.MaxLength = 14;
+            patientPhoneNumber.PlaceholderText = "(xxx)-xxx-xxxx";
+            patientPhoneNumber.TextChanged += patientPhoneNumber_TextChanged;
             patientZip.MaxLength = 5;
+
+            // State must be picked from the list, not typed.
+            patientState.DropDownStyle = ComboBoxStyle.DropDownList;
+            patientGender.DropDownStyle = ComboBoxStyle.DropDownList;
 
             patientIsActive.Enabled = true;
 
@@ -111,6 +106,38 @@ namespace CS3230_Group5.View.Nurse_View
             InitializeValidationLabels();
             AttachValidationEvents();
         }
+        private bool formattingPhone = false;
+
+        private static string DigitsOnly(string? text)
+        {
+            return new string((text ?? "").Where(char.IsDigit).ToArray());
+        }
+
+        private static string FormatPhone(string digits)
+        {
+            if (digits.Length == 0) return "";
+            if (digits.Length <= 3) return "(" + digits;
+            if (digits.Length <= 6) return $"({digits[..3]})-{digits[3..]}";
+            return $"({digits[..3]})-{digits.Substring(3, 3)}-{digits[6..]}";
+        }
+
+        // Also handles pasted/programmatic text: strips non-digits, caps at 10, reformats.
+        private void patientPhoneNumber_TextChanged(object? sender, EventArgs e)
+        {
+            if (formattingPhone) return;
+
+            string digits = DigitsOnly(patientPhoneNumber.Text);
+            if (digits.Length > 10) digits = digits[..10];
+
+            string formatted = FormatPhone(digits);
+            if (formatted == patientPhoneNumber.Text) return;
+
+            formattingPhone = true;
+            patientPhoneNumber.Text = formatted;
+            patientPhoneNumber.SelectionStart = patientPhoneNumber.Text.Length;
+            formattingPhone = false;
+        }
+
         private Label[] GetValidationLabels()
         {
             return new Label[]
@@ -233,13 +260,9 @@ namespace CS3230_Group5.View.Nurse_View
                 isValid = false;
             }
 
-            string phone = patientPhoneNumber.Text
-                .Replace("-", "")
-                .Replace(" ", "")
-                .Replace("(", "")
-                .Replace(")", "");
+            string phone = DigitsOnly(patientPhoneNumber.Text);
 
-            if (phone.Length != 10 || !phone.All(char.IsDigit))
+            if (phone.Length != 10)
             {
                 ShowValidationError(
                     phoneErrorLabel,
@@ -318,135 +341,55 @@ namespace CS3230_Group5.View.Nurse_View
 
             try
             {
+                var dob = new DateTime(
+                    (int)patientBirthYear.Value,
+                    (int)patientBirthMonth.Value,
+                    (int)patientBirthDay.Value);
 
-                var firstName = patientFName.Text?.Trim();
-                var lastName = patientLName.Text?.Trim();
+                var address = new Address(
+                    editingAddressId,
+                    patientAddress1.Text,
+                    patientAddress2.Text,
+                    patientCity.Text,
+                    patientState.SelectedItem?.ToString() ?? string.Empty,
+                    patientZip.Text);
 
-                int month = (int)patientBirthMonth.Value;
-                int day = (int)patientBirthDay.Value;
-                int year = (int)patientBirthYear.Value;
-                var dob = new DateTime(year, month, day);
-
-                var phone = patientPhoneNumber.Text?.Trim();
-                var address1 = patientAddress1.Text?.Trim();
-                var address2 = patientAddress2.Text?.Trim();
-                var city = patientCity.Text?.Trim();
-                var state = patientState.SelectedItem?.ToString() ?? string.Empty;
-                var zip = patientZip.Text?.Trim();
-                var gender = patientGender.SelectedItem?.ToString() ?? string.Empty;
-                var isActive = patientIsActive.Checked ? 1 : 0;
-
-                using var conn = new MySqlConnection(Connection.ConnectionString());
-                conn.Open();
+                var patient = new Patient
+                {
+                    PatientId = editingPatientId ?? 0,
+                    FirstName = patientFName.Text.Trim(),
+                    LastName = patientLName.Text.Trim(),
+                    DateOfBirth = dob,
+                    Phone = DigitsOnly(patientPhoneNumber.Text),
+                    Gender = patientGender.SelectedItem?.ToString() ?? string.Empty,
+                    Active = patientIsActive.Checked,
+                    AddressId = editingAddressId
+                };
 
                 if (isEditMode && editingPatientId.HasValue)
                 {
-                    if (editingAddressId.HasValue)
-                    {
-                        var updateAddressSql = @"UPDATE address
-                                                 SET address1 = @a1, address2 = @a2, city = @city, state = @state, zip = @zip
-                                                 WHERE address_id = @aid";
-                        using var updateAddrCmd = new MySqlCommand(updateAddressSql, conn);
-                        updateAddrCmd.Parameters.AddWithValue("@a1", address1);
-                        updateAddrCmd.Parameters.AddWithValue("@a2", address2);
-                        updateAddrCmd.Parameters.AddWithValue("@city", city);
-                        updateAddrCmd.Parameters.AddWithValue("@state", state);
-                        updateAddrCmd.Parameters.AddWithValue("@zip", zip);
-                        updateAddrCmd.Parameters.AddWithValue("@aid", editingAddressId.Value);
-                        updateAddrCmd.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        var insertAddressSql = @"INSERT INTO address (address1, address2, city, state, zip)
-                    VALUES (@a1, @a2, @city, @state, @zip)";
-                        using var addrCmd = new MySqlCommand(insertAddressSql, conn);
-                        addrCmd.Parameters.AddWithValue("@a1", address1);
-                        addrCmd.Parameters.AddWithValue("@a2", address2);
-                        addrCmd.Parameters.AddWithValue("@city", city);
-                        addrCmd.Parameters.AddWithValue("@state", state);
-                        addrCmd.Parameters.AddWithValue("@zip", zip);
-                        addrCmd.ExecuteNonQuery();
-
-                        var getNewAddressIdCmd = new MySqlCommand("SELECT LAST_INSERT_ID();", conn);
-                        var newAddressIdObj = getNewAddressIdCmd.ExecuteScalar();
-                        editingAddressId = Convert.ToInt32(newAddressIdObj);
-                    }
-
-                    var updatePatientSql = @"UPDATE patient
-                                             SET first_name = @first, last_name = @last, date_of_birth = @date_of_birth, phone = @phone, address_id = @addressId, gender = @gender, active = @active
-                                             WHERE patient_id = @pid";
-
-                    using var updatePatientCmd = new MySqlCommand(updatePatientSql, conn);
-                    updatePatientCmd.Parameters.AddWithValue("@first", firstName);
-                    updatePatientCmd.Parameters.AddWithValue("@last", lastName);
-                    updatePatientCmd.Parameters.AddWithValue("@date_of_birth", dob);
-                    updatePatientCmd.Parameters.AddWithValue("@phone", phone);
-                    updatePatientCmd.Parameters.AddWithValue("@addressId", editingAddressId.HasValue ? editingAddressId.Value : DBNull.Value);
-                    updatePatientCmd.Parameters.AddWithValue("@gender", gender);
-                    updatePatientCmd.Parameters.AddWithValue("@active", isActive);
-                    updatePatientCmd.Parameters.AddWithValue("@pid", editingPatientId.Value);
-
-                    var updatedRows = updatePatientCmd.ExecuteNonQuery();
-                    if (updatedRows > 0)
-                    {
-                        MessageBox.Show("Patient updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var searchPatientsPage = new Patient_View.SearchPatientPage();
-                        searchPatientsPage.Show();
-                        this.Hide();
-                    }
-                    else
+                    if (!patientDal.UpdatePatient(patient, address))
                     {
                         MessageBox.Show("No rows were updated.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
 
-                    return;
-                }
-
-
-                var insertAddressSqlNew = @"INSERT INTO address (address1, address2, city, state, zip)
-                    VALUES (@a1, @a2, @city, @state, @zip)";
-                using var addrCmdNew = new MySqlCommand(insertAddressSqlNew, conn);
-                addrCmdNew.Parameters.AddWithValue("@a1", address1);
-                addrCmdNew.Parameters.AddWithValue("@a2", address2);
-                addrCmdNew.Parameters.AddWithValue("@city", city);
-                addrCmdNew.Parameters.AddWithValue("@state", state);
-                addrCmdNew.Parameters.AddWithValue("@zip", zip);
-                addrCmdNew.ExecuteNonQuery();
-
-                var getIdCmd = new MySqlCommand("SELECT LAST_INSERT_ID();", conn);
-                var addressIdObj = getIdCmd.ExecuteScalar();
-                var addressId = Convert.ToInt32(addressIdObj);
-
-                var sql = @"INSERT INTO patient
-                    (first_name, last_name, date_of_birth, phone, address_id, gender, active)
-                    VALUES
-                    (@first, @last, @date_of_birth, @phone, @addressId, @gender, @active)";
-
-                using var cmd = new MySqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@first", firstName);
-                cmd.Parameters.AddWithValue("@last", lastName);
-                cmd.Parameters.AddWithValue("@date_of_birth", dob);
-                cmd.Parameters.AddWithValue("@phone", phone);
-                cmd.Parameters.AddWithValue("@addressId", addressId);
-                cmd.Parameters.AddWithValue("@gender", gender);
-                cmd.Parameters.AddWithValue("@active", isActive);
-
-                var rows = cmd.ExecuteNonQuery();
-                if (rows > 0)
-                {
-                    MessageBox.Show("Patient added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    var searchPatientsPage = new Patient_View.SearchPatientPage();
-                    searchPatientsPage.Show();
-                    this.Hide();
+                    MessageBox.Show("Patient updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("No rows were inserted.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    patientDal.AddPatient(patient, address);
+
+                    MessageBox.Show("Patient added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+
+                var searchPatientsPage = new Patient_View.SearchPatientPage();
+                searchPatientsPage.Show();
+                this.Hide();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error saving patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void NumericTextBox_KeyPress(object? sender, KeyPressEventArgs e)

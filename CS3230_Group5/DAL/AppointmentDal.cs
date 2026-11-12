@@ -6,8 +6,15 @@ using static System.Net.WebRequestMethods;
 
 namespace CS3230_Group5.DAL
 {
+     /// <summary>
+    /// Provides database access operations for appointments, patients, and doctors.
+    /// </summary>
     public class AppointmentDal
     {
+        /// <summary>
+        /// Retrieves active patients ordered by last name and first name.
+        /// </summary>
+        /// <returns>A dictionary containing patient IDs and display names.</returns>
         public Dictionary<int, string> GetPatients()
         {
             var patients = new Dictionary<int, string>();
@@ -28,6 +35,10 @@ namespace CS3230_Group5.DAL
             return patients;
         }
 
+        /// <summary>
+        /// Retrieves doctors ordered by last name and first name.
+        /// </summary>
+        /// <returns>A dictionary containing doctor IDs and display names.</returns>
         public Dictionary<int, string> GetDoctors()
         {
             var doctors = new Dictionary<int, string>();
@@ -47,6 +58,11 @@ namespace CS3230_Group5.DAL
             return doctors;
         }
 
+        /// <summary>
+        /// Deletes an appointment and its related summary record.
+        /// </summary>
+        /// <param name="id">The appointment ID to delete.</param>
+        /// <returns><see langword="true"/> when one or more records are deleted; otherwise, <see langword="false"/>.</returns>
         public bool DeleteAppointment(int id)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -64,6 +80,17 @@ namespace CS3230_Group5.DAL
             return command.ExecuteNonQuery() > 0;
         }
 
+        /// <summary>
+        /// Adds an appointment after validating the requested time slot and reason.
+        /// </summary>
+        /// <param name="patientId">The patient ID for the appointment.</param>
+        /// <param name="doctorId">The doctor ID for the appointment.</param>
+        /// <param name="appointmentDateTime">The requested appointment date and time.</param>
+        /// <param name="reason">The reason for the appointment.</param>
+        /// <returns>The ID of the newly created appointment.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when a patient or doctor ID is not positive.</exception>
+        /// <exception cref="ArgumentException">Thrown when the appointment time or reason is invalid.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the doctor already has an appointment in the requested time slot.</exception>
         public int AddAppointment(int patientId, int doctorId, DateTime appointmentDateTime, string reason)
         {
             if (patientId <= 0) throw new ArgumentOutOfRangeException(nameof(patientId));
@@ -106,6 +133,12 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
+        /// <summary>
+        /// Updates an existing appointment in the database.
+        /// </summary>
+        /// <param name="appointment">The appointment containing the updated values.</param>
+        /// <param name="message">The result message from the database operation.</param>
+        /// <returns><see langword="true"/> when the appointment is updated; otherwise, <see langword="false"/>.</returns>
         public bool UpdateAppointment(Appointment appointment, out string message)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -162,6 +195,11 @@ namespace CS3230_Group5.DAL
                    WHERE appointment_id = @appointmentId;";
         }
 
+        /// <summary>
+        /// Retrieves appointments, optionally filtered by appointment, patient, doctor, or date information.
+        /// </summary>
+        /// <param name="filter">An optional search value used to filter the results.</param>
+        /// <returns>A list of matching appointments.</returns>
         public List<Appointment> GetAppointments(string? filter = null)
         {
             var appointments = new List<Appointment>();

@@ -206,6 +206,222 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
+        /// Loads a patient and their address (if any) for editing.
+        /// Returns null when the patient does not exist.
+        /// </summary>
+        public (Patient Patient, Address? Address)? GetPatientForEdit(int patientId)
+        {
+            if (patientId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(patientId));
+
+            const string query = @"
+                SELECT p.patient_id, p.first_name, p.last_name, p.date_of_birth,
+                       p.phone, p.gender, p.active, p.address_id,
+                       a.address1, a.address2, a.city, a.state, a.zip
+                FROM patient p
+                LEFT JOIN address a ON p.address_id = a.address_id
+                WHERE p.patient_id = @patientId;";
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.Add("@patientId", MySqlDbType.Int32).Value = patientId;
+
+            using var reader = command.ExecuteReader();
+
+            if (!reader.Read())
+                return null;
+
+            Patient patient = MapPatient(reader);
+
+            Address? address = patient.AddressId.HasValue
+                ? new Address(
+                    patient.AddressId,
+                    ReadString(reader, "address1"),
+                    ReadString(reader, "address2"),
+                    ReadString(reader, "city"),
+                    ReadString(reader, "state"),
+                    ReadString(reader, "zip"))
+                : null;
+
+            return (patient, address);
+        }
+
+        /// <summary>
+        /// Adds a patient and their address in one transaction.
+        /// Returns the new patient's ID.
+        /// </summary>
+        public int AddPatient(Patient patient, Address address)
+        {
+            ArgumentNullException.ThrowIfNull(patient);
+            ArgumentNullException.ThrowIfNull(address);
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                int addressId = InsertAddress(connection, transaction, address);
+
+                const string insertPatient = @"
+                    INSERT INTO patient
+                        (first_name, last_name, date_of_birth, phone,
+                         address_id, gender, active)
+                    VALUES
+                        (@firstName, @lastName, @dateOfBirth, @phone,
+                         @addressId, @gender, @active);";
+
+                using var command = new MySqlCommand(
+                    insertPatient, connection, transaction);
+                AddPatientParameters(command, patient, addressId);
+                command.ExecuteNonQuery();
+
+                int patientId = checked((int)command.LastInsertedId);
+
+                transaction.Commit();
+                return patientId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Updates a patient and their address in one transaction.
+        /// If the patient has no address yet, one is created.
+        /// Returns true when the patient row was found.
+        /// </summary>
+        public bool UpdatePatient(Patient patient, Address address)
+        {
+            ArgumentNullException.ThrowIfNull(patient);
+            ArgumentNullException.ThrowIfNull(address);
+
+            if (patient.PatientId <= 0)
+                throw new ArgumentException(
+                    "Patient ID is required to update a patient.", nameof(patient));
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                int addressId = address.AddressId.HasValue
+                    ? UpdateAddress(connection, transaction, address)
+                    : InsertAddress(connection, transaction, address);
+
+                const string updatePatient = @"
+                    UPDATE patient
+                    SET first_name = @firstName,
+                        last_name = @lastName,
+                        date_of_birth = @dateOfBirth,
+                        phone = @phone,
+                        address_id = @addressId,
+                        gender = @gender,
+                        active = @active
+                    WHERE patient_id = @patientId;";
+
+                using var command = new MySqlCommand(
+                    updatePatient, connection, transaction);
+                AddPatientParameters(command, patient, addressId);
+                command.Parameters.Add("@patientId", MySqlDbType.Int32).Value =
+                    patient.PatientId;
+
+                bool found = command.ExecuteNonQuery() > 0;
+
+                transaction.Commit();
+                return found;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        private static void AddPatientParameters(
+            MySqlCommand command, Patient patient, int addressId)
+        {
+            command.Parameters.Add("@firstName", MySqlDbType.VarChar, 50).Value =
+                patient.FirstName;
+            command.Parameters.Add("@lastName", MySqlDbType.VarChar, 50).Value =
+                patient.LastName;
+            command.Parameters.Add("@dateOfBirth", MySqlDbType.Date).Value =
+                (object?)patient.DateOfBirth ?? DBNull.Value;
+            command.Parameters.Add("@phone", MySqlDbType.VarChar, 10).Value =
+                patient.Phone;
+            command.Parameters.Add("@addressId", MySqlDbType.Int32).Value =
+                addressId;
+            command.Parameters.Add("@gender", MySqlDbType.VarChar, 20).Value =
+                patient.Gender;
+            command.Parameters.Add("@active", MySqlDbType.Bool).Value =
+                patient.Active;
+        }
+
+        private static int InsertAddress(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            Address address)
+        {
+            const string query = @"
+                INSERT INTO address (address1, address2, city, state, zip)
+                VALUES (@address1, @address2, @city, @state, @zip);";
+
+            using var command = new MySqlCommand(query, connection, transaction);
+            AddAddressParameters(command, address);
+            command.ExecuteNonQuery();
+
+            return checked((int)command.LastInsertedId);
+        }
+
+        private static int UpdateAddress(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            Address address)
+        {
+            const string query = @"
+                UPDATE address
+                SET address1 = @address1,
+                    address2 = @address2,
+                    city = @city,
+                    state = @state,
+                    zip = @zip
+                WHERE address_id = @addressId;";
+
+            using var command = new MySqlCommand(query, connection, transaction);
+            AddAddressParameters(command, address);
+            command.Parameters.Add("@addressId", MySqlDbType.Int32).Value =
+                address.AddressId!.Value;
+            command.ExecuteNonQuery();
+
+            return address.AddressId.Value;
+        }
+
+        private static void AddAddressParameters(
+            MySqlCommand command, Address address)
+        {
+            command.Parameters.Add("@address1", MySqlDbType.VarChar, 100).Value =
+                address.Address1;
+            command.Parameters.Add("@address2", MySqlDbType.VarChar, 100).Value =
+                (object?)address.Address2 ?? DBNull.Value;
+            command.Parameters.Add("@city", MySqlDbType.VarChar, 50).Value =
+                address.City;
+            command.Parameters.Add("@state", MySqlDbType.String, 2).Value =
+                address.State;
+            command.Parameters.Add("@zip", MySqlDbType.String, 5).Value =
+                address.Zip;
+        }
+
+        /// <summary>
         /// Deletes a patient in a transaction. The associated address is deleted
         /// only when no patient or nurse still references it.
         /// </summary>
