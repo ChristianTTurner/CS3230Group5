@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿
+using System;
+using System.Linq;
 using System.Windows.Forms;
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
@@ -11,11 +8,8 @@ using CS3230_Group5.Model;
 namespace CS3230_Group5.View.Nurse_View
 {
     /// <summary>
-    /// The CreatePatientPage class represents a form for creating or editing patient records 
-    /// in the application. It provides functionality to load existing patient data for editing, as well as to add new patients to the database. 
-    /// The form includes fields for patient information such as name, date of birth, phone number, address, gender, and active status.
+    /// Provides the form for creating new patient records and editing existing patient information.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class CreatePatientPage : Form
     {
         private readonly PatientDal patientDal = new PatientDal();
@@ -23,7 +17,12 @@ namespace CS3230_Group5.View.Nurse_View
         private int? editingPatientId = null;
         private int? editingAddressId = null;
         private bool isEditMode = false;
+        private bool formattingPhone = false;
 
+        /// <summary>
+        /// Loads an existing patient's information into the form for editing.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient whose information will be loaded.</param>
         public void LoadForEdit(int patientId)
         {
             try
@@ -32,53 +31,71 @@ namespace CS3230_Group5.View.Nurse_View
 
                 if (result == null)
                 {
-                    MessageBox.Show("Patient not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Patient not found.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
                     return;
                 }
 
                 var (patient, address) = result.Value;
 
-                editingPatientId = patient.PatientId;
-                editingAddressId = address?.AddressId;
-
-                patientFName.Text = patient.FirstName;
-                patientLName.Text = patient.LastName;
-
-                if (patient.DateOfBirth is DateTime dob)
-                {
-                    patientBirthMonth.Value = dob.Month;
-                    patientBirthDay.Value = dob.Day;
-                    patientBirthYear.Value = Math.Max(patientBirthYear.Minimum, Math.Min(patientBirthYear.Maximum, dob.Year));
-                }
-
-                patientPhoneNumber.Text = patient.Phone;
-
-                if (address != null)
-                {
-                    patientAddress1.Text = address.Address1;
-                    patientAddress2.Text = address.Address2 ?? string.Empty;
-                    patientCity.Text = address.City;
-                    patientState.SelectedItem = address.State;
-                    patientZip.Text = address.Zip;
-                }
-
-                if (!string.IsNullOrEmpty(patient.Gender))
-                {
-                    patientGender.SelectedItem = patient.Gender;
-                }
-
-                patientIsActive.Checked = patient.Active;
-
-                isEditMode = true;
-                addPatientButton.Text = "Update";
+                populatePatientFields(patient, address);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error loading patient: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
+
+        private void populatePatientFields(Patient patient, Address? address)
+        {
+            editingPatientId = patient.PatientId;
+            editingAddressId = address?.AddressId;
+
+            patientFName.Text = patient.FirstName;
+            patientLName.Text = patient.LastName;
+
+            if (patient.DateOfBirth is DateTime dob)
+            {
+                patientBirthMonth.Value = dob.Month;
+                patientBirthDay.Value = dob.Day;
+                patientBirthYear.Value = Math.Max(
+                    patientBirthYear.Minimum,
+                    Math.Min(patientBirthYear.Maximum, dob.Year));
+            }
+
+            patientPhoneNumber.Text = patient.Phone;
+
+            if (address != null)
+            {
+                patientAddress1.Text = address.Address1;
+                patientAddress2.Text = address.Address2 ?? string.Empty;
+                patientCity.Text = address.City;
+                patientState.SelectedItem = address.State;
+                patientZip.Text = address.Zip;
+            }
+
+            if (!string.IsNullOrEmpty(patient.Gender))
+            {
+                patientGender.SelectedItem = patient.Gender;
+            }
+
+            patientIsActive.Checked = patient.Active;
+
+            isEditMode = true;
+            addPatientButton.Text = "Update";
+        }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreatePatientPage"/> class.
+        /// Initializes a new instance of the <see cref="CreatePatientPage"/> class
+        /// and configures the patient information fields and validation events.
         /// </summary>
         public CreatePatientPage()
         {
@@ -87,13 +104,11 @@ namespace CS3230_Group5.View.Nurse_View
             patientPhoneNumber.KeyPress += NumericTextBox_KeyPress;
             patientZip.KeyPress += NumericTextBox_KeyPress;
 
-            // Phone: digits only, auto-formatted as (xxx)-xxx-xxxx (14 chars with formatting).
             patientPhoneNumber.MaxLength = 14;
             patientPhoneNumber.PlaceholderText = "(xxx)-xxx-xxxx";
             patientPhoneNumber.TextChanged += patientPhoneNumber_TextChanged;
             patientZip.MaxLength = 5;
 
-            // State must be picked from the list, not typed.
             patientState.DropDownStyle = ComboBoxStyle.DropDownList;
             patientGender.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -106,7 +121,6 @@ namespace CS3230_Group5.View.Nurse_View
             InitializeValidationLabels();
             AttachValidationEvents();
         }
-        private bool formattingPhone = false;
 
         private static string DigitsOnly(string? text)
         {
@@ -121,7 +135,6 @@ namespace CS3230_Group5.View.Nurse_View
             return $"({digits[..3]})-{digits.Substring(3, 3)}-{digits[6..]}";
         }
 
-        // Also handles pasted/programmatic text: strips non-digits, caps at 10, reformats.
         private void patientPhoneNumber_TextChanged(object? sender, EventArgs e)
         {
             if (formattingPhone) return;
@@ -182,6 +195,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ClearValidationError(label);
             }
         }
+
         private void AttachValidationEvents()
         {
             patientFName.TextChanged += (s, e) =>
@@ -217,7 +231,27 @@ namespace CS3230_Group5.View.Nurse_View
             patientBirthYear.ValueChanged += (s, e) =>
                 ClearValidationError(dobErrorLabel);
         }
+
         private bool ValidatePatientForm()
+        {
+            bool isValid = true;
+
+            if (!validateNameFields())
+                isValid = false;
+
+            if (!validateDateOfBirth())
+                isValid = false;
+
+            if (!validatePhoneNumber())
+                isValid = false;
+
+            if (!validateAddressFields())
+                isValid = false;
+
+            return isValid;
+        }
+
+        private bool validateNameFields()
         {
             bool isValid = true;
 
@@ -226,6 +260,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     fnameErrorLabel,
                     "First name is required.");
+
                 isValid = false;
             }
 
@@ -234,9 +269,15 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     lnameErrorLabel,
                     "Last name is required.");
+
                 isValid = false;
             }
 
+            return isValid;
+        }
+
+        private bool validateDateOfBirth()
+        {
             try
             {
                 DateTime dob = new DateTime(
@@ -249,17 +290,24 @@ namespace CS3230_Group5.View.Nurse_View
                     ShowValidationError(
                         dobErrorLabel,
                         "Date of birth cannot be in the future.");
-                    isValid = false;
+
+                    return false;
                 }
+
+                return true;
             }
             catch (ArgumentOutOfRangeException)
             {
                 ShowValidationError(
                     dobErrorLabel,
                     "Enter a valid date of birth.");
-                isValid = false;
-            }
 
+                return false;
+            }
+        }
+
+        private bool validatePhoneNumber()
+        {
             string phone = DigitsOnly(patientPhoneNumber.Text);
 
             if (phone.Length != 10)
@@ -267,14 +315,23 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     phoneErrorLabel,
                     "Enter a valid 10-digit phone number.");
-                isValid = false;
+
+                return false;
             }
+
+            return true;
+        }
+
+        private bool validateAddressFields()
+        {
+            bool isValid = true;
 
             if (string.IsNullOrWhiteSpace(patientAddress1.Text))
             {
                 ShowValidationError(
                     add1ErrorLabel,
                     "Street address is required.");
+
                 isValid = false;
             }
 
@@ -283,6 +340,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     stateErrorLabel,
                     "Select a state.");
+
                 isValid = false;
             }
 
@@ -291,6 +349,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     cityErrorLabel,
                     "City is required.");
+
                 isValid = false;
             }
 
@@ -301,6 +360,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     zipErrorLabel,
                     "Enter a 5-digit ZIP code.");
+
                 isValid = false;
             }
 
@@ -309,6 +369,7 @@ namespace CS3230_Group5.View.Nurse_View
                 ShowValidationError(
                     genderErrorLabel,
                     "Select a gender.");
+
                 isValid = false;
             }
 
@@ -316,6 +377,11 @@ namespace CS3230_Group5.View.Nurse_View
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
+        {
+            returnToSearchPatientPage();
+        }
+
+        private void returnToSearchPatientPage()
         {
             foreach (Form open in Application.OpenForms)
             {
@@ -341,57 +407,101 @@ namespace CS3230_Group5.View.Nurse_View
 
             try
             {
-                var dob = new DateTime(
-                    (int)patientBirthYear.Value,
-                    (int)patientBirthMonth.Value,
-                    (int)patientBirthDay.Value);
+                DateTime dob = getPatientDateOfBirth();
+                Address address = createPatientAddress();
+                Patient patient = createPatient(dob);
 
-                var address = new Address(
-                    editingAddressId,
-                    patientAddress1.Text,
-                    patientAddress2.Text,
-                    patientCity.Text,
-                    patientState.SelectedItem?.ToString() ?? string.Empty,
-                    patientZip.Text);
+                if (!savePatient(patient, address))
+                    return;
 
-                var patient = new Patient
-                {
-                    PatientId = editingPatientId ?? 0,
-                    FirstName = patientFName.Text.Trim(),
-                    LastName = patientLName.Text.Trim(),
-                    DateOfBirth = dob,
-                    Phone = DigitsOnly(patientPhoneNumber.Text),
-                    Gender = patientGender.SelectedItem?.ToString() ?? string.Empty,
-                    Active = patientIsActive.Checked,
-                    AddressId = editingAddressId
-                };
-
-                if (isEditMode && editingPatientId.HasValue)
-                {
-                    if (!patientDal.UpdatePatient(patient, address))
-                    {
-                        MessageBox.Show("No rows were updated.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    MessageBox.Show("Patient updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    patientDal.AddPatient(patient, address);
-
-                    MessageBox.Show("Patient added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                var searchPatientsPage = new Patient_View.SearchPatientPage();
-                searchPatientsPage.Show();
-                this.Hide();
+                returnToPatientSearchAfterSave();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error saving patient: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
+
+        private DateTime getPatientDateOfBirth()
+        {
+            return new DateTime(
+                (int)patientBirthYear.Value,
+                (int)patientBirthMonth.Value,
+                (int)patientBirthDay.Value);
+        }
+
+        private Address createPatientAddress()
+        {
+            return new Address(
+                editingAddressId,
+                patientAddress1.Text,
+                patientAddress2.Text,
+                patientCity.Text,
+                patientState.SelectedItem?.ToString() ?? string.Empty,
+                patientZip.Text);
+        }
+
+        private Patient createPatient(DateTime dob)
+        {
+            return new Patient
+            {
+                PatientId = editingPatientId ?? 0,
+                FirstName = patientFName.Text.Trim(),
+                LastName = patientLName.Text.Trim(),
+                DateOfBirth = dob,
+                Phone = DigitsOnly(patientPhoneNumber.Text),
+                Gender = patientGender.SelectedItem?.ToString() ?? string.Empty,
+                Active = patientIsActive.Checked,
+                AddressId = editingAddressId
+            };
+        }
+
+        private bool savePatient(Patient patient, Address address)
+        {
+            if (isEditMode && editingPatientId.HasValue)
+            {
+                if (!patientDal.UpdatePatient(patient, address))
+                {
+                    MessageBox.Show(
+                        "No rows were updated.",
+                        "Warning",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return false;
+                }
+
+                MessageBox.Show(
+                    "Patient updated successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                patientDal.AddPatient(patient, address);
+
+                MessageBox.Show(
+                    "Patient added successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+
+            return true;
+        }
+
+        private void returnToPatientSearchAfterSave()
+        {
+            var searchPatientsPage = new Patient_View.SearchPatientPage();
+            searchPatientsPage.Show();
+            Hide();
+        }
+
         private void NumericTextBox_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))

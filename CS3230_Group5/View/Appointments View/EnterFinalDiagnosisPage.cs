@@ -1,17 +1,18 @@
-﻿using CS3230_Group5.DAL;
+﻿
+using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CS3230_Group5.View.Appointments_View
 {
     /// <summary>
-    /// Lets a nurse enter the final diagnosis for a visit. Saving it locks the
-    /// visit, so the user must confirm first.
+    /// Provides an interface for entering and saving the final diagnosis
+    /// for a patient appointment. Requires confirmation before saving
+    /// because finalizing the diagnosis makes the visit read-only.
     /// </summary>
     public partial class EnterFinalDiagnosisPage : Form
     {
@@ -24,6 +25,16 @@ namespace CS3230_Group5.View.Appointments_View
 
         private string _patientName = string.Empty;
 
+        /// <summary>
+        /// Initializes a new instance of the EnterFinalDiagnosisPage class
+        /// for the specified appointment.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment identifier is less than or equal to zero.
+        /// </exception>
         public EnterFinalDiagnosisPage(int appointmentId)
         {
             InitializeComponent();
@@ -51,9 +62,6 @@ namespace CS3230_Group5.View.Appointments_View
             testsListView.Columns.Add("Status", 100);
         }
 
-        /// <summary>
-        /// Sizes the columns as a share of the list width so they fit any screen scaling.
-        /// </summary>
         private void ResizeListColumns()
         {
             int total = testsListView.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
@@ -84,8 +92,6 @@ namespace CS3230_Group5.View.Appointments_View
             ResizeListColumns();
             LoadVisit();
         }
-
-        // ---------- Loading ----------
 
         private void LoadVisit()
         {
@@ -162,9 +168,6 @@ namespace CS3230_Group5.View.Appointments_View
             testsListView.EndUpdate();
         }
 
-        /// <summary>
-        /// Decides whether the final diagnosis can be entered, and tells the user why not.
-        /// </summary>
         private void ApplyState(VisitHeader header, AppointmentSummary? summary, List<OrderedTest> tests)
         {
             string notice = string.Empty;
@@ -196,8 +199,6 @@ namespace CS3230_Group5.View.Appointments_View
             finalTextBox.Enabled = canEdit;
             saveButton.Enabled = canEdit;
         }
-
-        // ---------- Saving ----------
 
         private void saveButton_Click(object? sender, EventArgs e)
         {
@@ -247,7 +248,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
             catch (InvalidOperationException ex)
             {
-                // Already finalized, a test is missing a result, or no check-up exists.
                 MessageBox.Show(
                     ex.Message,
                     "Unable to Save",
@@ -266,8 +266,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
-        // ---------- Error label ----------
-
         private void ShowError(string message)
         {
             finalErrorLabel.Text = message;
@@ -278,6 +276,10 @@ namespace CS3230_Group5.View.Appointments_View
         {
             finalErrorLabel.Text = string.Empty;
             finalErrorLabel.Visible = false;
+        }
+
+        private void visitInfoLabel_Click(object sender, EventArgs e)
+        {
         }
     }
 }

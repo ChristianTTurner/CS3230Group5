@@ -7,6 +7,10 @@ using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Patient_View
 {
+    /// <summary>
+    /// Provides a read-only view of a patient's appointment details,
+    /// checkup information, diagnoses, and ordered test results.
+    /// </summary>
     public partial class PatientVisitDetailsPage : Form
     {
         private readonly int _appointmentId;
@@ -15,11 +19,23 @@ namespace CS3230_Group5.View.Patient_View
         private readonly AppointmentSummaryDal _appointmentDal =
             new AppointmentSummaryDal();
 
+        /// <summary>
+        /// Initializes the appointment details page without a previous page reference.
+        /// </summary>
+        /// <param name="appointmentId">The ID of the appointment to display.</param>
         public PatientVisitDetailsPage(int appointmentId)
             : this(appointmentId, null)
         {
         }
 
+        /// <summary>
+        /// Initializes the appointment details page with an optional previous page.
+        /// </summary>
+        /// <param name="appointmentId">The ID of the appointment to display.</param>
+        /// <param name="previousPage">The form to return to when the user navigates back.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment ID is less than or equal to zero.
+        /// </exception>
         public PatientVisitDetailsPage(
             int appointmentId, Form? previousPage)
         {
@@ -71,6 +87,11 @@ namespace CS3230_Group5.View.Patient_View
             initialTextBox.Multiline = true;
             finalTextBox.Multiline = true;
 
+            configureTestsGrid();
+        }
+
+        private void configureTestsGrid()
+        {
             testsDataGridView.AutoGenerateColumns = false;
             testsDataGridView.AllowUserToAddRows = false;
             testsDataGridView.AllowUserToDeleteRows = false;
@@ -123,38 +144,47 @@ namespace CS3230_Group5.View.Patient_View
 
                 DataRow appointment = appointmentTable.Rows[0];
 
-                patientIdTextBox.Text =
-                    GetValue(appointment, "patient_id");
-
-                patientNameTextBox.Text =
-                    $"{GetValue(appointment, "first_name")} " +
-                    $"{GetValue(appointment, "last_name")}";
-
-                patientDobTextBox.Text =
-                    FormatDate(appointment, "date_of_birth");
-
-                patientPhoneTextBox.Text =
-                    GetValue(appointment, "phone");
-
-                appointmentIdTextBox.Text =
-                    GetValue(appointment, "appointment_id");
-
-                dateTimeTextBox.Text =
-                    FormatDateTime(appointment, "appointment_datetime");
-
-                textBox1.Text =
-                    GetValue(appointment, "reason");
-
-                doctorIdTextBox.Text =
-                    GetValue(appointment, "doctor_id");
-
-                doctorNameTextBox.Text =
-                    GetValue(appointment, "doctor_name");
+                populatePatientAppointmentFields(appointment);
+                populateDoctorFields(appointment);
             }
             catch (Exception ex)
             {
                 ShowError("Error loading appointment information", ex);
             }
+        }
+
+        private void populatePatientAppointmentFields(DataRow appointment)
+        {
+            patientIdTextBox.Text =
+                GetValue(appointment, "patient_id");
+
+            patientNameTextBox.Text =
+                $"{GetValue(appointment, "first_name")} " +
+                $"{GetValue(appointment, "last_name")}";
+
+            patientDobTextBox.Text =
+                FormatDate(appointment, "date_of_birth");
+
+            patientPhoneTextBox.Text =
+                GetValue(appointment, "phone");
+
+            appointmentIdTextBox.Text =
+                GetValue(appointment, "appointment_id");
+
+            dateTimeTextBox.Text =
+                FormatDateTime(appointment, "appointment_datetime");
+
+            textBox1.Text =
+                GetValue(appointment, "reason");
+        }
+
+        private void populateDoctorFields(DataRow appointment)
+        {
+            doctorIdTextBox.Text =
+                GetValue(appointment, "doctor_id");
+
+            doctorNameTextBox.Text =
+                GetValue(appointment, "doctor_name");
         }
 
         /// <summary>
@@ -173,37 +203,46 @@ namespace CS3230_Group5.View.Patient_View
                     return;
                 }
 
-                systolicTextBox.Text =
-                    FormatValue(summary.SystolicReading);
-
-                diastolicTextBox.Text =
-                    FormatValue(summary.DiastolicReading);
-
-                tempTextBox.Text =
-                    FormatValue(summary.BodyTemperature);
-
-                pulseTextBox.Text =
-                    FormatValue(summary.Pulse);
-
-                heightTextBox.Text =
-                    FormatValue(summary.Height);
-
-                weightTextBox.Text =
-                    FormatValue(summary.Weight);
-
-                symptomsTextBox.Text =
-                    DisplayOrDefault(summary.Symptoms);
-
-                initialTextBox.Text =
-                    DisplayOrDefault(summary.InitialDiagnosis);
-
-                finalTextBox.Text =
-                    DisplayOrDefault(summary.FinalDiagnosis);
+                populateCheckupMeasurements(summary);
+                populateCheckupNotes(summary);
             }
             catch (Exception ex)
             {
                 ShowError("Error loading checkup information", ex);
             }
+        }
+
+        private void populateCheckupMeasurements(AppointmentSummary summary)
+        {
+            systolicTextBox.Text =
+                FormatValue(summary.SystolicReading);
+
+            diastolicTextBox.Text =
+                FormatValue(summary.DiastolicReading);
+
+            tempTextBox.Text =
+                FormatValue(summary.BodyTemperature);
+
+            pulseTextBox.Text =
+                FormatValue(summary.Pulse);
+
+            heightTextBox.Text =
+                FormatValue(summary.Height);
+
+            weightTextBox.Text =
+                FormatValue(summary.Weight);
+        }
+
+        private void populateCheckupNotes(AppointmentSummary summary)
+        {
+            symptomsTextBox.Text =
+                DisplayOrDefault(summary.Symptoms);
+
+            initialTextBox.Text =
+                DisplayOrDefault(summary.InitialDiagnosis);
+
+            finalTextBox.Text =
+                DisplayOrDefault(summary.FinalDiagnosis);
         }
 
         /// <summary>
@@ -237,50 +276,63 @@ namespace CS3230_Group5.View.Patient_View
 
                 foreach (DataRow test in tests.Rows)
                 {
-                    string performedDate =
-                        FormatDateTime(test, "performed_datetime");
-
-                    string result =
-                        DisplayOrDefault(GetValue(test, "result"),
-                            "Pending");
-
-                    string abnormal = "Pending";
-
-                    if (test["abnormal"] != DBNull.Value)
-                    {
-                        abnormal =
-                            Convert.ToBoolean(test["abnormal"])
-                                ? "Yes"
-                                : "No";
-                    }
-
-                    if (test["performed_datetime"] == DBNull.Value)
-                    {
-                        performedDate = "Not performed yet";
-                    }
-
-                    testsDataGridView.Rows.Add(
-                        GetValue(test, "test_code"),
-                        performedDate,
-                        result,
-                        abnormal
-                    );
+                    addOrderedTestRow(test);
                 }
 
-                if (tests.Rows.Count == 0)
-                {
-                    testHeaderLabel.Text =
-                        "Tests Ordered and Performed — No tests ordered for this visit.";
-                }
-                else
-                {
-                    testHeaderLabel.Text =
-                        $"Tests Ordered and Performed — {tests.Rows.Count} test(s)";
-                }
+                updateTestHeader(tests.Rows.Count);
             }
             catch (Exception ex)
             {
                 ShowError("Error loading ordered tests", ex);
+            }
+        }
+
+        private void addOrderedTestRow(DataRow test)
+        {
+            string performedDate =
+                FormatDateTime(test, "performed_datetime");
+
+            string result =
+                DisplayOrDefault(GetValue(test, "result"), "Pending");
+
+            string abnormal = getAbnormalStatus(test);
+
+            if (test["performed_datetime"] == DBNull.Value)
+            {
+                performedDate = "Not performed yet";
+            }
+
+            testsDataGridView.Rows.Add(
+                GetValue(test, "test_code"),
+                performedDate,
+                result,
+                abnormal
+            );
+        }
+
+        private string getAbnormalStatus(DataRow test)
+        {
+            if (test["abnormal"] == DBNull.Value)
+            {
+                return "Pending";
+            }
+
+            return Convert.ToBoolean(test["abnormal"])
+                ? "Yes"
+                : "No";
+        }
+
+        private void updateTestHeader(int testCount)
+        {
+            if (testCount == 0)
+            {
+                testHeaderLabel.Text =
+                    "Tests Ordered and Performed — No tests ordered for this visit.";
+            }
+            else
+            {
+                testHeaderLabel.Text =
+                    $"Tests Ordered and Performed — {testCount} test(s)";
             }
         }
 
@@ -342,7 +394,7 @@ namespace CS3230_Group5.View.Patient_View
         }
 
         /// <summary>
-        /// Returns to the visit history page.
+        /// Returns to the previous page when one is available.
         /// </summary>
         private void backButton_Click(object sender, EventArgs e)
         {

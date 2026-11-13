@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using CS3230_Group5.Controller;
+﻿using CS3230_Group5.Controller;
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /// <summary>
+    /// Provides the form for adding a new nurse or editing an existing nurse's information.
+    /// </summary>
     public partial class AddNursePage : Form
     {
         private readonly NurseDal nurseDal = new NurseDal();
@@ -15,10 +15,19 @@ namespace CS3230_Group5.View.Nurse_View
 
         private readonly int? nurseId;
 
+        /// <summary>
+        /// Initializes the form for adding a new nurse.
+        /// </summary>
         public AddNursePage() : this(null)
         {
         }
 
+        /// <summary>
+        /// Initializes the form for adding a new nurse or editing an existing nurse.
+        /// </summary>
+        /// <param name="nurseId">
+        /// The ID of the nurse to edit, or null when adding a new nurse.
+        /// </param>
         public AddNursePage(int? nurseId)
         {
             InitializeComponent();
@@ -42,13 +51,11 @@ namespace CS3230_Group5.View.Nurse_View
 
             nursePassword.UseSystemPasswordChar = true;
 
-            // Phone: digits only, auto-formatted as (xxx)-xxx-xxxx (14 chars with formatting).
             nursePhoneNum.MaxLength = 14;
             nursePhoneNum.PlaceholderText = "(xxx)-xxx-xxxx";
             nursePhoneNum.KeyPress += NumericTextBox_KeyPress;
             nursePhoneNum.TextChanged += nursePhoneNum_TextChanged;
 
-            // Zip: digits only, max 5.
             nurseZip.MaxLength = 5;
             nurseZip.KeyPress += NumericTextBox_KeyPress;
             nurseZip.TextChanged += nurseZipDigitsOnly_TextChanged;
@@ -95,7 +102,6 @@ namespace CS3230_Group5.View.Nurse_View
             }
         }
 
-        // Also handles pasted/programmatic text: strips non-digits, caps at 10, reformats.
         private void nursePhoneNum_TextChanged(object? sender, EventArgs e)
         {
             if (formattingPhone) return;
@@ -112,7 +118,6 @@ namespace CS3230_Group5.View.Nurse_View
             formattingPhone = false;
         }
 
-        // Also handles pasted text: strips non-digits and caps at 5.
         private void nurseZipDigitsOnly_TextChanged(object? sender, EventArgs e)
         {
             string digits = digitsOnly(nurseZip.Text);
@@ -484,6 +489,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             returnToViewNursesPage();
         }
+
         private void returnToViewNursesPage()
         {
             foreach (Form open in Application.OpenForms)

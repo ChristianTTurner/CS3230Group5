@@ -75,6 +75,7 @@
             visitInfoLabel.TabIndex = 2;
             visitInfoLabel.Text = "Doctor:";
             visitInfoLabel.TextAlign = ContentAlignment.MiddleLeft;
+            visitInfoLabel.Click += visitInfoLabel_Click;
             // 
             // noticeLabel
             // 
@@ -93,7 +94,7 @@
             initialLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             initialLabel.Location = new Point(20, 165);
             initialLabel.Name = "initialLabel";
-            initialLabel.Size = new Size(145, 28);
+            initialLabel.Size = new Size(161, 28);
             initialLabel.TabIndex = 4;
             initialLabel.Text = "Initial Diagnosis:";
             // 
@@ -116,7 +117,7 @@
             testsLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             testsLabel.Location = new Point(20, 268);
             testsLabel.Name = "testsLabel";
-            testsLabel.Size = new Size(129, 28);
+            testsLabel.Size = new Size(143, 28);
             testsLabel.TabIndex = 6;
             testsLabel.Text = "Tests Ordered:";
             // 
@@ -124,7 +125,6 @@
             // 
             testsListView.FullRowSelect = true;
             testsListView.GridLines = true;
-            testsListView.HideSelection = false;
             testsListView.Location = new Point(20, 299);
             testsListView.MultiSelect = false;
             testsListView.Name = "testsListView";
@@ -139,7 +139,7 @@
             finalLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             finalLabel.Location = new Point(20, 462);
             finalLabel.Name = "finalLabel";
-            finalLabel.Size = new Size(138, 28);
+            finalLabel.Size = new Size(153, 28);
             finalLabel.TabIndex = 8;
             finalLabel.Text = "Final Diagnosis:";
             // 
@@ -174,8 +174,8 @@
             saveButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             saveButton.ForeColor = Color.White;
             saveButton.Location = new Point(520, 632);
-            saveButton.Size = new Size(240, 47);
             saveButton.Name = "saveButton";
+            saveButton.Size = new Size(240, 47);
             saveButton.TabIndex = 11;
             saveButton.Text = "Save Final Diagnosis";
             saveButton.UseVisualStyleBackColor = false;

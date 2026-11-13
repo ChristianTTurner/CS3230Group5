@@ -1,4 +1,5 @@
-﻿using CS3230_Group5.DAL;
+﻿
+using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using CS3230_Group5.View.Nurse_View;
 using System;
@@ -8,6 +9,11 @@ using System.Windows.Forms;
 
 namespace CS3230_Group5.View.Appointments_View
 {
+    /// <summary>
+    /// Displays detailed information about a patient appointment,
+    /// including patient information, checkup measurements, diagnoses,
+    /// and ordered test results.
+    /// </summary>
     public partial class AppointmentDetailsPage : Form
     {
         private readonly AppointmentSummaryDal _summaryDal =
@@ -35,10 +41,21 @@ namespace CS3230_Group5.View.Appointments_View
 
         private readonly OrderedTestDal _testDal = new OrderedTestDal();
 
+        /// <summary>
+        /// Initializes a new instance of the AppointmentDetailsPage class
+        /// without selecting a specific appointment.
+        /// </summary>
         public AppointmentDetailsPage() : this(0)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AppointmentDetailsPage class
+        /// with the specified appointment identifier.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment to display.
+        /// </param>
         public AppointmentDetailsPage(int appointmentId)
         {
             InitializeComponent();
@@ -57,9 +74,6 @@ namespace CS3230_Group5.View.Appointments_View
             finalDiagnosisTextBox.ReadOnly = true;
         }
 
-        /// <summary>
-        /// Lets the tests grid fill its width and wrap long text instead of cutting it off.
-        /// </summary>
         private void ConfigureTestsGrid()
         {
             orderedTestDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -94,6 +108,16 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
+        /// <summary>
+        /// Loads the details for the specified appointment and refreshes
+        /// the appointment information displayed on the page.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment to load.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment identifier is less than or equal to zero.
+        /// </exception>
         public void LoadAppointment(int appointmentId)
         {
             if (appointmentId <= 0)
@@ -238,7 +262,6 @@ namespace CS3230_Group5.View.Appointments_View
 
             SetVisitLocked(false);
 
-            // No check-up yet, so there cannot be any ordered tests.
             orderedTestDataGridView.Rows.Clear();
         }
 
@@ -256,7 +279,6 @@ namespace CS3230_Group5.View.Appointments_View
         {
             symptomsTextBox.Text = DisplayText(summary.Symptoms);
             initialDiagnosisTextBox.Text = DisplayText(summary.InitialDiagnosis);
-
             finalDiagnosisTextBox.Text = DisplayText(summary.FinalDiagnosis);
 
             SetVisitLocked(!string.IsNullOrWhiteSpace(summary.FinalDiagnosis));
@@ -339,7 +361,7 @@ namespace CS3230_Group5.View.Appointments_View
         private bool TryGetSignedInNurseId(out int nurseId)
         {
             return int.TryParse(Convert.ToString(SignedInUser.UserID), out nurseId)
-                && nurseId > 0;
+                   && nurseId > 0;
         }
 
         private void initialDiagnosisButton_Click(object? sender, EventArgs e)
@@ -374,7 +396,6 @@ namespace CS3230_Group5.View.Appointments_View
                 using var resultsPage = new EnterTestResultsPage(_appointmentId);
                 resultsPage.ShowDialog(this);
 
-                // Always refresh: results may have been saved before the page closed.
                 LoadPageData();
             }
             catch (Exception ex)
@@ -405,11 +426,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
-        /// <summary>
-        /// Once a final diagnosis exists the visit is read-only, so the buttons
-        /// that change it are turned off. View Test Result stays on so the
-        /// results can still be read.
-        /// </summary>
         private void SetVisitLocked(bool locked)
         {
             checkUpButton.Enabled = !locked;
@@ -425,7 +441,7 @@ namespace CS3230_Group5.View.Appointments_View
             foreach (OrderedTest test in _testDal.GetOrderedTests(_appointmentId))
             {
                 string performed = test.PerformedDateTime?.ToString("MM/dd/yyyy h:mm tt")
-                    ?? "Not performed";
+                                   ?? "Not performed";
 
                 string result = test.HasResult
                     ? $"{test.Result} {test.UnitMeasurement}".Trim()
@@ -452,7 +468,6 @@ namespace CS3230_Group5.View.Appointments_View
                 using var orderPage = new OrderTestsPage(_appointmentId);
                 orderPage.ShowDialog(this);
 
-                // Always refresh: a test may have been removed before the page closed.
                 LoadPageData();
             }
             catch (Exception ex)
@@ -517,7 +532,6 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void profileLabel_Click(object? sender, EventArgs e)
         {
-
         }
     }
 }

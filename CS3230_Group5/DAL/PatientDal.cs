@@ -15,6 +15,8 @@ namespace CS3230_Group5.DAL
         /// <summary>
         /// Retrieves patients, optionally searching by name, phone, or date of birth.
         /// </summary>
+        /// <param name="filter">An optional search value used to filter the results.</param>
+        /// <returns>A list of matching patients ordered by last name then first name.</returns>
         public List<Patient> GetPatients(string? filter = null)
         {
             using var connection =
@@ -33,6 +35,8 @@ namespace CS3230_Group5.DAL
         /// <summary>
         /// Retrieves one patient's information, including their address.
         /// </summary>
+        /// <param name="patientId">The patient ID to look up.</param>
+        /// <returns>A table containing the patient's details and formatted address.</returns>
         public DataTable GetPatientDetails(int patientId)
         {
             const string query = @"
@@ -78,137 +82,14 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Creates the SQL command for retrieving and filtering patients.
-        /// </summary>
-        private static MySqlCommand CreatePatientSearchCommand(
-            MySqlConnection connection, string? filter)
-        {
-            bool hasFilter = !string.IsNullOrWhiteSpace(filter);
-
-            string query = BuildPatientSearchQuery(hasFilter);
-
-            var command = new MySqlCommand(query, connection);
-
-            if (hasFilter)
-            {
-                command.Parameters.Add(
-                            "@filter", MySqlDbType.VarChar, 200)
-                        .Value = $"%{filter!.Trim()}%";
-            }
-
-            return command;
-        }
-
-        /// <summary>
-        /// Builds the patient query with or without search criteria.
-        /// </summary>
-        private static string BuildPatientSearchQuery(bool hasFilter)
-        {
-            const string selectQuery = @"
-        SELECT patient_id, first_name, last_name, date_of_birth,
-               phone, gender, active, address_id
-        FROM patient";
-
-            if (!hasFilter)
-            {
-                return selectQuery + " ORDER BY last_name, first_name;";
-            }
-
-            return selectQuery + @"
-        WHERE first_name LIKE @filter
-           OR last_name LIKE @filter
-           OR CONCAT(first_name, ' ', last_name) LIKE @filter
-           OR phone LIKE @filter
-           OR DATE_FORMAT(date_of_birth, '%Y-%m-%d') LIKE @filter
-           OR DATE_FORMAT(date_of_birth, '%m/%d/%Y') LIKE @filter
-        ORDER BY last_name, first_name;";
-        }
-
-        /// <summary>
-        /// Converts the database results into a list of Patient models.
-        /// </summary>
-        private static List<Patient> ReadPatients(MySqlDataReader reader)
-        {
-            var patients = new List<Patient>();
-
-            while (reader.Read())
-            {
-                patients.Add(MapPatient(reader));
-            }
-
-            return patients;
-        }
-
-        /// <summary>
-        /// Maps the current database row to a Patient model.
-        /// </summary>
-        private static Patient MapPatient(MySqlDataReader reader)
-        {
-            return new Patient
-            {
-                PatientId = reader.GetInt32("patient_id"),
-                FirstName = ReadString(reader, "first_name"),
-                LastName = ReadString(reader, "last_name"),
-                DateOfBirth = ReadNullableDate(reader, "date_of_birth"),
-                Phone = ReadString(reader, "phone"),
-                Gender = ReadString(reader, "gender"),
-                Active = ReadActiveStatus(reader),
-                AddressId = ReadNullableInt(reader, "address_id")
-            };
-        }
-
-        /// <summary>
-        /// Reads a string value, returning an empty string for database NULL.
-        /// </summary>
-        private static string ReadString(
-            MySqlDataReader reader, string column)
-        {
-            return reader.IsDBNull(reader.GetOrdinal(column))
-                ? string.Empty
-                : reader.GetString(column);
-        }
-
-        /// <summary>
-        /// Reads a nullable date from the current database row.
-        /// </summary>
-        private static DateTime? ReadNullableDate(
-            MySqlDataReader reader, string column)
-        {
-            int ordinal = reader.GetOrdinal(column);
-
-            return reader.IsDBNull(ordinal)
-                ? null
-                : reader.GetDateTime(ordinal);
-        }
-
-        /// <summary>
-        /// Reads a nullable integer from the current database row.
-        /// </summary>
-        private static int? ReadNullableInt(
-            MySqlDataReader reader, string column)
-        {
-            int ordinal = reader.GetOrdinal(column);
-
-            return reader.IsDBNull(ordinal)
-                ? null
-                : reader.GetInt32(ordinal);
-        }
-
-        /// <summary>
-        /// Reads the patient's active status.
-        /// </summary>
-        private static bool ReadActiveStatus(MySqlDataReader reader)
-        {
-            int ordinal = reader.GetOrdinal("active");
-
-            return !reader.IsDBNull(ordinal)
-                   && Convert.ToBoolean(reader.GetValue(ordinal));
-        }
-
-        /// <summary>
         /// Loads a patient and their address (if any) for editing.
-        /// Returns null when the patient does not exist.
         /// </summary>
+        /// <param name="patientId">The patient ID to look up.</param>
+        /// <returns>
+        /// The patient and address, or <see langword="null"/> when the patient does not exist.
+        /// The address is <see langword="null"/> when the patient has none.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the patient ID is not positive.</exception>
         public (Patient Patient, Address? Address)? GetPatientForEdit(int patientId)
         {
             if (patientId <= 0)
@@ -236,23 +117,16 @@ namespace CS3230_Group5.DAL
 
             Patient patient = MapPatient(reader);
 
-            Address? address = patient.AddressId.HasValue
-                ? new Address(
-                    patient.AddressId,
-                    ReadString(reader, "address1"),
-                    ReadString(reader, "address2"),
-                    ReadString(reader, "city"),
-                    ReadString(reader, "state"),
-                    ReadString(reader, "zip"))
-                : null;
-
-            return (patient, address);
+            return (patient, MapAddress(reader, patient.AddressId));
         }
 
         /// <summary>
         /// Adds a patient and their address in one transaction.
-        /// Returns the new patient's ID.
         /// </summary>
+        /// <param name="patient">The patient to add.</param>
+        /// <param name="address">The patient's address.</param>
+        /// <returns>The new patient's ID.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the patient or address is null.</exception>
         public int AddPatient(Patient patient, Address address)
         {
             ArgumentNullException.ThrowIfNull(patient);
@@ -267,21 +141,7 @@ namespace CS3230_Group5.DAL
             try
             {
                 int addressId = InsertAddress(connection, transaction, address);
-
-                const string insertPatient = @"
-                    INSERT INTO patient
-                        (first_name, last_name, date_of_birth, phone,
-                         address_id, gender, active)
-                    VALUES
-                        (@firstName, @lastName, @dateOfBirth, @phone,
-                         @addressId, @gender, @active);";
-
-                using var command = new MySqlCommand(
-                    insertPatient, connection, transaction);
-                AddPatientParameters(command, patient, addressId);
-                command.ExecuteNonQuery();
-
-                int patientId = checked((int)command.LastInsertedId);
+                int patientId = InsertPatient(connection, transaction, patient, addressId);
 
                 transaction.Commit();
                 return patientId;
@@ -296,8 +156,12 @@ namespace CS3230_Group5.DAL
         /// <summary>
         /// Updates a patient and their address in one transaction.
         /// If the patient has no address yet, one is created.
-        /// Returns true when the patient row was found.
         /// </summary>
+        /// <param name="patient">The patient with the updated values.</param>
+        /// <param name="address">The address with the updated values.</param>
+        /// <returns><see langword="true"/> when the patient row was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the patient or address is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the patient ID is missing.</exception>
         public bool UpdatePatient(Patient patient, Address address)
         {
             ArgumentNullException.ThrowIfNull(patient);
@@ -319,24 +183,7 @@ namespace CS3230_Group5.DAL
                     ? UpdateAddress(connection, transaction, address)
                     : InsertAddress(connection, transaction, address);
 
-                const string updatePatient = @"
-                    UPDATE patient
-                    SET first_name = @firstName,
-                        last_name = @lastName,
-                        date_of_birth = @dateOfBirth,
-                        phone = @phone,
-                        address_id = @addressId,
-                        gender = @gender,
-                        active = @active
-                    WHERE patient_id = @patientId;";
-
-                using var command = new MySqlCommand(
-                    updatePatient, connection, transaction);
-                AddPatientParameters(command, patient, addressId);
-                command.Parameters.Add("@patientId", MySqlDbType.Int32).Value =
-                    patient.PatientId;
-
-                bool found = command.ExecuteNonQuery() > 0;
+                bool found = UpdatePatientRow(connection, transaction, patient, addressId);
 
                 transaction.Commit();
                 return found;
@@ -348,6 +195,266 @@ namespace CS3230_Group5.DAL
             }
         }
 
+        /// <summary>
+        /// Deletes a patient in a transaction. The associated address is deleted
+        /// only when no patient or nurse still references it.
+        /// </summary>
+        /// <param name="patientId">The patient ID to delete.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the patient ID is not positive.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the patient no longer exists.</exception>
+        public void DeletePatient(int patientId)
+        {
+            if (patientId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(patientId));
+
+            using var connection =
+                new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                int? addressId = GetPatientAddressId(
+                    connection, transaction, patientId);
+
+                DeletePatientRow(connection, transaction, patientId);
+                DeleteAddressIfUnused(connection, transaction, addressId);
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Creates the SQL command for retrieving and filtering patients.
+        /// </summary>
+        /// <param name="connection">The connection the command will run on.</param>
+        /// <param name="filter">An optional search value used to filter the results.</param>
+        /// <returns>The command, with the filter parameter set when a filter is given.</returns>
+        private static MySqlCommand CreatePatientSearchCommand(
+            MySqlConnection connection, string? filter)
+        {
+            bool hasFilter = !string.IsNullOrWhiteSpace(filter);
+
+            string query = BuildPatientSearchQuery(hasFilter);
+
+            var command = new MySqlCommand(query, connection);
+
+            if (hasFilter)
+            {
+                command.Parameters.Add(
+                            "@filter", MySqlDbType.VarChar, 200)
+                        .Value = $"%{filter!.Trim()}%";
+            }
+
+            return command;
+        }
+
+        /// <summary>
+        /// Builds the patient query with or without search criteria.
+        /// </summary>
+        /// <param name="hasFilter">Whether a search filter is being applied.</param>
+        /// <returns>The SQL query text.</returns>
+        private static string BuildPatientSearchQuery(bool hasFilter)
+        {
+            const string selectQuery = @"
+        SELECT patient_id, first_name, last_name, date_of_birth,
+               phone, gender, active, address_id
+        FROM patient";
+
+            if (!hasFilter)
+            {
+                return selectQuery + " ORDER BY last_name, first_name;";
+            }
+
+            return selectQuery + @"
+        WHERE first_name LIKE @filter
+           OR last_name LIKE @filter
+           OR CONCAT(first_name, ' ', last_name) LIKE @filter
+           OR phone LIKE @filter
+           OR DATE_FORMAT(date_of_birth, '%Y-%m-%d') LIKE @filter
+           OR DATE_FORMAT(date_of_birth, '%m/%d/%Y') LIKE @filter
+        ORDER BY last_name, first_name;";
+        }
+
+        /// <summary>
+        /// Converts the database results into a list of Patient models.
+        /// </summary>
+        /// <param name="reader">The reader positioned before the first row.</param>
+        /// <returns>The mapped patients.</returns>
+        private static List<Patient> ReadPatients(MySqlDataReader reader)
+        {
+            var patients = new List<Patient>();
+
+            while (reader.Read())
+            {
+                patients.Add(MapPatient(reader));
+            }
+
+            return patients;
+        }
+
+        /// <summary>
+        /// Maps the current database row to a Patient model.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a patient row.</param>
+        /// <returns>The mapped patient.</returns>
+        private static Patient MapPatient(MySqlDataReader reader)
+        {
+            return new Patient
+            {
+                PatientId = reader.GetInt32("patient_id"),
+                FirstName = ReadString(reader, "first_name"),
+                LastName = ReadString(reader, "last_name"),
+                DateOfBirth = ReadNullableDate(reader, "date_of_birth"),
+                Phone = ReadString(reader, "phone"),
+                Gender = ReadString(reader, "gender"),
+                Active = ReadActiveStatus(reader),
+                AddressId = ReadNullableInt(reader, "address_id")
+            };
+        }
+
+        /// <summary>
+        /// Maps the address columns of the current row to an Address model.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a patient and address row.</param>
+        /// <param name="addressId">The patient's address ID, or <see langword="null"/> when none.</param>
+        /// <returns>The mapped address, or <see langword="null"/> when the patient has none.</returns>
+        private static Address? MapAddress(MySqlDataReader reader, int? addressId)
+        {
+            if (!addressId.HasValue)
+                return null;
+
+            return new Address(
+                addressId,
+                ReadString(reader, "address1"),
+                ReadString(reader, "address2"),
+                ReadString(reader, "city"),
+                ReadString(reader, "state"),
+                ReadString(reader, "zip"));
+        }
+
+        /// <summary>
+        /// Reads a string value, returning an empty string for database NULL.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a row.</param>
+        /// <param name="column">The column name.</param>
+        /// <returns>The string value, or an empty string.</returns>
+        private static string ReadString(
+            MySqlDataReader reader, string column)
+        {
+            return reader.IsDBNull(reader.GetOrdinal(column))
+                ? string.Empty
+                : reader.GetString(column);
+        }
+
+        /// <summary>
+        /// Reads a nullable date from the current database row.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a row.</param>
+        /// <param name="column">The column name.</param>
+        /// <returns>The date, or <see langword="null"/>.</returns>
+        private static DateTime? ReadNullableDate(
+            MySqlDataReader reader, string column)
+        {
+            int ordinal = reader.GetOrdinal(column);
+
+            return reader.IsDBNull(ordinal)
+                ? null
+                : reader.GetDateTime(ordinal);
+        }
+
+        /// <summary>
+        /// Reads a nullable integer from the current database row.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a row.</param>
+        /// <param name="column">The column name.</param>
+        /// <returns>The integer, or <see langword="null"/>.</returns>
+        private static int? ReadNullableInt(
+            MySqlDataReader reader, string column)
+        {
+            int ordinal = reader.GetOrdinal(column);
+
+            return reader.IsDBNull(ordinal)
+                ? null
+                : reader.GetInt32(ordinal);
+        }
+
+        /// <summary>
+        /// Reads the patient's active status.
+        /// </summary>
+        /// <param name="reader">The reader positioned on a patient row.</param>
+        /// <returns><see langword="true"/> when the patient is active; otherwise, <see langword="false"/>.</returns>
+        private static bool ReadActiveStatus(MySqlDataReader reader)
+        {
+            int ordinal = reader.GetOrdinal("active");
+
+            return !reader.IsDBNull(ordinal)
+                   && Convert.ToBoolean(reader.GetValue(ordinal));
+        }
+
+        /// <summary>
+        /// Inserts a patient row inside a transaction.
+        /// </summary>
+        /// <returns>The generated patient ID.</returns>
+        private static int InsertPatient(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            Patient patient,
+            int addressId)
+        {
+            const string query = @"
+                INSERT INTO patient
+                    (first_name, last_name, date_of_birth, phone,
+                     address_id, gender, active)
+                VALUES
+                    (@firstName, @lastName, @dateOfBirth, @phone,
+                     @addressId, @gender, @active);";
+
+            using var command = new MySqlCommand(query, connection, transaction);
+            AddPatientParameters(command, patient, addressId);
+            command.ExecuteNonQuery();
+
+            return checked((int)command.LastInsertedId);
+        }
+
+        /// <summary>
+        /// Updates an existing patient row inside a transaction.
+        /// </summary>
+        /// <returns><see langword="true"/> when the patient row was found; otherwise, <see langword="false"/>.</returns>
+        private static bool UpdatePatientRow(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            Patient patient,
+            int addressId)
+        {
+            const string query = @"
+                UPDATE patient
+                SET first_name = @firstName,
+                    last_name = @lastName,
+                    date_of_birth = @dateOfBirth,
+                    phone = @phone,
+                    address_id = @addressId,
+                    gender = @gender,
+                    active = @active
+                WHERE patient_id = @patientId;";
+
+            using var command = new MySqlCommand(query, connection, transaction);
+            AddPatientParameters(command, patient, addressId);
+            command.Parameters.Add("@patientId", MySqlDbType.Int32).Value =
+                patient.PatientId;
+
+            return command.ExecuteNonQuery() > 0;
+        }
+
+        /// <summary>
+        /// Adds the patient parameters shared by the insert and update commands.
+        /// </summary>
         private static void AddPatientParameters(
             MySqlCommand command, Patient patient, int addressId)
         {
@@ -367,6 +474,10 @@ namespace CS3230_Group5.DAL
                 patient.Active;
         }
 
+        /// <summary>
+        /// Inserts an address row inside a transaction.
+        /// </summary>
+        /// <returns>The generated address ID.</returns>
         private static int InsertAddress(
             MySqlConnection connection,
             MySqlTransaction transaction,
@@ -383,6 +494,10 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
+        /// <summary>
+        /// Updates an existing address row inside a transaction.
+        /// </summary>
+        /// <returns>The ID of the updated address.</returns>
         private static int UpdateAddress(
             MySqlConnection connection,
             MySqlTransaction transaction,
@@ -406,6 +521,9 @@ namespace CS3230_Group5.DAL
             return address.AddressId.Value;
         }
 
+        /// <summary>
+        /// Adds the address parameters shared by the insert and update commands.
+        /// </summary>
         private static void AddAddressParameters(
             MySqlCommand command, Address address)
         {
@@ -422,58 +540,55 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Deletes a patient in a transaction. The associated address is deleted
-        /// only when no patient or nurse still references it.
+        /// Deletes a patient row inside a transaction.
         /// </summary>
-        public void DeletePatient(int patientId)
+        /// <exception cref="InvalidOperationException">Thrown when the patient no longer exists.</exception>
+        private static void DeletePatientRow(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            int patientId)
         {
-            if (patientId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(patientId));
+            using var command = new MySqlCommand(
+                "DELETE FROM patient WHERE patient_id = @patientId",
+                connection, transaction);
 
-            using var connection =
-                new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
+            command.Parameters.Add(
+                "@patientId", MySqlDbType.Int32).Value = patientId;
 
-            using var transaction = connection.BeginTransaction();
-
-            try
-            {
-                int? addressId = GetPatientAddressId(
-                    connection, transaction, patientId);
-
-                using (var deletePatient = new MySqlCommand(
-                           "DELETE FROM patient WHERE patient_id = @patientId",
-                           connection, transaction))
-                {
-                    deletePatient.Parameters.Add(
-                        "@patientId", MySqlDbType.Int32).Value = patientId;
-
-                    int rowsAffected = deletePatient.ExecuteNonQuery();
-                    if (rowsAffected == 0)
-                        throw new InvalidOperationException(
-                            "The selected patient no longer exists.");
-                }
-
-                if (addressId.HasValue && !IsAddressInUse(
-                        connection, transaction, addressId.Value))
-                {
-                    using var deleteAddress = new MySqlCommand(
-                        "DELETE FROM address WHERE address_id = @addressId",
-                        connection, transaction);
-                    deleteAddress.Parameters.Add(
-                        "@addressId", MySqlDbType.Int32).Value = addressId.Value;
-                    deleteAddress.ExecuteNonQuery();
-                }
-
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            if (command.ExecuteNonQuery() == 0)
+                throw new InvalidOperationException(
+                    "The selected patient no longer exists.");
         }
 
+        /// <summary>
+        /// Deletes an address when it exists and no patient or nurse still references it.
+        /// </summary>
+        /// <param name="addressId">The address ID, or <see langword="null"/> when there is none.</param>
+        private static void DeleteAddressIfUnused(
+            MySqlConnection connection,
+            MySqlTransaction transaction,
+            int? addressId)
+        {
+            if (!addressId.HasValue ||
+                IsAddressInUse(connection, transaction, addressId.Value))
+            {
+                return;
+            }
+
+            using var command = new MySqlCommand(
+                "DELETE FROM address WHERE address_id = @addressId",
+                connection, transaction);
+
+            command.Parameters.Add(
+                "@addressId", MySqlDbType.Int32).Value = addressId.Value;
+
+            command.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Gets the address ID of a patient.
+        /// </summary>
+        /// <returns>The address ID, or <see langword="null"/> when the patient has none.</returns>
         private static int? GetPatientAddressId(
             MySqlConnection connection,
             MySqlTransaction transaction,
@@ -493,6 +608,10 @@ namespace CS3230_Group5.DAL
                 : Convert.ToInt32(result);
         }
 
+        /// <summary>
+        /// Checks whether any patient or nurse still references the address.
+        /// </summary>
+        /// <returns><see langword="true"/> when the address is in use; otherwise, <see langword="false"/>.</returns>
         private static bool IsAddressInUse(
             MySqlConnection connection,
             MySqlTransaction transaction,

@@ -45,7 +45,7 @@
             userIdLabel = new Label();
             accountHeaderLabel = new Label();
             addressPanel = new Panel();
-            label2 = new Label();
+            zipLabel = new Label();
             stateLabel = new Label();
             cityLabel = new Label();
             add2Label = new Label();
@@ -241,7 +241,7 @@
             // addressPanel
             // 
             addressPanel.BackColor = Color.White;
-            addressPanel.Controls.Add(label2);
+            addressPanel.Controls.Add(zipLabel);
             addressPanel.Controls.Add(stateLabel);
             addressPanel.Controls.Add(cityLabel);
             addressPanel.Controls.Add(add2Label);
@@ -252,15 +252,15 @@
             addressPanel.Size = new Size(816, 252);
             addressPanel.TabIndex = 14;
             // 
-            // label2
+            // zipLabel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(16, 207);
-            label2.Name = "label2";
-            label2.Size = new Size(44, 28);
-            label2.TabIndex = 22;
-            label2.Text = "Zip:";
+            zipLabel.AutoSize = true;
+            zipLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            zipLabel.Location = new Point(16, 207);
+            zipLabel.Name = "zipLabel";
+            zipLabel.Size = new Size(44, 28);
+            zipLabel.TabIndex = 22;
+            zipLabel.Text = "Zip:";
             // 
             // stateLabel
             // 
@@ -367,7 +367,7 @@
         private Label userIdLabel;
         private Label add2Label;
         private Label add1Label;
-        private Label label2;
+        private Label zipLabel;
         private Label stateLabel;
         private Label cityLabel;
     }
