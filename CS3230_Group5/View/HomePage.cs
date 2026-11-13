@@ -14,8 +14,7 @@ namespace CS3230_Group5
         public homePageButton()
         {
             InitializeComponent();
-
-            nurseButton.Visible = SignedInUser.IsAdmin;
+            disableNurseFeatures(SignedInUser.IsAdmin);
 
             homeButton.Click += HomeButton_Click;
             nurseButton.Click += NurseButton_Click;
@@ -32,13 +31,28 @@ namespace CS3230_Group5
 
             userNameLabel.Text = "Username: " + SignedInUser.Username;
             idLabel.Text = "User ID: " + SignedInUser.UserID;
-            manageNurse.Visible = SignedInUser.IsAdmin;
-            manageNurseLabel.Visible = SignedInUser.IsAdmin;
 
             adminStats.Visible = SignedInUser.IsAdmin;
             adminStatsLabel.Visible = SignedInUser.IsAdmin;
 
             adminStatsLabel.BringToFront();
+        }
+
+        private void disableNurseFeatures(bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                appointmentButton.Enabled = false;
+                patientsButton.Enabled = false;
+                nurseButton.Enabled = false;
+
+                manageAppointments.Enabled = false;
+                managePatients.Enabled = false;
+                manageNurse.Enabled = false;
+            } else
+            {
+                adminStats.Enabled = false;
+            }
         }
 
         private void HomeButton_Click(object? sender, EventArgs e)
