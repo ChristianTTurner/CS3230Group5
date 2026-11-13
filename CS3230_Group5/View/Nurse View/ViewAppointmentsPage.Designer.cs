@@ -30,7 +30,6 @@
         {
             editButton = new Button();
             label1 = new Label();
-            bookAppointmentButton = new Button();
             searchAppointmentTextBox = new TextBox();
             appointmentList = new ListView();
             appointmentButton = new Button();
@@ -53,7 +52,7 @@
             editButton.FlatStyle = FlatStyle.Flat;
             editButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             editButton.ForeColor = Color.White;
-            editButton.Location = new Point(935, 90);
+            editButton.Location = new Point(947, 93);
             editButton.Margin = new Padding(2);
             editButton.Name = "editButton";
             editButton.Size = new Size(90, 31);
@@ -73,29 +72,13 @@
             label1.TabIndex = 15;
             label1.Text = "Appointments";
             // 
-            // bookAppointmentButton
-            // 
-            bookAppointmentButton.BackColor = Color.ForestGreen;
-            bookAppointmentButton.FlatAppearance.BorderSize = 0;
-            bookAppointmentButton.FlatStyle = FlatStyle.Flat;
-            bookAppointmentButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            bookAppointmentButton.ForeColor = Color.White;
-            bookAppointmentButton.ImageAlign = ContentAlignment.TopCenter;
-            bookAppointmentButton.Location = new Point(943, 139);
-            bookAppointmentButton.Name = "bookAppointmentButton";
-            bookAppointmentButton.Size = new Size(82, 37);
-            bookAppointmentButton.TabIndex = 14;
-            bookAppointmentButton.Text = "Book";
-            bookAppointmentButton.UseVisualStyleBackColor = false;
-            bookAppointmentButton.Click += bookAppointmentButton_Click;
-            // 
             // searchAppointmentTextBox
             // 
             searchAppointmentTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchAppointmentTextBox.Location = new Point(272, 142);
             searchAppointmentTextBox.Name = "searchAppointmentTextBox";
             searchAppointmentTextBox.PlaceholderText = "Search by name, doctor, or appointment date";
-            searchAppointmentTextBox.Size = new Size(653, 34);
+            searchAppointmentTextBox.Size = new Size(767, 34);
             searchAppointmentTextBox.TabIndex = 13;
             searchAppointmentTextBox.TextChanged += searchAppointmentTextBox_TextChanged;
             // 
@@ -227,14 +210,16 @@
             // 
             // viewSummaryButton
             // 
+            viewSummaryButton.BackColor = SystemColors.WindowFrame;
             viewSummaryButton.FlatStyle = FlatStyle.Flat;
             viewSummaryButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            viewSummaryButton.Location = new Point(762, 90);
+            viewSummaryButton.ForeColor = SystemColors.Control;
+            viewSummaryButton.Location = new Point(774, 93);
             viewSummaryButton.Name = "viewSummaryButton";
             viewSummaryButton.Size = new Size(163, 32);
             viewSummaryButton.TabIndex = 20;
             viewSummaryButton.Text = "View Summary";
-            viewSummaryButton.UseVisualStyleBackColor = true;
+            viewSummaryButton.UseVisualStyleBackColor = false;
             viewSummaryButton.Click += viewAppointment_Click;
             // 
             // ViewAppointmentsPage
@@ -247,7 +232,6 @@
             Controls.Add(menuPanel);
             Controls.Add(editButton);
             Controls.Add(label1);
-            Controls.Add(bookAppointmentButton);
             Controls.Add(searchAppointmentTextBox);
             Controls.Add(appointmentList);
             Name = "ViewAppointmentsPage";
@@ -262,7 +246,6 @@
         #endregion
         private Button editButton;
         private Label label1;
-        private Button bookAppointmentButton;
         private TextBox searchAppointmentTextBox;
         private ListView appointmentList;
         private Button appointmentButton;
