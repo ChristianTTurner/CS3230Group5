@@ -12,12 +12,18 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /** Store information for the EditAppointmentPage
+     */
     public partial class EditAppointmentPage : Form
     {
         private AppointmentDal _Appointment = new AppointmentDal();
         private Appointment selectedAppointment;
         private Dictionary<int,string> doctors = new Dictionary<int,string>();
 
+        /** Initialize the EditAppointmentPage
+         * 
+         *  @param selectedAppointment the appointment to be edited
+         */
         public EditAppointmentPage(Appointment selectedAppointment)
         {
             InitializeComponent();

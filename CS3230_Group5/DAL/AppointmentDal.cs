@@ -47,6 +47,13 @@ namespace CS3230_Group5.DAL
             return doctors;
         }
 
+        /** Delete an Appointment from the Database
+         * 
+         *  @param id the appointment_id of the appointment to be deleted
+         *  
+         *  @returns true if the information was successfully deleted
+         *          false if the information wasn't successfully deleted
+         */
         public bool DeleteAppointment(int id)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -106,6 +113,14 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
+        /** Update appointment information in the Database
+         * 
+         *  @param appointment the appointment to be updated
+         *  @param message resulting information based on the updates success
+         *  
+         *  @returns true if the edits were saved successfully
+         *          false if the edits weren't saved successfully
+         */
         public bool UpdateAppointment(Appointment appointment, out string message)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -162,6 +177,12 @@ namespace CS3230_Group5.DAL
                    WHERE appointment_id = @appointmentId;";
         }
 
+        /** Get the appointments stored in the Database
+         * 
+         *  @param filter the filter based on the search input
+         *  
+         *  @returns a list of appointments
+         */
         public List<Appointment> GetAppointments(string? filter = null)
         {
             var appointments = new List<Appointment>();
