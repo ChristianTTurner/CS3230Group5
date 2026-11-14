@@ -52,16 +52,16 @@ namespace CS3230_Group5.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var deleteQuery = @"SET FOREIGN_KEY_CHECKS = 0;
-                    DELETE appointment FROM appointment
-                    WHERE appointment_id = @id;
-                    DELETE appointment_summary FROM appointment_summary
-                    WHERE appointment_id = @id;
-                    SET FOREIGN_KEY_CHECKS = 1;";
-            var command = new MySqlCommand(deleteQuery, connection);
+            var callDelete = @"call DeleteAppointment(@id);";
+            var command = new MySqlCommand(callDelete, connection);
             command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
 
-            return command.ExecuteNonQuery() > 0;
+            using var reader = command.ExecuteReader();
+            reader.Read();
+            var result = reader.GetInt16("result");
+            reader.Close();
+
+            return result > 0;
         }
 
         public int AddAppointment(int patientId, int doctorId, DateTime appointmentDateTime, string reason)
