@@ -6,9 +6,12 @@ using System.Text;
 
 namespace CS3230_Group5.DAL
 {
+    /* Handles connection between LogInPage and the Database
+     * 
+     */
     public class LogInDAL
     {
-        /** Signs in an Admin if username and password match an existing Admin account
+        /* Signs in an Admin if username and password match an existing Admin account
          *  Stores the Admins ID under SignedInUser.UserID for persistence across Forms
          * 
          *  @param username the inputted username

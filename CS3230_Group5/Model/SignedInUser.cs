@@ -4,6 +4,9 @@ using System.Text;
 
 namespace CS3230_Group5.Model
 {
+    /// <summary>
+    /// Store and set information regarding the signed in user
+    /// </summary>
     public class SignedInUser
     {
         public static string? Username {  get; set; }
@@ -19,6 +22,9 @@ namespace CS3230_Group5.Model
         public static string? Address2 { get; set; }
         public static string? City { get; set; }
 
+        /// <summary>
+        /// Reset all of SignedInUsers' values
+        /// </summary>
         public static void Clear()
         {
             UserID = null;
