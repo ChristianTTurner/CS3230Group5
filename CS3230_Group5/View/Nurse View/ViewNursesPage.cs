@@ -7,10 +7,17 @@ using System.Windows.Forms;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /// <summary>
+    /// Provides the form for viewing, adding, and editing nurse records.
+    /// </summary>
     public partial class ViewNursesPage : Form
     {
         private readonly NurseDal nurseDal = new NurseDal();
 
+        /// <summary>
+        /// Initializes the nurses page, configures the nurse list, loads nurse records,
+        /// and sets up the navigation controls.
+        /// </summary>
         public ViewNursesPage()
         {
             InitializeComponent();
@@ -19,34 +26,31 @@ namespace CS3230_Group5.View.Nurse_View
 
             setUpNursesList();
             loadNurses();
-           
-            homeButton.Click += (s, e) =>
-            {
-                var home = new homePageButton();
-                home.Show();
-                this.Hide();
-            };
-            nurseButton.Click += (s, e) => { };
-            patientsButton.Click += (s, e) =>
-            {
-                var viewPatient = new Patient_View.SearchPatientPage();
-                viewPatient.Show();
-                this.Hide();
-            };
-            appointmentButton.Click += (s, e) =>
-            {
-                var viewAppointment = new ViewAppointmentsPage();
-                viewAppointment.Show();
-                this.Hide();
-            };
-            logoutButton.Click += (s, e) =>
-            {
-                var login = new View.LogInPage();
-                login.Show();
-                this.Hide();
-            };
+            initializeNavigationButtons();
 
             viewNurseButton.Click += viewNurseButton_Click;
+        }
+
+        private void initializeNavigationButtons()
+        {
+            homeButton.Click += (s, e) => NavigateTo(new homePageButton());
+
+            nurseButton.Click += (s, e) => { };
+
+            patientsButton.Click += (s, e) =>
+                NavigateTo(new Patient_View.SearchPatientPage());
+
+            appointmentButton.Click += (s, e) =>
+                NavigateTo(new ViewAppointmentsPage());
+
+            logoutButton.Click += (s, e) =>
+                NavigateTo(new View.LogInPage());
+        }
+
+        private void NavigateTo(Form nextForm)
+        {
+            nextForm.Show();
+            Hide();
         }
 
         private void setUpNursesList()
@@ -54,6 +58,7 @@ namespace CS3230_Group5.View.Nurse_View
             nursesList.View = System.Windows.Forms.View.Details;
             nursesList.FullRowSelect = true;
             nursesList.GridLines = true;
+
             nursesList.Columns.Add("ID", 45);
             nursesList.Columns.Add("Name", 150);
             nursesList.Columns.Add("Phone", 100);
@@ -73,10 +78,12 @@ namespace CS3230_Group5.View.Nurse_View
                     var address = item.Address;
 
                     var row = new ListViewItem(nurse.NurseId?.ToString() ?? "");
+
                     row.SubItems.Add($"{nurse.FirstName} {nurse.LastName}");
                     row.SubItems.Add(nurse.Phone);
                     row.SubItems.Add(nurse.Username);
-                    row.SubItems.Add($"{address.Address1}, {address.City}, {address.State} {address.Zip}");
+                    row.SubItems.Add(
+                        $"{address.Address1}, {address.City}, {address.State} {address.Zip}");
 
                     nursesList.Items.Add(row);
                 }
@@ -90,11 +97,10 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxIcon.Error);
             }
         }
+
         private void addNurseButton_Click(object sender, EventArgs e)
         {
-            var addNursePage = new AddNursePage();
-            addNursePage.Show();
-            Hide();
+            NavigateTo(new AddNursePage());
         }
 
         private void profileLink_LinkClicked(
@@ -118,6 +124,7 @@ namespace CS3230_Group5.View.Nurse_View
                     "No Nurse Selected",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
 
@@ -128,12 +135,11 @@ namespace CS3230_Group5.View.Nurse_View
                     "Selection Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
 
-            var editNursePage = new AddNursePage(nurseId);
-            editNursePage.Show();
-            Hide();
+            NavigateTo(new AddNursePage(nurseId));
         }
 
         private void ViewNursesPage_Load(object sender, EventArgs e)

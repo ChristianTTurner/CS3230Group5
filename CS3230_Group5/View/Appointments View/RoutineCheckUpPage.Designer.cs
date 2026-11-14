@@ -101,7 +101,7 @@
             // 
             tempLabel.AutoSize = true;
             tempLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            tempLabel.Location = new Point(17, 246);
+            tempLabel.Location = new Point(17, 251);
             tempLabel.Name = "tempLabel";
             tempLabel.Size = new Size(170, 28);
             tempLabel.TabIndex = 4;
@@ -111,7 +111,7 @@
             // 
             heightLabel.AutoSize = true;
             heightLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            heightLabel.Location = new Point(17, 303);
+            heightLabel.Location = new Point(15, 310);
             heightLabel.Name = "heightLabel";
             heightLabel.Size = new Size(116, 28);
             heightLabel.TabIndex = 5;
@@ -121,7 +121,7 @@
             // 
             weightLabel.AutoSize = true;
             weightLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            weightLabel.Location = new Point(17, 359);
+            weightLabel.Location = new Point(17, 375);
             weightLabel.Name = "weightLabel";
             weightLabel.Size = new Size(119, 28);
             weightLabel.TabIndex = 6;
@@ -131,7 +131,7 @@
             // 
             symptomsLabel.AutoSize = true;
             symptomsLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            symptomsLabel.Location = new Point(17, 418);
+            symptomsLabel.Location = new Point(17, 446);
             symptomsLabel.Name = "symptomsLabel";
             symptomsLabel.Size = new Size(114, 28);
             symptomsLabel.TabIndex = 7;
@@ -172,7 +172,7 @@
             tempTextBox.BackColor = Color.White;
             tempTextBox.BorderStyle = BorderStyle.FixedSingle;
             tempTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tempTextBox.Location = new Point(248, 246);
+            tempTextBox.Location = new Point(248, 251);
             tempTextBox.Name = "tempTextBox";
             tempTextBox.Size = new Size(322, 34);
             tempTextBox.TabIndex = 11;
@@ -182,7 +182,7 @@
             heightTextBox.BackColor = Color.White;
             heightTextBox.BorderStyle = BorderStyle.FixedSingle;
             heightTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            heightTextBox.Location = new Point(248, 303);
+            heightTextBox.Location = new Point(246, 310);
             heightTextBox.Name = "heightTextBox";
             heightTextBox.Size = new Size(322, 34);
             heightTextBox.TabIndex = 12;
@@ -192,7 +192,7 @@
             weightTextBox.BackColor = Color.White;
             weightTextBox.BorderStyle = BorderStyle.FixedSingle;
             weightTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            weightTextBox.Location = new Point(248, 357);
+            weightTextBox.Location = new Point(248, 373);
             weightTextBox.Name = "weightTextBox";
             weightTextBox.Size = new Size(322, 34);
             weightTextBox.TabIndex = 13;
@@ -202,7 +202,7 @@
             symptomsTextBox.BackColor = Color.White;
             symptomsTextBox.BorderStyle = BorderStyle.FixedSingle;
             symptomsTextBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            symptomsTextBox.Location = new Point(248, 418);
+            symptomsTextBox.Location = new Point(248, 446);
             symptomsTextBox.Multiline = true;
             symptomsTextBox.Name = "symptomsTextBox";
             symptomsTextBox.ScrollBars = ScrollBars.Vertical;
@@ -215,7 +215,7 @@
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(312, 597);
+            saveButton.Location = new Point(314, 625);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(112, 47);
             saveButton.TabIndex = 15;
@@ -228,7 +228,7 @@
             CancelButton.FlatStyle = FlatStyle.Flat;
             CancelButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             CancelButton.ForeColor = Color.Black;
-            CancelButton.Location = new Point(458, 597);
+            CancelButton.Location = new Point(460, 625);
             CancelButton.Name = "CancelButton";
             CancelButton.Size = new Size(112, 47);
             CancelButton.TabIndex = 16;
@@ -268,7 +268,7 @@
             pulseErrorLabel.BackColor = Color.Transparent;
             pulseErrorLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             pulseErrorLabel.ForeColor = Color.Red;
-            pulseErrorLabel.Location = new Point(250, 228);
+            pulseErrorLabel.Location = new Point(250, 227);
             pulseErrorLabel.Name = "pulseErrorLabel";
             pulseErrorLabel.Size = new Size(45, 21);
             pulseErrorLabel.TabIndex = 19;
@@ -281,7 +281,7 @@
             tempErrorLabel.BackColor = Color.Transparent;
             tempErrorLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tempErrorLabel.ForeColor = Color.Red;
-            tempErrorLabel.Location = new Point(250, 279);
+            tempErrorLabel.Location = new Point(250, 288);
             tempErrorLabel.Name = "tempErrorLabel";
             tempErrorLabel.Size = new Size(45, 21);
             tempErrorLabel.TabIndex = 20;
@@ -294,7 +294,7 @@
             heightErrorLabel.BackColor = Color.Transparent;
             heightErrorLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             heightErrorLabel.ForeColor = Color.Red;
-            heightErrorLabel.Location = new Point(250, 333);
+            heightErrorLabel.Location = new Point(250, 347);
             heightErrorLabel.Name = "heightErrorLabel";
             heightErrorLabel.Size = new Size(45, 21);
             heightErrorLabel.TabIndex = 21;
@@ -307,7 +307,7 @@
             weightErrorLabel.BackColor = Color.Transparent;
             weightErrorLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             weightErrorLabel.ForeColor = Color.Red;
-            weightErrorLabel.Location = new Point(250, 394);
+            weightErrorLabel.Location = new Point(250, 410);
             weightErrorLabel.Name = "weightErrorLabel";
             weightErrorLabel.Size = new Size(45, 21);
             weightErrorLabel.TabIndex = 22;
@@ -320,7 +320,7 @@
             symptomsErrorLabel.BackColor = Color.Transparent;
             symptomsErrorLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             symptomsErrorLabel.ForeColor = Color.Red;
-            symptomsErrorLabel.Location = new Point(250, 558);
+            symptomsErrorLabel.Location = new Point(250, 586);
             symptomsErrorLabel.Name = "symptomsErrorLabel";
             symptomsErrorLabel.Size = new Size(45, 21);
             symptomsErrorLabel.TabIndex = 23;
@@ -331,7 +331,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(598, 658);
+            ClientSize = new Size(598, 684);
             Controls.Add(symptomsErrorLabel);
             Controls.Add(weightErrorLabel);
             Controls.Add(heightErrorLabel);

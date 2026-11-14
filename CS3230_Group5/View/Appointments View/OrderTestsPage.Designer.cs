@@ -89,6 +89,7 @@
             noticeLabel.TabIndex = 3;
             noticeLabel.TextAlign = ContentAlignment.MiddleLeft;
             noticeLabel.Visible = false;
+            noticeLabel.Click += noticeLabel_Click;
             // 
             // availableLabel
             // 
@@ -96,7 +97,7 @@
             availableLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             availableLabel.Location = new Point(20, 165);
             availableLabel.Name = "availableLabel";
-            availableLabel.Size = new Size(139, 28);
+            availableLabel.Size = new Size(149, 28);
             availableLabel.TabIndex = 4;
             availableLabel.Text = "Available Tests:";
             // 
@@ -104,7 +105,6 @@
             // 
             availableList.FullRowSelect = true;
             availableList.GridLines = true;
-            availableList.HideSelection = false;
             availableList.Location = new Point(20, 196);
             availableList.Name = "availableList";
             availableList.Size = new Size(360, 220);
@@ -138,7 +138,7 @@
             pendingLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             pendingLabel.Location = new Point(500, 165);
             pendingLabel.Name = "pendingLabel";
-            pendingLabel.Size = new Size(133, 28);
+            pendingLabel.Size = new Size(148, 28);
             pendingLabel.TabIndex = 8;
             pendingLabel.Text = "Tests To Order:";
             // 
@@ -146,7 +146,6 @@
             // 
             pendingList.FullRowSelect = true;
             pendingList.GridLines = true;
-            pendingList.HideSelection = false;
             pendingList.Location = new Point(500, 196);
             pendingList.Name = "pendingList";
             pendingList.Size = new Size(380, 220);
@@ -160,7 +159,7 @@
             orderedLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             orderedLabel.Location = new Point(20, 430);
             orderedLabel.Name = "orderedLabel";
-            orderedLabel.Size = new Size(274, 28);
+            orderedLabel.Size = new Size(289, 28);
             orderedLabel.TabIndex = 10;
             orderedLabel.Text = "Already Ordered For This Visit:";
             // 
@@ -168,7 +167,6 @@
             // 
             orderedList.FullRowSelect = true;
             orderedList.GridLines = true;
-            orderedList.HideSelection = false;
             orderedList.Location = new Point(20, 461);
             orderedList.MultiSelect = false;
             orderedList.Name = "orderedList";

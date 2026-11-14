@@ -18,6 +18,11 @@ namespace CS3230_Group5.View.Patient_View
     {
         private readonly PatientDal _patientDal = new PatientDal();
 
+        /// <summary>
+        /// Initializes the patient search page, configures the patient
+        /// grid, loads patient records, and connects navigation and
+        /// patient management event handlers.
+        /// </summary>
         public SearchPatientPage()
         {
             InitializeComponent();
@@ -138,6 +143,7 @@ namespace CS3230_Group5.View.Patient_View
             deletePatientButton.Enabled =
                 dataGridView1.SelectedRows.Count > 0;
         }
+
         private bool TryGetSelectedPatientId(out int patientId)
         {
             patientId = 0;
@@ -192,25 +198,37 @@ namespace CS3230_Group5.View.Patient_View
             if (dataGridView1.Columns[e.ColumnIndex].Name != "btnView")
                 return;
 
-            object? value = dataGridView1.Rows[e.RowIndex]
-                .Cells["patient_id"].Value;
-
-            if (value == null ||
-                !int.TryParse(value.ToString(), out int patientId) ||
-                patientId <= 0)
-            {
-                MessageBox.Show(
-                    "The selected patient ID is invalid.",
-                    "Invalid Patient",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+            if (!TryGetPatientIdFromRow(e.RowIndex, out int patientId))
                 return;
-            }
 
             var historyPage = new PatientViewHistoryPage(patientId, this);
             NavigateTo(historyPage);
         }
+
+        private bool TryGetPatientIdFromRow(
+            int rowIndex, out int patientId)
+        {
+            patientId = 0;
+
+            object? value = dataGridView1.Rows[rowIndex]
+                .Cells["patient_id"].Value;
+
+            if (value != null &&
+                int.TryParse(value.ToString(), out patientId) &&
+                patientId > 0)
+            {
+                return true;
+            }
+
+            MessageBox.Show(
+                "The selected patient ID is invalid.",
+                "Invalid Patient",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
+            return false;
+        }
+
         private void deletePatientButton_Click(
             object sender, EventArgs e)
         {
@@ -254,6 +272,7 @@ namespace CS3230_Group5.View.Patient_View
             object sender, EventArgs e)
         {
         }
+
         private void NavigateTo(Form nextForm)
         {
             nextForm.Show();

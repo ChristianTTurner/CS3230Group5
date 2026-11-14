@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows.Forms;
 using CS3230_Group5.Model;
@@ -9,8 +10,19 @@ using SearchPatientPage = CS3230_Group5.View.Patient_View.SearchPatientPage;
 
 namespace CS3230_Group5
 {
+    /// <summary>
+    /// Displays the application's home page and provides navigation
+    /// to patient, appointment, nurse, profile, and administrator pages.
+    /// Displays the signed-in user's information and restricts
+    /// administrator features to authorized users.
+    /// </summary>
     public partial class homePageButton : Form
     {
+        /// <summary>
+        /// Initializes the home page, displays the signed-in user's
+        /// information, configures administrator-only controls,
+        /// and connects navigation event handlers.
+        /// </summary>
         public homePageButton()
         {
             InitializeComponent();
@@ -23,7 +35,6 @@ namespace CS3230_Group5
             appointmentButton.Click += AppointmentButton_Click;
             logoutButton.Click += LogoutButton_Click;
 
-
             managePatients.Click += ManagePatients_Click;
             manageAppointments.Click += ManageAppointments_Click;
             manageNurse.Click += ManageNurse_Click;
@@ -32,6 +43,7 @@ namespace CS3230_Group5
 
             userNameLabel.Text = "Username: " + SignedInUser.Username;
             idLabel.Text = "User ID: " + SignedInUser.UserID;
+
             manageNurse.Visible = SignedInUser.IsAdmin;
             manageNurseLabel.Visible = SignedInUser.IsAdmin;
 
@@ -43,15 +55,13 @@ namespace CS3230_Group5
 
         private void HomeButton_Click(object? sender, EventArgs e)
         {
-            
         }
 
         private void NurseButton_Click(object? sender, EventArgs e)
         {
-            var viewNurse = new ViewNursesPage();
-            viewNurse.Show();
-            this.Hide();
+            NavigateTo(new ViewNursesPage());
         }
+
         private void AdminStatistics_Click(object? sender, EventArgs e)
         {
             if (!SignedInUser.IsAdmin)
@@ -60,69 +70,56 @@ namespace CS3230_Group5
                 return;
             }
 
-            var statisticsPage = new AdminStatisticsPage(this);
-
-            statisticsPage.Show();
-            this.Hide();
+            NavigateTo(new AdminStatisticsPage(this));
         }
 
         private void PatientsButton_Click(object? sender, EventArgs e)
         {
-            var viewPatient = new SearchPatientPage();
-            viewPatient.Show();
-            this.Hide();
+            NavigateTo(new SearchPatientPage());
         }
 
         private void AppointmentButton_Click(object? sender, EventArgs e)
         {
-            var viewAppointment = new ViewAppointmentsPage();
-            viewAppointment.Show();
-            this.Hide();
+            NavigateTo(new ViewAppointmentsPage());
         }
 
         private void ManagePatients_Click(object? sender, EventArgs e)
         {
-            var searchPatients = new SearchPatientPage();
-            searchPatients.Show();
-            this.Hide();
+            NavigateTo(new SearchPatientPage());
         }
 
         private void ManageAppointments_Click(object? sender, EventArgs e)
         {
-            var viewAppointment = new ViewAppointmentsPage();
-            viewAppointment.Show();
-            this.Hide();
+            NavigateTo(new ViewAppointmentsPage());
         }
 
         private void ManageNurse_Click(object? sender, EventArgs e)
         {
-            var nursePage = new ViewNursesPage();
-            nursePage.Show();
-            this.Hide();
+            NavigateTo(new ViewNursesPage());
         }
 
         private void ManageProfile_Click(object? sender, EventArgs e)
         {
-            var profile = new ProfilePage();
-            profile.Show();
-            this.Hide();
+            NavigateTo(new ProfilePage());
         }
 
         private void LogoutButton_Click(object? sender, EventArgs e)
         {
-            var login = new LogInPage();
-            login.Show();
-            this.Hide();
+            NavigateTo(new LogInPage());
+        }
+
+        private void NavigateTo(Form nextForm)
+        {
+            nextForm.Show();
+            Hide();
         }
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-
         }
 
         private void idLabel_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

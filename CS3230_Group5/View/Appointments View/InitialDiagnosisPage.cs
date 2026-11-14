@@ -1,16 +1,31 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Forms;
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Appointments_View
 {
+    /// <summary>
+    /// Provides an interface for entering and saving the initial diagnosis
+    /// associated with a patient appointment.
+    /// </summary>
     public partial class InitialDiagnosisPage : Form
     {
         private readonly int _appointmentId;
         private readonly AppointmentSummaryDal _summaryDal =
             new AppointmentSummaryDal();
 
+        /// <summary>
+        /// Initializes a new instance of the InitialDiagnosisPage class
+        /// for the specified appointment.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment identifier is less than or equal to zero.
+        /// </exception>
         public InitialDiagnosisPage(int appointmentId)
         {
             InitializeComponent();
@@ -133,10 +148,10 @@ namespace CS3230_Group5.View.Appointments_View
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
         private void InitialDiagnosisPage_Load(object? sender, EventArgs e)
         {
             LoadExistingDiagnosis();
         }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,8 +11,9 @@ using CS3230_Group5.Model;
 namespace CS3230_Group5.View.Appointments_View
 {
     /// <summary>
-    /// Lets a nurse order tests for a visit. Tests can be added to or removed
-    /// from the order until the nurse confirms it.
+    /// Provides an interface for ordering standard tests for a patient appointment.
+    /// Allows nurses to add tests to a pending order, remove selected tests,
+    /// and manage previously ordered tests that do not have results.
     /// </summary>
     public partial class OrderTestsPage : Form
     {
@@ -28,6 +30,16 @@ namespace CS3230_Group5.View.Appointments_View
         private string _patientName = string.Empty;
         private bool _canOrder;
 
+        /// <summary>
+        /// Initializes a new instance of the OrderTestsPage class
+        /// for the specified appointment.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment for which tests will be ordered.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment identifier is less than or equal to zero.
+        /// </exception>
         public OrderTestsPage(int appointmentId)
         {
             InitializeComponent();
@@ -61,9 +73,6 @@ namespace CS3230_Group5.View.Appointments_View
             orderedList.Columns.Add("Status", 200);
         }
 
-        /// <summary>
-        /// Sizes the columns as a share of the list width so they fit any screen scaling.
-        /// </summary>
         private static void ResizeColumns(ListView list, double[] share)
         {
             int total = list.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
@@ -110,8 +119,6 @@ namespace CS3230_Group5.View.Appointments_View
             LoadVisit();
         }
 
-        // ---------- Loading ----------
-
         private void LoadVisit(bool keepPending = false)
         {
             try
@@ -142,6 +149,7 @@ namespace CS3230_Group5.View.Appointments_View
 
                 _standardTests = _orderDal.GetStandardTests();
                 _alreadyOrdered = _visitDal.GetOrderedTests(_appointmentId);
+
                 if (!keepPending)
                 {
                     _pendingCodes.Clear();
@@ -176,8 +184,6 @@ namespace CS3230_Group5.View.Appointments_View
                 UpdateButtons();
             }
         }
-
-        // ---------- Lists ----------
 
         private void RefreshLists()
         {
@@ -306,8 +312,6 @@ namespace CS3230_Group5.View.Appointments_View
             RefreshLists();
         }
 
-        // ---------- Ordering ----------
-
         private void orderButton_Click(object? sender, EventArgs e)
         {
             ClearError();
@@ -352,7 +356,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
             catch (InvalidOperationException ex)
             {
-                // No check-up, finalized meanwhile, or already ordered.
                 MessageBox.Show(
                     ex.Message,
                     "Unable to Order",
@@ -370,8 +373,6 @@ namespace CS3230_Group5.View.Appointments_View
                     MessageBoxIcon.Error);
             }
         }
-
-        // ---------- Removing an ordered test ----------
 
         private void removeOrderedButton_Click(object? sender, EventArgs e)
         {
@@ -408,12 +409,10 @@ namespace CS3230_Group5.View.Appointments_View
             {
                 _orderDal.RemoveOrderedTest(_appointmentId, test.TestCode);
 
-                // Keep any tests the user has already picked for the new order.
                 LoadVisit(keepPending: true);
             }
             catch (InvalidOperationException ex)
             {
-                // Finalized or a result was entered while this page was open.
                 MessageBox.Show(
                     ex.Message,
                     "Unable to Remove",
@@ -432,8 +431,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
         }
 
-        // ---------- Error label ----------
-
         private void ShowError(string message)
         {
             errorLabel.Text = message;
@@ -444,6 +441,10 @@ namespace CS3230_Group5.View.Appointments_View
         {
             errorLabel.Text = string.Empty;
             errorLabel.Visible = false;
+        }
+
+        private void noticeLabel_Click(object sender, EventArgs e)
+        {
         }
     }
 }
