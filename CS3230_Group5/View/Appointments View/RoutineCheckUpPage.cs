@@ -2,13 +2,14 @@
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CS3230_Group5.View.Appointments_View
 {
+    /// <summary>
+    /// Provides the form for entering or updating a patient's routine checkup information.
+    /// </summary>
     public partial class RoutineCheckUpPage : Form
     {
         private readonly int _appointmentId;
@@ -16,6 +17,14 @@ namespace CS3230_Group5.View.Appointments_View
         private readonly AppointmentSummaryDal _summaryDal;
         private readonly AppointmentSummary? _existingSummary;
 
+        /// <summary>
+        /// Initializes the routine checkup form for a specific appointment and nurse.
+        /// </summary>
+        /// <param name="appointmentId">The ID of the appointment associated with the checkup.</param>
+        /// <param name="nurseId">The ID of the nurse entering the checkup information.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment ID or nurse ID is less than or equal to zero.
+        /// </exception>
         public RoutineCheckUpPage(int appointmentId, int nurseId)
         {
             InitializeComponent();
@@ -34,6 +43,10 @@ namespace CS3230_Group5.View.Appointments_View
 
             saveButton.Click += saveButton_Click;
             CancelButton.Click += cancelButton_Click;
+
+            tempTextBox.Leave += DecimalTextBox_Leave;
+            heightTextBox.Leave += DecimalTextBox_Leave;
+            weightTextBox.Leave += DecimalTextBox_Leave;
 
             this.systolicTextBox.MaxLength = 500;
 
@@ -335,6 +348,23 @@ namespace CS3230_Group5.View.Appointments_View
             symptomsErrorLabel.Visible = false;
         }
 
+        private void DecimalTextBox_Leave(object? sender, EventArgs e)
+        {
+            if (sender is not TextBox textBox)
+                return;
+
+            if (decimal.TryParse(
+                    textBox.Text.Trim(),
+                    NumberStyles.Number,
+                    CultureInfo.CurrentCulture,
+                    out decimal value))
+            {
+                textBox.Text = value.ToString(
+                    "0.00",
+                    CultureInfo.CurrentCulture);
+            }
+        }
+
         private void cancelButton_Click(object? sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -343,12 +373,12 @@ namespace CS3230_Group5.View.Appointments_View
 
         private void systolicErrorLabel_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void RoutineCheckUpPage_Load(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

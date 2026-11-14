@@ -1,16 +1,18 @@
-﻿using CS3230_Group5.DAL;
+﻿
+using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CS3230_Group5.View.Appointments_View
 {
     /// <summary>
-    /// Lets a nurse enter the performed date/time and result for each test
-    /// ordered during a visit. Becomes read-only once a final diagnosis exists.
+    /// Provides an interface for entering and saving test results
+    /// associated with a patient appointment. Displays ordered tests,
+    /// performed dates, results, and their status. The page becomes
+    /// read-only when a final diagnosis has been entered.
     /// </summary>
     public partial class EnterTestResultsPage : Form
     {
@@ -23,6 +25,16 @@ namespace CS3230_Group5.View.Appointments_View
         private DateTime _appointmentDateTime;
         private bool _isLocked;
 
+        /// <summary>
+        /// Initializes a new instance of the EnterTestResultsPage class
+        /// for the specified appointment.
+        /// </summary>
+        /// <param name="appointmentId">
+        /// The unique identifier of the appointment.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the appointment identifier is less than or equal to zero.
+        /// </exception>
         public EnterTestResultsPage(int appointmentId)
         {
             InitializeComponent();
@@ -50,7 +62,6 @@ namespace CS3230_Group5.View.Appointments_View
             testsListView.Columns.Add("Result", 120);
             testsListView.Columns.Add("Status", 90);
 
-            // Hovering a row shows the full text, even if a column is too narrow.
             testsListView.ShowItemToolTips = true;
         }
 
@@ -103,7 +114,6 @@ namespace CS3230_Group5.View.Appointments_View
             ResizeListColumns();
             LoadVisit(null);
         }
-
 
         private void LoadVisit(string? reselectTestCode)
         {
@@ -207,7 +217,6 @@ namespace CS3230_Group5.View.Appointments_View
             noticeLabel.Visible = notice.Length > 0;
         }
 
-
         private OrderedTest? GetSelectedTest()
         {
             if (testsListView.SelectedItems.Count == 0)
@@ -274,9 +283,6 @@ namespace CS3230_Group5.View.Appointments_View
             abnormalComboBox.Visible = visible;
         }
 
-        /// <summary>
-        /// Now, or the visit time if the visit has not happened yet.
-        /// </summary>
         private DateTime DefaultPerformedTime()
         {
             DateTime now = NowToTheMinute();
@@ -288,7 +294,6 @@ namespace CS3230_Group5.View.Appointments_View
             DateTime now = DateTime.Now;
             return new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
         }
-
 
         private void saveButton_Click(object? sender, EventArgs e)
         {
@@ -337,7 +342,6 @@ namespace CS3230_Group5.View.Appointments_View
             }
             catch (InvalidOperationException ex)
             {
-                // Not ordered, or the visit was finalized while this page was open.
                 MessageBox.Show(
                     ex.Message,
                     "Unable to Save",
@@ -410,8 +414,6 @@ namespace CS3230_Group5.View.Appointments_View
 
             return isValid;
         }
-
-        // ---------- Error labels ----------
 
         private static void ShowError(Label label, string message)
         {

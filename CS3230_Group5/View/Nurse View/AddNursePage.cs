@@ -1,13 +1,12 @@
-﻿
-using System;
-using System.Linq;
-using System.Windows.Forms;
-using CS3230_Group5.Controller;
+﻿using CS3230_Group5.Controller;
 using CS3230_Group5.DAL;
 using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /// <summary>
+    /// Provides the form for adding a new nurse or editing an existing nurse's information.
+    /// </summary>
     public partial class AddNursePage : Form
     {
         private readonly NurseDal nurseDal = new NurseDal();
@@ -16,10 +15,19 @@ namespace CS3230_Group5.View.Nurse_View
 
         private readonly int? nurseId;
 
+        /// <summary>
+        /// Initializes the form for adding a new nurse.
+        /// </summary>
         public AddNursePage() : this(null)
         {
         }
 
+        /// <summary>
+        /// Initializes the form for adding a new nurse or editing an existing nurse.
+        /// </summary>
+        /// <param name="nurseId">
+        /// The ID of the nurse to edit, or null when adding a new nurse.
+        /// </param>
         public AddNursePage(int? nurseId)
         {
             InitializeComponent();
@@ -42,7 +50,15 @@ namespace CS3230_Group5.View.Nurse_View
             });
 
             nursePassword.UseSystemPasswordChar = true;
-            nursePhoneNum.MaxLength = 10;
+
+            nursePhoneNum.MaxLength = 14;
+            nursePhoneNum.PlaceholderText = "(xxx)-xxx-xxxx";
+            nursePhoneNum.KeyPress += NumericTextBox_KeyPress;
+            nursePhoneNum.TextChanged += nursePhoneNum_TextChanged;
+
+            nurseZip.MaxLength = 5;
+            nurseZip.KeyPress += NumericTextBox_KeyPress;
+            nurseZip.TextChanged += nurseZipDigitsOnly_TextChanged;
 
             nurseBirthMonth.Minimum = 1;
             nurseBirthMonth.Maximum = 12;
@@ -61,6 +77,56 @@ namespace CS3230_Group5.View.Nurse_View
                 createLoginLabel.Text = "Update Login";
                 loadNurseForEditing(nurseId.Value);
             }
+        }
+
+        private bool formattingPhone = false;
+
+        private static string digitsOnly(string? text)
+        {
+            return new string((text ?? "").Where(char.IsDigit).ToArray());
+        }
+
+        private static string formatPhone(string digits)
+        {
+            if (digits.Length == 0) return "";
+            if (digits.Length <= 3) return "(" + digits;
+            if (digits.Length <= 6) return $"({digits[..3]})-{digits[3..]}";
+            return $"({digits[..3]})-{digits.Substring(3, 3)}-{digits[6..]}";
+        }
+
+        private void NumericTextBox_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void nursePhoneNum_TextChanged(object? sender, EventArgs e)
+        {
+            if (formattingPhone) return;
+
+            string digits = digitsOnly(nursePhoneNum.Text);
+            if (digits.Length > 10) digits = digits[..10];
+
+            string formatted = formatPhone(digits);
+            if (formatted == nursePhoneNum.Text) return;
+
+            formattingPhone = true;
+            nursePhoneNum.Text = formatted;
+            nursePhoneNum.SelectionStart = nursePhoneNum.Text.Length;
+            formattingPhone = false;
+        }
+
+        private void nurseZipDigitsOnly_TextChanged(object? sender, EventArgs e)
+        {
+            string digits = digitsOnly(nurseZip.Text);
+            if (digits.Length > 5) digits = digits[..5];
+
+            if (digits == nurseZip.Text) return;
+
+            nurseZip.Text = digits;
+            nurseZip.SelectionStart = nurseZip.Text.Length;
         }
 
         private void initializeValidationLabels()
@@ -244,12 +310,9 @@ namespace CS3230_Group5.View.Nurse_View
                 isValid = false;
             }
 
-            string phone = nursePhoneNum.Text
-                .Replace("-", "")
-                .Replace(" ", "");
+            string phone = digitsOnly(nursePhoneNum.Text);
 
-            if (phone.Length != 10 ||
-                !phone.All(char.IsDigit))
+            if (phone.Length != 10)
             {
                 showValidationError(
                     phoneValidation,
@@ -278,8 +341,9 @@ namespace CS3230_Group5.View.Nurse_View
                 isValid = false;
             }
 
-            if (nurseZip.Text.Length != 5 ||
-                !nurseZip.Text.All(char.IsDigit))
+            string zip = nurseZip.Text.Trim();
+
+            if (zip.Length != 5 || !zip.All(char.IsDigit))
             {
                 showValidationError(
                     zipValidation, "Enter a 5-digit ZIP code.");
@@ -351,7 +415,7 @@ namespace CS3230_Group5.View.Nurse_View
                 nurseLastName.Text,
                 dateOfBirth,
                 address.AddressId,
-                nursePhoneNum.Text.Replace("-", "").Replace(" ", ""),
+                digitsOnly(nursePhoneNum.Text),
                 nurseUsername.Text);
         }
 
@@ -425,6 +489,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             returnToViewNursesPage();
         }
+
         private void returnToViewNursesPage()
         {
             foreach (Form open in Application.OpenForms)
@@ -440,7 +505,6 @@ namespace CS3230_Group5.View.Nurse_View
             Close();
         }
 
-        // Keep these handlers because the Designer references them.
         private void AddNursePage_Load(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         private void label9_Click(object sender, EventArgs e) { }

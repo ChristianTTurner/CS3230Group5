@@ -8,6 +8,11 @@ using System.Windows.Forms;
 
 namespace CS3230_Group5.View.Nurse_View
 {
+    /// <summary>
+    /// Provides an interface for creating and booking patient appointments.
+    /// Allows users to select a patient, doctor, appointment date and time,
+    /// and enter the reason for the appointment.
+    /// </summary>
     public partial class CreateAppointmentPage : Form
     {
         private readonly AppointmentDal appointmentDal =
@@ -16,24 +21,48 @@ namespace CS3230_Group5.View.Nurse_View
         private readonly int? _preselectedPatientId;
         private readonly Form? _previousPage;
 
-        // Normal constructor: opened without a preselected patient.
+        /// <summary>
+        /// Initializes a new instance of the CreateAppointmentPage class
+        /// without a preselected patient.
+        /// </summary>
         public CreateAppointmentPage() : this(null, null)
         {
         }
 
-        // Constructor: opened with a specific patient.
+        /// <summary>
+        /// Initializes a new instance of the CreateAppointmentPage class
+        /// with the specified patient identifier.
+        /// </summary>
+        /// <param name="patientId">
+        /// The unique identifier of the patient to preselect.
+        /// </param>
         public CreateAppointmentPage(int patientId)
             : this((int?)patientId, null)
         {
         }
 
-        // Constructor: accepts a nullable patient ID.
+        /// <summary>
+        /// Initializes a new instance of the CreateAppointmentPage class
+        /// with an optional patient identifier.
+        /// </summary>
+        /// <param name="patientId">
+        /// The optional unique identifier of the patient to preselect.
+        /// </param>
         public CreateAppointmentPage(int? patientId)
             : this(patientId, null)
         {
         }
 
-        // Constructor: opened from another page with a specific patient.
+        /// <summary>
+        /// Initializes a new instance of the CreateAppointmentPage class
+        /// with a preselected patient and a reference to the previous page.
+        /// </summary>
+        /// <param name="patientId">
+        /// The unique identifier of the patient to preselect.
+        /// </param>
+        /// <param name="previousPage">
+        /// The form to return to after booking or canceling the appointment.
+        /// </param>
         public CreateAppointmentPage(int patientId, Form previousPage)
             : this((int?)patientId, previousPage)
         {
@@ -180,6 +209,7 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxIcon.Error);
             }
         }
+
         private void loadDoctors()
         {
             try
@@ -209,6 +239,7 @@ namespace CS3230_Group5.View.Nurse_View
                     MessageBoxIcon.Error);
             }
         }
+
         private void bookAppointmentButton_Click(
             object? sender,
             EventArgs e)
@@ -220,6 +251,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             saveAppointment();
         }
+
         private bool validateForm()
         {
             bool isValid = true;
@@ -266,6 +298,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             return isValid;
         }
+
         private bool validateAppointmentDate()
         {
             DateTime appointmentTime = dateTimePicker.Value;
@@ -302,6 +335,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             return true;
         }
+
         private void saveAppointment()
         {
             try
@@ -373,7 +407,6 @@ namespace CS3230_Group5.View.Nurse_View
             if (_previousPage != null &&
                 !_previousPage.IsDisposed)
             {
-
                 if (_previousPage is PatientViewHistoryPage historyPage)
                 {
                     historyPage.RefreshVisitHistory();
@@ -404,6 +437,7 @@ namespace CS3230_Group5.View.Nurse_View
 
             Close();
         }
+
         private void cancelButton_Click(
             object? sender,
             EventArgs e)

@@ -48,6 +48,8 @@
             patientIdLabel = new Label();
             patientHeaderLabel = new Label();
             visitHistoryDataGridView = new DataGridView();
+            visitsLabel = new Label();
+            newAppointmentButton = new Button();
             appointment_id = new DataGridViewTextBoxColumn();
             visit_datetime = new DataGridViewTextBoxColumn();
             doctor_name = new DataGridViewTextBoxColumn();
@@ -55,8 +57,6 @@
             initial_diagnosis = new DataGridViewTextBoxColumn();
             final_diagnosis = new DataGridViewTextBoxColumn();
             btnView = new DataGridViewButtonColumn();
-            visitsLabel = new Label();
-            newAppointmentButton = new Button();
             panel1.SuspendLayout();
             personalPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)visitHistoryDataGridView).BeginInit();
@@ -231,79 +231,6 @@
             visitHistoryDataGridView.Size = new Size(1055, 379);
             visitHistoryDataGridView.TabIndex = 51;
             // 
-            // appointment_id
-            // 
-            appointment_id.HeaderText = "Appointment ID";
-            appointment_id.MinimumWidth = 8;
-            appointment_id.Name = "appointment_id";
-            appointment_id.ReadOnly = true;
-            appointment_id.SortMode = DataGridViewColumnSortMode.NotSortable;
-            appointment_id.Visible = false;
-            // 
-            // visit_datetime
-            // 
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            visit_datetime.DefaultCellStyle = dataGridViewCellStyle1;
-            visit_datetime.FillWeight = 120F;
-            visit_datetime.HeaderText = "Date & Time";
-            visit_datetime.MinimumWidth = 8;
-            visit_datetime.Name = "visit_datetime";
-            visit_datetime.ReadOnly = true;
-            // 
-            // doctor_name
-            // 
-            doctor_name.HeaderText = "Doctor";
-            doctor_name.MinimumWidth = 8;
-            doctor_name.Name = "doctor_name";
-            doctor_name.ReadOnly = true;
-            // 
-            // visit_reason
-            // 
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            visit_reason.DefaultCellStyle = dataGridViewCellStyle2;
-            visit_reason.FillWeight = 130F;
-            visit_reason.HeaderText = "Reason";
-            visit_reason.MinimumWidth = 8;
-            visit_reason.Name = "visit_reason";
-            visit_reason.ReadOnly = true;
-            // 
-            // initial_diagnosis
-            // 
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle3;
-            initial_diagnosis.FillWeight = 120F;
-            initial_diagnosis.HeaderText = "Initial Diagnosis";
-            initial_diagnosis.MinimumWidth = 8;
-            initial_diagnosis.Name = "initial_diagnosis";
-            initial_diagnosis.ReadOnly = true;
-            // 
-            // final_diagnosis
-            // 
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle4;
-            final_diagnosis.FillWeight = 120F;
-            final_diagnosis.HeaderText = "Final Diagnosis";
-            final_diagnosis.MinimumWidth = 8;
-            final_diagnosis.Name = "final_diagnosis";
-            final_diagnosis.ReadOnly = true;
-            // 
-            // btnView
-            // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.RoyalBlue;
-            dataGridViewCellStyle5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            btnView.DefaultCellStyle = dataGridViewCellStyle5;
-            btnView.FlatStyle = FlatStyle.Flat;
-            btnView.HeaderText = "Action";
-            btnView.MinimumWidth = 8;
-            btnView.Name = "btnView";
-            btnView.ReadOnly = true;
-            btnView.Text = "Details";
-            btnView.UseColumnTextForButtonValue = true;
-            // 
             // visitsLabel
             // 
             visitsLabel.BackColor = Color.Honeydew;
@@ -331,6 +258,82 @@
             newAppointmentButton.TabIndex = 53;
             newAppointmentButton.Text = "+ New Appointment";
             newAppointmentButton.UseVisualStyleBackColor = false;
+            // 
+            // appointment_id
+            // 
+            appointment_id.HeaderText = "Appointment ID";
+            appointment_id.MinimumWidth = 8;
+            appointment_id.Name = "appointment_id";
+            appointment_id.ReadOnly = true;
+            appointment_id.SortMode = DataGridViewColumnSortMode.NotSortable;
+            appointment_id.Visible = false;
+            // 
+            // visit_datetime
+            // 
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            visit_datetime.DefaultCellStyle = dataGridViewCellStyle1;
+            visit_datetime.FillWeight = 31.8952236F;
+            visit_datetime.HeaderText = "Date & Time";
+            visit_datetime.MinimumWidth = 8;
+            visit_datetime.Name = "visit_datetime";
+            visit_datetime.ReadOnly = true;
+            // 
+            // doctor_name
+            // 
+            doctor_name.FillWeight = 26.5793514F;
+            doctor_name.HeaderText = "Doctor";
+            doctor_name.MinimumWidth = 8;
+            doctor_name.Name = "doctor_name";
+            doctor_name.ReadOnly = true;
+            // 
+            // visit_reason
+            // 
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            visit_reason.DefaultCellStyle = dataGridViewCellStyle2;
+            visit_reason.FillWeight = 34.5531578F;
+            visit_reason.HeaderText = "Reason";
+            visit_reason.MinimumWidth = 8;
+            visit_reason.Name = "visit_reason";
+            visit_reason.ReadOnly = true;
+            // 
+            // initial_diagnosis
+            // 
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            initial_diagnosis.DefaultCellStyle = dataGridViewCellStyle3;
+            initial_diagnosis.FillWeight = 31.8952236F;
+            initial_diagnosis.HeaderText = "Initial Diagnosis";
+            initial_diagnosis.MinimumWidth = 8;
+            initial_diagnosis.Name = "initial_diagnosis";
+            initial_diagnosis.ReadOnly = true;
+            // 
+            // final_diagnosis
+            // 
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            final_diagnosis.DefaultCellStyle = dataGridViewCellStyle4;
+            final_diagnosis.FillWeight = 31.8952236F;
+            final_diagnosis.HeaderText = "Final Diagnosis";
+            final_diagnosis.MinimumWidth = 8;
+            final_diagnosis.Name = "final_diagnosis";
+            final_diagnosis.ReadOnly = true;
+            // 
+            // btnView
+            // 
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.RoyalBlue;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.ForestGreen;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            btnView.DefaultCellStyle = dataGridViewCellStyle5;
+            btnView.FlatStyle = FlatStyle.Flat;
+            btnView.HeaderText = "Action";
+            btnView.MinimumWidth = 8;
+            btnView.Name = "btnView";
+            btnView.ReadOnly = true;
+            btnView.Text = "Details";
+            btnView.UseColumnTextForButtonValue = true;
             // 
             // PatientViewHistoryPage
             // 
@@ -373,6 +376,7 @@
         private Label genderLabel;
         private DataGridView visitHistoryDataGridView;
         private Label visitsLabel;
+        private Button newAppointmentButton;
         private DataGridViewTextBoxColumn appointment_id;
         private DataGridViewTextBoxColumn visit_datetime;
         private DataGridViewTextBoxColumn doctor_name;
@@ -380,6 +384,5 @@
         private DataGridViewTextBoxColumn initial_diagnosis;
         private DataGridViewTextBoxColumn final_diagnosis;
         private DataGridViewButtonColumn btnView;
-        private Button newAppointmentButton;
     }
 }
