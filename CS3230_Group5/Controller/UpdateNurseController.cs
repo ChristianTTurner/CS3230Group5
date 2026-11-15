@@ -7,7 +7,7 @@ namespace CS3230_Group5.Controller
 {
     /// <summary>
     /// Handles loading and updating nurse information.
-    /// Provides access to nurse records and their associated addresses and passwords.
+    /// Provides access to nurse records and their associated addresses.
     /// </summary>
     public class UpdateNurseController
     {
@@ -39,33 +39,17 @@ namespace CS3230_Group5.Controller
         }
 
         /// <summary>
-        /// Updates an existing nurse's information, address, and password.
+        /// Updates an existing nurse's information, address, and optionally password.
         /// </summary>
         /// <param name="nurse">The nurse object containing the updated information.</param>
         /// <param name="address">The address object containing the updated address information.</param>
-        /// <param name="password">The nurse's updated password.</param>
+        /// <param name="newPassword">A new plaintext password, or blank to keep the current one.</param>
         /// <returns>
         /// True if the nurse information is successfully updated; otherwise, false.
         /// </returns>
-        public bool Update(Nurse nurse, Address address, string password)
+        public bool Update(Nurse nurse, Address address, string? newPassword)
         {
-            return _nurseDal.UpdateNurse(nurse, address, password);
-        }
-
-        /// <summary>
-        /// Retrieves the stored password for a nurse using the nurse ID.
-        /// </summary>
-        /// <param name="nurseId">The unique identifier of the nurse.</param>
-        /// <returns>The nurse's stored password, or null if the nurse is not found.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when the nurse ID is less than or equal to zero.
-        /// </exception>
-        public string? LoadPassword(int nurseId)
-        {
-            if (nurseId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(nurseId));
-
-            return _nurseDal.GetNursePasswordById(nurseId);
+            return _nurseDal.UpdateNurse(nurse, address, newPassword);
         }
     }
 }

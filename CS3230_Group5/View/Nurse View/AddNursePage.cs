@@ -75,6 +75,7 @@ namespace CS3230_Group5.View.Nurse_View
             {
                 AddNurseTitle.Text = "Edit Nurse";
                 createLoginLabel.Text = "Update Login";
+                nursePassword.PlaceholderText = "Leave blank to keep current";
                 loadNurseForEditing(nurseId.Value);
             }
         }
@@ -233,8 +234,6 @@ namespace CS3230_Group5.View.Nurse_View
                 nurseCity.Text = address.City;
                 nurseState.SelectedItem = address.State;
                 nurseZip.Text = address.Zip;
-
-                nursePassword.Text = updateController.LoadPassword(id) ?? "";
             }
             catch (Exception)
             {
@@ -357,7 +356,7 @@ namespace CS3230_Group5.View.Nurse_View
                 isValid = false;
             }
 
-            if (string.IsNullOrWhiteSpace(nursePassword.Text))
+            if (!nurseId.HasValue && string.IsNullOrWhiteSpace(nursePassword.Text))
             {
                 showValidationError(
                     passwordValidation, "Password is required.");
