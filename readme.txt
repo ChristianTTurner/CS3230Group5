@@ -105,3 +105,31 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+2. DeleteAppointment
+ - Deletes the appointment and associated information from the database given an id
+ Implemented in AppointmentDal.cs class in DeleteAppointment(int id) method.
+ How it works: 
+  - Accepts an integer parameter that represents the appointments id
+  - Starts a transaction to delete the appointment, appointment_summary, and ordered_test where appointment_id = id
+  - If it's successful it commits the results and returns '1' as result
+      otherwise it will rollback the results and returns '0' as result
+ C# Integration:
+  - The stored procedure is called from AppointmentDal.DeleteAppointment() using MySqlCommand with CommandType.StoredProcedure. The id parameter is passed in using MySQL parameters.
+SQL:
+DELIMITER $$
+CREATE DEFINER=`cs3230f26_g5`@`%` PROCEDURE `DeleteAppointment`(IN id INT)
+BEGIN
+	START TRANSACTION;
+	DELETE ordered_test FROM ordered_test
+	WHERE appointment_id = id;
+    
+	DELETE appointment_summary FROM appointment_summary
+	WHERE appointment_id = id;
+    
+	DELETE appointment FROM appointment
+	WHERE appointment_id = id; 
+	COMMIT;	
+    select 1 as result;
+END$$
+DELIMITER ;
