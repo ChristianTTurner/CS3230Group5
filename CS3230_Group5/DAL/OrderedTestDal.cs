@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using CS3230_Group5.Model;
 using MySqlConnector;
 
@@ -115,14 +116,23 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Saves a test result in one transaction. The visit row is locked while
-        /// checking that no final diagnosis exists, so a finalized visit can never
-        /// be changed. If the test has a low and/or high value, normality is
-        /// calculated here; otherwise <paramref name="manualAbnormal"/> is used.
+        /// Saves a test result by calling the save_test_result stored procedure
+        /// (see sp.sql). In one transaction the procedure locks the visit, refuses
+        /// a finalized visit or a test that was not ordered, decides whether the
+        /// result is abnormal from the test's low and high values (or uses
+        /// <paramref name="manualAbnormal"/> when the test has no range), and saves it.
         /// </summary>
+        /// <param name="appointmentId">The visit the test was ordered for.</param>
+        /// <param name="testCode">The ordered test, for example WBC.</param>
+        /// <param name="performedDateTime">When the test was performed.</param>
+        /// <param name="result">The result text or number.</param>
+        /// <param name="manualAbnormal">
+        /// Normal (false) or abnormal (true), used only for tests with no range.
+        /// </param>
         /// <exception cref="ArgumentException">The inputs are invalid.</exception>
         /// <exception cref="InvalidOperationException">
-        /// The test was not ordered, or the visit is already finalized.
+        /// The stored procedure rejected the call, for example because the visit
+        /// is finalized or the test was not ordered.
         /// </exception>
         public void SaveResult(
             int appointmentId,
@@ -131,6 +141,9 @@ namespace CS3230_Group5.DAL
             string result,
             bool? manualAbnormal)
         {
+            // MySQL error raised by SIGNAL in the stored procedure.
+            const int signalledError = 1644;
+
             if (appointmentId <= 0)
                 throw new ArgumentOutOfRangeException(nameof(appointmentId));
             if (string.IsNullOrWhiteSpace(testCode))
@@ -141,84 +154,27 @@ namespace CS3230_Group5.DAL
                 throw new ArgumentException("The result cannot exceed 255 characters.", nameof(result));
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-            using var transaction = connection.BeginTransaction();
+            using var command = new MySqlCommand("save_test_result", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.Add("@p_appointment_id", MySqlDbType.Int32).Value = appointmentId;
+            command.Parameters.Add("@p_test_code", MySqlDbType.VarChar, 10).Value = testCode.Trim();
+            command.Parameters.Add("@p_performed_datetime", MySqlDbType.DateTime).Value = performedDateTime;
+            command.Parameters.Add("@p_result", MySqlDbType.VarChar, 255).Value = result.Trim();
+            command.Parameters.Add("@p_manual_abnormal", MySqlDbType.Bool).Value =
+                (object?)manualAbnormal ?? DBNull.Value;
 
             try
             {
-                decimal? low;
-                decimal? high;
-                string? finalDiagnosis;
-
-                const string lockQuery = @"
-                    SELECT t.low_value, t.high_value, s.final_diagnosis
-                    FROM ordered_test ot
-                    INNER JOIN appointment_summary s ON s.appointment_id = ot.appointment_id
-                    INNER JOIN test t ON t.test_code = ot.test_code
-                    WHERE ot.appointment_id = @appointmentId
-                      AND ot.test_code = @testCode
-                    FOR UPDATE;";
-
-                using (var lockCommand = new MySqlCommand(lockQuery, connection, transaction))
-                {
-                    lockCommand.Parameters.Add("@appointmentId", MySqlDbType.Int32).Value = appointmentId;
-                    lockCommand.Parameters.Add("@testCode", MySqlDbType.VarChar, 10).Value = testCode;
-
-                    using var reader = lockCommand.ExecuteReader();
-
-                    if (!reader.Read())
-                        throw new InvalidOperationException("That test was not ordered for this visit.");
-
-                    low = reader.IsDBNull(0) ? null : reader.GetDecimal(0);
-                    high = reader.IsDBNull(1) ? null : reader.GetDecimal(1);
-                    finalDiagnosis = reader.IsDBNull(2) ? null : reader.GetString(2);
-                }
-
-                if (!string.IsNullOrWhiteSpace(finalDiagnosis))
-                    throw new InvalidOperationException(
-                        "A final diagnosis has been entered, so this visit is read-only.");
-
-                bool abnormal;
-
-                if (low.HasValue || high.HasValue)
-                {
-                    if (!OrderedTest.TryParseNumericResult(result, out decimal value))
-                        throw new ArgumentException("This test requires a numeric result.", nameof(result));
-
-                    abnormal = OrderedTest.IsAbnormal(value, low, high);
-                }
-                else
-                {
-                    if (!manualAbnormal.HasValue)
-                        throw new ArgumentException("Select normal or abnormal for this test.", nameof(manualAbnormal));
-
-                    abnormal = manualAbnormal.Value;
-                }
-
-                const string updateQuery = @"
-                    UPDATE ordered_test
-                    SET performed_datetime = @performed,
-                        result = @result,
-                        abnormal = @abnormal
-                    WHERE appointment_id = @appointmentId
-                      AND test_code = @testCode;";
-
-                using (var updateCommand = new MySqlCommand(updateQuery, connection, transaction))
-                {
-                    updateCommand.Parameters.Add("@performed", MySqlDbType.DateTime).Value = performedDateTime;
-                    updateCommand.Parameters.Add("@result", MySqlDbType.VarChar, 255).Value = result.Trim();
-                    updateCommand.Parameters.Add("@abnormal", MySqlDbType.Bool).Value = abnormal;
-                    updateCommand.Parameters.Add("@appointmentId", MySqlDbType.Int32).Value = appointmentId;
-                    updateCommand.Parameters.Add("@testCode", MySqlDbType.VarChar, 10).Value = testCode;
-                    updateCommand.ExecuteNonQuery();
-                }
-
-                transaction.Commit();
+                connection.Open();
+                command.ExecuteNonQuery();
             }
-            catch
+            catch (MySqlException ex) when (ex.Number == signalledError)
             {
-                transaction.Rollback();
-                throw;
+                // The procedure rejected the call and already rolled back.
+                throw new InvalidOperationException(ex.Message, ex);
             }
         }
     }
