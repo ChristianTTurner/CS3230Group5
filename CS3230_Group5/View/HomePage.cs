@@ -49,6 +49,8 @@ namespace CS3230_Group5
             adminStats.Visible = SignedInUser.IsAdmin;
             adminStatsLabel.Visible = SignedInUser.IsAdmin;
 
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             adminStatsLabel.BringToFront();
         }
 

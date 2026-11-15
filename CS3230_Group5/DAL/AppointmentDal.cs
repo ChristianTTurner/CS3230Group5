@@ -222,39 +222,6 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
-        /** Update appointment information in the Database
-         * 
-         *  @param appointment the appointment to be updated
-         *  @param message resulting information based on the updates success
-         *  
-         *  @returns true if the edits were saved successfully
-         *          false if the edits weren't saved successfully
-         */
-        public bool UpdateAppointment(Appointment appointment, out string message)
-        {
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-
-            var command = createUpdateAppointmentCommand(connection, appointment);
-
-            try
-            {
-                int rowsAffected = command.ExecuteNonQuery();
-                if (rowsAffected > 0)
-                {
-                    message = "Edits saved successfully";
-                    return true;
-                }
-
-                message = "Error saving edits to database";
-                return false;
-            }
-            catch (Exception ex) {
-                message = "Error saving edits to database: " + ex.Message;
-                return false;
-            }
-        }
-
         private MySqlCommand createUpdateAppointmentCommand(MySqlConnection connection, Appointment appointment)
         {
             var query = this.buildUpdateAppointmentQuery(appointment);
@@ -289,32 +256,18 @@ namespace CS3230_Group5.DAL
                    WHERE appointment_id = @appointmentId;";
         }
 
-        /** Get the appointments stored in the Database
-         * 
-         *  @param filter the filter based on the search input
-         *  
-         *  @returns a list of appointments
-         */
-        public List<Appointment> GetAppointments(string? filter = null)
+        /// <summary>
+        /// Converts the current database row to an <see cref="Appointment"/>,
+        /// including the patient and doctor display names.
+        /// </summary>
+        private static Appointment mapAppointment(MySqlDataReader reader)
         {
-            var appointments = new List<Appointment>();
-            using var connection = new MySqlConnection(Connection.ConnectionString());
-            connection.Open();
-
-            using var command = createSearchAppointmentsCommand(connection, filter);
-
-            using var reader = command.ExecuteReader();
-            Appointment newAppt;
-            while (reader.Read())
-            {
-                newAppt = new Appointment(reader.GetInt32("appointment_id"),
-                    reader.GetInt32("patient_id"), reader.GetInt32("doctor_id"),
-                    reader.GetDateTime("datetime"), reader.GetString("reason"));
-                newAppt.PatientName = $"{reader.GetString("pfname")} {reader.GetString("plname")}";
-                newAppt.DoctorName = $"{reader.GetString("dfname")} {reader.GetString("dlname")}";
-                
-                appointments.Add(newAppt);
-            }
+            var appointment = new Appointment(
+                reader.GetInt32("appointment_id"),
+                reader.GetInt32("patient_id"),
+                reader.GetInt32("doctor_id"),
+                reader.GetDateTime("datetime"),
+                reader.GetString("reason"));
 
             appointment.PatientName = $"{reader.GetString("pfname")} {reader.GetString("plname")}";
             appointment.DoctorName = $"{reader.GetString("dfname")} {reader.GetString("dlname")}";
