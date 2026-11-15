@@ -4,15 +4,30 @@ Database username: cs3230f26_g5
 Database password: xS4!IKEf9}O9kF_f.@Gm
 
 ADMIN
-Username: admin1
-password: admin123
+Usernames: admin1, admin2, admin3, admin4, admin5
+password (for all admins): admin123
 
 NURSES
 Username: nurse1 
 password: nurse123
 
+username: sam
+password sam1
+
+username: john1
+password: john123
+
+username: mike
+password: pass123
+
+username: nurse4
+password: nurse1234
+
 username: nurse5
 password: 12345
+
+username: kenD
+password: test
  
 Known issues or incomplete features: storing hashed passwords
 
