@@ -58,13 +58,13 @@ namespace CS3230_Group5
         {
             if (isAdmin)
             {
-                appointmentButton.Enabled = false;
-                patientsButton.Enabled = false;
-                nurseButton.Enabled = false;
+                appointmentButton.Visible = false;
+                patientsButton.Visible = false;
 
-                manageAppointments.Enabled = false;
-                managePatients.Enabled = false;
-                manageNurse.Enabled = false;
+                manageAppointments.Visible = false;
+                manageAppointmentLabel.Visible = false;
+                managePatients.Visible = false;
+                managePatientLabel.Visible = false;
             } else
             {
                 adminStats.Enabled = false;
