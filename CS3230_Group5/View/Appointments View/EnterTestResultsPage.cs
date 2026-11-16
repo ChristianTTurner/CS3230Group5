@@ -309,6 +309,10 @@ namespace CS3230_Group5.View.Appointments_View
                 {
                     SetResultStatus("Enter a number", Color.DarkOrange);
                 }
+                else if (value < 0)
+                {
+                    SetResultStatus("Cannot be negative", Color.DarkOrange);
+                }
                 else if (text.Length > MaxNumericResultLength)
                 {
                     SetResultStatus("Number too long", Color.DarkOrange);
@@ -333,6 +337,11 @@ namespace CS3230_Group5.View.Appointments_View
             bool chosenAbnormal = abnormalComboBox.SelectedIndex == 1;
             SetResultStatus(chosenAbnormal ? "Abnormal" : "Normal",
                 chosenAbnormal ? Color.Firebrick : Color.ForestGreen);
+        }
+
+        private static bool IsNegativeNumber(string text)
+        {
+            return OrderedTest.TryParseNumericResult(text, out decimal value) && value < 0;
         }
 
         private void SetResultStatus(string text, Color color)
@@ -466,6 +475,11 @@ namespace CS3230_Group5.View.Appointments_View
             else if (test.HasRange && !OrderedTest.TryParseNumericResult(result, out _))
             {
                 ShowError(resultErrorLabel, "This test needs a numeric result, for example 7.20.");
+                isValid = false;
+            }
+            else if (test.HasRange && IsNegativeNumber(result))
+            {
+                ShowError(resultErrorLabel, "A result cannot be negative.");
                 isValid = false;
             }
             else if (test.HasRange && result.Length > MaxNumericResultLength)
