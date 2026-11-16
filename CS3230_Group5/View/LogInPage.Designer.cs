@@ -79,6 +79,7 @@
             passwordInput.Name = "passwordInput";
             passwordInput.Size = new Size(526, 39);
             passwordInput.TabIndex = 27;
+            passwordInput.UseSystemPasswordChar = true;
             passwordInput.Leave += passwordInput_Leave;
             // 
             // passwordLabel

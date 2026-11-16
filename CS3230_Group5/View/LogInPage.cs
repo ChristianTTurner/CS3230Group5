@@ -11,7 +11,7 @@ namespace CS3230_Group5.View
     /// </summary>
     public partial class LogInPage : Form
     {
-        private readonly LogInDAL DAL = new LogInDAL();
+        private readonly LogInDal DAL = new LogInDal();
 
         /// <summary>
         /// Initializes the login page, disables the login button until

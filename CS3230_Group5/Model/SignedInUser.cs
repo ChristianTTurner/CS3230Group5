@@ -14,11 +14,6 @@ namespace CS3230_Group5.Model
         public static string? Username { get; set; }
 
         /// <summary>
-        /// Gets or sets the password of the currently signed-in user.
-        /// </summary>
-        public static string? Password { get; set; }
-
-        /// <summary>
         /// Gets or sets the unique identifier of the currently signed-in user.
         /// </summary>
         public static int? UserID { get; set; }
@@ -86,7 +81,6 @@ namespace CS3230_Group5.Model
         public static void Clear()
         {
             Username = null;
-            Password = null;
             UserID = null;
             FirstName = null;
             LastName = null;

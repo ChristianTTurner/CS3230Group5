@@ -7,7 +7,7 @@ namespace CS3230_Group5.DAL
     /// <summary>
     /// Provides database access for signing administrators and nurses in.
     /// </summary>
-    public class LogInDAL
+    public class LogInDal
     {
         /// <summary>
         /// Signs in an administrator if the username and password match an existing account.
@@ -22,16 +22,19 @@ namespace CS3230_Group5.DAL
         public bool SignInAdmin(string username, string password)
         {
             const string query =
-                "select * from administrator where username = @username and password = @password";
+                "select * from administrator where username = @username";
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            using var cmd = CreateCredentialsCommand(connection, query, username, password);
+            using var cmd = CreateUsernameCommand(connection, query, username);
             using var reader = cmd.ExecuteReader();
 
-            if (!reader.Read())
+            if (!reader.Read() ||
+                !PasswordHasher.Verify(password, reader.GetString("password")))
+            {
                 return false;
+            }
 
             StoreAdmin(reader);
 
@@ -53,16 +56,19 @@ namespace CS3230_Group5.DAL
             const string query = @"SELECT n.nurse_id, n.username, n.password, n.first_name, n.last_name,
         n.date_of_birth, n.address_id AS nurse_address_id, n.phone, a.address1, a.address2, a.city
         FROM nurse n JOIN address a ON n.address_id = a.address_id
-        WHERE n.username = @username AND n.password = @password";
+        WHERE n.username = @username";
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            using var cmd = CreateCredentialsCommand(connection, query, username, password);
+            using var cmd = CreateUsernameCommand(connection, query, username);
             using var reader = cmd.ExecuteReader();
 
-            if (!reader.Read())
+            if (!reader.Read() ||
+                !PasswordHasher.Verify(password, reader.GetString("password")))
+            {
                 return false;
+            }
 
             StoreNurse(reader);
 
@@ -70,20 +76,18 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Creates a command that takes the username and password parameters.
+        /// Creates a command that takes the username parameter.
         /// </summary>
         /// <param name="connection">The connection the command will run on.</param>
-        /// <param name="query">The SQL query using @username and @password.</param>
+        /// <param name="query">The SQL query using @username.</param>
         /// <param name="username">The entered username.</param>
-        /// <param name="password">The entered password.</param>
-        /// <returns>The command with both parameters set.</returns>
-        private static MySqlCommand CreateCredentialsCommand(
-            MySqlConnection connection, string query, string username, string password)
+        /// <returns>The command with the username parameter set.</returns>
+        private static MySqlCommand CreateUsernameCommand(
+            MySqlConnection connection, string query, string username)
         {
             var cmd = new MySqlCommand(query, connection);
 
             cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
-            cmd.Parameters.Add("@password", MySqlDbType.VarChar).Value = password;
 
             return cmd;
         }
@@ -96,7 +100,6 @@ namespace CS3230_Group5.DAL
         {
             SignedInUser.UserID = reader.GetInt32("admin_id");
             SignedInUser.Username = reader.GetString("username");
-            SignedInUser.Password = reader.GetString("password");
             SignedInUser.FirstName = reader.GetString("first_name");
             SignedInUser.LastName = reader.GetString("last_name");
             SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
@@ -113,7 +116,6 @@ namespace CS3230_Group5.DAL
         {
             SignedInUser.UserID = reader.GetInt32("nurse_id");
             SignedInUser.Username = reader.GetString("username");
-            SignedInUser.Password = reader.GetString("password");
             SignedInUser.FirstName = reader.GetString("first_name");
             SignedInUser.LastName = reader.GetString("last_name");
             SignedInUser.DateOfBirth = reader.GetDateOnly("date_of_birth");
