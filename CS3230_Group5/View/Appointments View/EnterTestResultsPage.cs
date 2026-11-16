@@ -18,6 +18,9 @@ namespace CS3230_Group5.View.Appointments_View
     {
         private const string DateTimeFormat = "MM/dd/yyyy h:mm tt";
 
+        // The stored procedure rejects a numeric result longer than this.
+        private const int MaxNumericResultLength = 14;
+
         private readonly int _appointmentId;
         private readonly OrderedTestDal _testDal = new OrderedTestDal();
 
@@ -104,9 +107,17 @@ namespace CS3230_Group5.View.Appointments_View
             saveButton.Click += saveButton_Click;
             closeButton.Click += (s, e) => Close();
 
-            resultTextBox.TextChanged += (s, e) => ClearError(resultErrorLabel);
+            resultTextBox.TextChanged += (s, e) =>
+            {
+                ClearError(resultErrorLabel);
+                UpdateResultStatus();
+            };
             performedPicker.ValueChanged += (s, e) => ClearError(performedErrorLabel);
-            abnormalComboBox.SelectedIndexChanged += (s, e) => ClearError(abnormalErrorLabel);
+            abnormalComboBox.SelectedIndexChanged += (s, e) =>
+            {
+                ClearError(abnormalErrorLabel);
+                UpdateResultStatus();
+            };
         }
 
         private void EnterTestResultsPage_Load(object? sender, EventArgs e)
@@ -244,6 +255,7 @@ namespace CS3230_Group5.View.Appointments_View
                 abnormalComboBox.SelectedIndex = -1;
                 SetAbnormalRowVisible(false);
                 SetEditorEnabled(false);
+                UpdateResultStatus();
                 return;
             }
 
@@ -267,6 +279,66 @@ namespace CS3230_Group5.View.Appointments_View
             ClearErrors();
 
             SetEditorEnabled(!_isLocked);
+            UpdateResultStatus();
+        }
+
+        /// <summary>
+        /// Shows Normal or Abnormal next to the result box while the user types
+        /// (or picks from the dropdown), so it is clear before Save is clicked.
+        /// The saved value is still decided by the database.
+        /// </summary>
+        private void UpdateResultStatus()
+        {
+            OrderedTest? test = GetSelectedTest();
+
+            if (test == null)
+            {
+                SetResultStatus(string.Empty, Color.Black);
+                return;
+            }
+
+            if (test.HasRange)
+            {
+                string text = resultTextBox.Text.Trim();
+
+                if (text.Length == 0)
+                {
+                    SetResultStatus(string.Empty, Color.Black);
+                }
+                else if (!OrderedTest.TryParseNumericResult(text, out decimal value))
+                {
+                    SetResultStatus("Enter a number", Color.DarkOrange);
+                }
+                else if (text.Length > MaxNumericResultLength)
+                {
+                    SetResultStatus("Number too long", Color.DarkOrange);
+                }
+                else
+                {
+                    bool abnormal = OrderedTest.IsAbnormal(value, test.LowValue, test.HighValue);
+                    SetResultStatus(abnormal ? "Abnormal" : "Normal",
+                        abnormal ? Color.Firebrick : Color.ForestGreen);
+                }
+
+                return;
+            }
+
+            // No normal range: show what the nurse chose in the dropdown.
+            if (abnormalComboBox.SelectedIndex == -1)
+            {
+                SetResultStatus(string.Empty, Color.Black);
+                return;
+            }
+
+            bool chosenAbnormal = abnormalComboBox.SelectedIndex == 1;
+            SetResultStatus(chosenAbnormal ? "Abnormal" : "Normal",
+                chosenAbnormal ? Color.Firebrick : Color.ForestGreen);
+        }
+
+        private void SetResultStatus(string text, Color color)
+        {
+            resultStatusLabel.Text = text;
+            resultStatusLabel.ForeColor = color;
         }
 
         private void SetEditorEnabled(bool enabled)
@@ -394,6 +466,11 @@ namespace CS3230_Group5.View.Appointments_View
             else if (test.HasRange && !OrderedTest.TryParseNumericResult(result, out _))
             {
                 ShowError(resultErrorLabel, "This test needs a numeric result, for example 7.20.");
+                isValid = false;
+            }
+            else if (test.HasRange && result.Length > MaxNumericResultLength)
+            {
+                ShowError(resultErrorLabel, "The result is too long to be a valid number.");
                 isValid = false;
             }
 

@@ -128,7 +128,7 @@ namespace CS3230_Group5.View.Nurse_View
                 bool isEditable = isSelectedAppointmentEditable();
 
                 editButton.Enabled = isEditable;
-                viewSummaryButton.Enabled = isEditable;
+                viewSummaryButton.Enabled = true;
             }
             else
             {
