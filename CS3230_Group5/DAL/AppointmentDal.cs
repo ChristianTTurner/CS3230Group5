@@ -37,25 +37,25 @@ namespace CS3230_Group5.DAL
         }
 
         /// <summary>
-        /// Deletes an appointment and its related summary record.
+        /// Deletes an appointment, its related summary record, and ordered tests.
         /// </summary>
         /// <param name="id">The appointment ID to delete.</param>
-        /// <returns><see langword="true"/> when one or more records are deleted; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="1"/> when one or more records are deleted; otherwise, <see langword="0"/>.</returns>
         public bool DeleteAppointment(int id)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var deleteQuery = @"SET FOREIGN_KEY_CHECKS = 0;
-                    DELETE appointment FROM appointment
-                    WHERE appointment_id = @id;
-                    DELETE appointment_summary FROM appointment_summary
-                    WHERE appointment_id = @id;
-                    SET FOREIGN_KEY_CHECKS = 1;";
-            var command = new MySqlCommand(deleteQuery, connection);
+            var callDelete = @"call DeleteAppointment(@id);";
+            var command = new MySqlCommand(callDelete, connection);
             command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
 
-            return command.ExecuteNonQuery() > 0;
+            using var reader = command.ExecuteReader();
+            reader.Read();
+            var result = reader.GetInt16("result");
+            reader.Close();
+
+            return result > 0;
         }
 
         /// <summary>
@@ -222,9 +222,6 @@ namespace CS3230_Group5.DAL
             return checked((int)command.LastInsertedId);
         }
 
-        /// <summary>
-        /// Creates the command that updates an appointment.
-        /// </summary>
         private MySqlCommand createUpdateAppointmentCommand(MySqlConnection connection, Appointment appointment)
         {
             var query = this.buildUpdateAppointmentQuery(appointment);

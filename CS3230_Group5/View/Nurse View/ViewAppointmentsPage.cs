@@ -106,11 +106,6 @@ namespace CS3230_Group5.View.Nurse_View
             enableEditAndSummaryButtons();
         }
 
-        private void bookAppointmentButton_Click(object sender, EventArgs e)
-        {
-            NavigateTo(new CreateAppointmentPage());
-        }
-
         private void appointmentList_Click(object sender, EventArgs e)
         {
             enableEditAndSummaryButtons();
