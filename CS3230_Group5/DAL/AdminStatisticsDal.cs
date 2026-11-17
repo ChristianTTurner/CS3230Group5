@@ -31,18 +31,14 @@ namespace CS3230_Group5.DAL
             connection.Open();
             using var reader = command.ExecuteReader();
 
-            if (!reader.Read())
-            {
-                throw new InvalidOperationException(
-                    "Unable to retrieve administrator statistics.");
-            }
+
 
             var adminStats = new AdminStatistics();
-            var testInfo = new TestInfo();
-
 
             while (reader.Read())
             {
+                var testInfo = new TestInfo();
+
                 testInfo.Code = Convert.ToString(reader["test_code"]);
                 testInfo.Name = Convert.ToString(reader["test_name"]);
                 testInfo.NumPerformed = Convert.ToInt32(reader["performed_num_times"]);
