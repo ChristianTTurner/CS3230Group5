@@ -11,16 +11,27 @@ namespace CS3230_Group5.Model
     /// </summary>
     public class AdminStatistics
     {
-        public int TotalAppointments { get; set; }
+        public int TotalTestsPerformed { get; set; }
 
-        public int UniquePatients { get; set; }
+        public int TotalHEPATestsPerformed { get; set; }
 
-        public int CompletedCheckups { get; set; }
+        public double HEPATestPercentage {  get; set; }
 
-        public int TestsOrdered { get; set; }
+        public int TotalHEPBTestsPerformed { get; set; }
 
-        public int TestsPerformed { get; set; }
+        public double HEPBTestPercentage { get; set; }
 
-        public int AbnormalResults { get; set; }
+        public int TotalLDLTestsPerformed { get; set; }
+
+        public double LDLTestPercentage { get; set; }
+
+        public int TotalWBCTestsPerformed { get; set; }
+
+        public double WBCTestPercentage { get; set; }
+
+        public int NumAbnormalResults { get; set; }
+
+        public int NumNormalResults { get; set; }
+
     }
 }

@@ -81,10 +81,10 @@ namespace CS3230_Group5.View.Admin_View
                     statistics.CompletedCheckups.ToString();
 
                 testsOrderedValueLabel.Text =
-                    statistics.TestsOrdered.ToString();
+                    statistics.TotalLDLTestsPerformed.ToString();
 
                 testsPerformedValueLabel.Text =
-                    statistics.TestsPerformed.ToString();
+                    statistics.TotalWBCTestsPerformed.ToString();
 
                 abnormalResultsValueLabel.Text =
                     statistics.AbnormalResults.ToString();
