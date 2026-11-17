@@ -23,6 +23,8 @@ namespace CS3230_Group5.View.Nurse_View
             InitializeComponent();
 
             nurseButton.Visible = SignedInUser.IsAdmin;
+            patientsButton.Visible = !SignedInUser.IsAdmin;
+            appointmentButton.Visible = !SignedInUser.IsAdmin;
 
             setUpNursesList();
             loadNurses();

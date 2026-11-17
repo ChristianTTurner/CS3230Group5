@@ -41,6 +41,7 @@
             resultLabel = new Label();
             resultTextBox = new TextBox();
             unitLabel = new Label();
+            resultStatusLabel = new Label();
             resultErrorLabel = new Label();
             abnormalLabel = new Label();
             abnormalComboBox = new ComboBox();
@@ -185,6 +186,15 @@
             unitLabel.Size = new Size(0, 28);
             unitLabel.TabIndex = 12;
             // 
+            // resultStatusLabel
+            // 
+            resultStatusLabel.AutoSize = true;
+            resultStatusLabel.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            resultStatusLabel.Location = new Point(700, 497);
+            resultStatusLabel.Name = "resultStatusLabel";
+            resultStatusLabel.Size = new Size(0, 28);
+            resultStatusLabel.TabIndex = 19;
+            // 
             // resultErrorLabel
             // 
             resultErrorLabel.AutoSize = true;
@@ -267,6 +277,7 @@
             Controls.Add(abnormalLabel);
             Controls.Add(resultErrorLabel);
             Controls.Add(unitLabel);
+            Controls.Add(resultStatusLabel);
             Controls.Add(resultTextBox);
             Controls.Add(resultLabel);
             Controls.Add(performedErrorLabel);
@@ -305,6 +316,7 @@
         private Label resultLabel;
         private TextBox resultTextBox;
         private Label unitLabel;
+        private Label resultStatusLabel;
         private Label resultErrorLabel;
         private Label abnormalLabel;
         private ComboBox abnormalComboBox;

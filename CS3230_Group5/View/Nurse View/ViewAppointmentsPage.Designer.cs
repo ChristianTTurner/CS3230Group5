@@ -30,7 +30,6 @@
         {
             editButton = new Button();
             label1 = new Label();
-            bookAppointmentButton = new Button();
             searchAppointmentTextBox = new TextBox();
             appointmentList = new ListView();
             appointmentButton = new Button();
@@ -53,10 +52,10 @@
             editButton.FlatStyle = FlatStyle.Flat;
             editButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             editButton.ForeColor = Color.White;
-            editButton.Location = new Point(1169, 112);
+            editButton.Location = new Point(954, 143);
             editButton.Margin = new Padding(2);
             editButton.Name = "editButton";
-            editButton.Size = new Size(112, 39);
+            editButton.Size = new Size(90, 31);
             editButton.TabIndex = 16;
             editButton.Text = "Edit";
             editButton.UseVisualStyleBackColor = false;
@@ -66,38 +65,20 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(340, 81);
+            label1.Location = new Point(272, 65);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(379, 70);
+            label1.Size = new Size(321, 60);
             label1.TabIndex = 15;
             label1.Text = "Appointments";
-            // 
-            // bookAppointmentButton
-            // 
-            bookAppointmentButton.BackColor = Color.ForestGreen;
-            bookAppointmentButton.FlatAppearance.BorderSize = 0;
-            bookAppointmentButton.FlatStyle = FlatStyle.Flat;
-            bookAppointmentButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            bookAppointmentButton.ForeColor = Color.White;
-            bookAppointmentButton.ImageAlign = ContentAlignment.TopCenter;
-            bookAppointmentButton.Location = new Point(1179, 174);
-            bookAppointmentButton.Margin = new Padding(4, 4, 4, 4);
-            bookAppointmentButton.Name = "bookAppointmentButton";
-            bookAppointmentButton.Size = new Size(102, 46);
-            bookAppointmentButton.TabIndex = 14;
-            bookAppointmentButton.Text = "Book";
-            bookAppointmentButton.UseVisualStyleBackColor = false;
-            bookAppointmentButton.Click += bookAppointmentButton_Click;
             // 
             // searchAppointmentTextBox
             // 
             searchAppointmentTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            searchAppointmentTextBox.Location = new Point(340, 178);
-            searchAppointmentTextBox.Margin = new Padding(4, 4, 4, 4);
+            searchAppointmentTextBox.Location = new Point(272, 142);
             searchAppointmentTextBox.Name = "searchAppointmentTextBox";
             searchAppointmentTextBox.PlaceholderText = "Search by name, doctor, or appointment date";
-            searchAppointmentTextBox.Size = new Size(815, 39);
+            searchAppointmentTextBox.Size = new Size(490, 34);
             searchAppointmentTextBox.TabIndex = 13;
             searchAppointmentTextBox.TextChanged += searchAppointmentTextBox_TextChanged;
             // 
@@ -105,11 +86,10 @@
             // 
             appointmentList.FullRowSelect = true;
             appointmentList.GridLines = true;
-            appointmentList.Location = new Point(340, 242);
-            appointmentList.Margin = new Padding(4, 4, 4, 4);
+            appointmentList.Location = new Point(272, 194);
             appointmentList.MultiSelect = false;
             appointmentList.Name = "appointmentList";
-            appointmentList.Size = new Size(958, 475);
+            appointmentList.Size = new Size(767, 381);
             appointmentList.TabIndex = 12;
             appointmentList.UseCompatibleStateImageBehavior = false;
             appointmentList.View = System.Windows.Forms.View.Details;
@@ -123,10 +103,10 @@
             appointmentButton.FlatStyle = FlatStyle.Flat;
             appointmentButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             appointmentButton.ForeColor = Color.White;
-            appointmentButton.Location = new Point(2, 274);
+            appointmentButton.Location = new Point(2, 219);
             appointmentButton.Margin = new Padding(2);
             appointmentButton.Name = "appointmentButton";
-            appointmentButton.Size = new Size(310, 81);
+            appointmentButton.Size = new Size(248, 65);
             appointmentButton.TabIndex = 3;
             appointmentButton.Text = "🗓️ Appointments";
             appointmentButton.UseVisualStyleBackColor = false;
@@ -138,10 +118,10 @@
             patientsButton.FlatStyle = FlatStyle.Flat;
             patientsButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             patientsButton.ForeColor = Color.White;
-            patientsButton.Location = new Point(2, 188);
+            patientsButton.Location = new Point(2, 150);
             patientsButton.Margin = new Padding(2);
             patientsButton.Name = "patientsButton";
-            patientsButton.Size = new Size(310, 81);
+            patientsButton.Size = new Size(248, 65);
             patientsButton.TabIndex = 2;
             patientsButton.Text = "👥 Patients";
             patientsButton.UseVisualStyleBackColor = false;
@@ -153,10 +133,10 @@
             nurseButton.FlatStyle = FlatStyle.Flat;
             nurseButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             nurseButton.ForeColor = Color.White;
-            nurseButton.Location = new Point(2, 102);
+            nurseButton.Location = new Point(2, 82);
             nurseButton.Margin = new Padding(2);
             nurseButton.Name = "nurseButton";
-            nurseButton.Size = new Size(310, 79);
+            nurseButton.Size = new Size(248, 63);
             nurseButton.TabIndex = 1;
             nurseButton.Text = "👤 Nurses";
             nurseButton.UseVisualStyleBackColor = false;
@@ -172,7 +152,7 @@
             homeButton.Location = new Point(2, 2);
             homeButton.Margin = new Padding(2);
             homeButton.Name = "homeButton";
-            homeButton.Size = new Size(310, 92);
+            homeButton.Size = new Size(248, 74);
             homeButton.TabIndex = 0;
             homeButton.Text = "🏠︎ Home";
             homeButton.UseVisualStyleBackColor = false;
@@ -184,7 +164,7 @@
             panel1.Location = new Point(1, 0);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1331, 72);
+            panel1.Size = new Size(1065, 58);
             panel1.TabIndex = 19;
             // 
             // dashboardTitle
@@ -192,10 +172,10 @@
             dashboardTitle.AutoSize = true;
             dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dashboardTitle.ForeColor = Color.White;
-            dashboardTitle.Location = new Point(21, 21);
+            dashboardTitle.Location = new Point(17, 17);
             dashboardTitle.Margin = new Padding(2, 0, 2, 0);
             dashboardTitle.Name = "dashboardTitle";
-            dashboardTitle.Size = new Size(308, 28);
+            dashboardTitle.Size = new Size(261, 23);
             dashboardTitle.TabIndex = 0;
             dashboardTitle.Text = "Healthcare Management System";
             // 
@@ -207,10 +187,10 @@
             menuPanel.Controls.Add(patientsButton);
             menuPanel.Controls.Add(nurseButton);
             menuPanel.Controls.Add(homeButton);
-            menuPanel.Location = new Point(1, 69);
+            menuPanel.Location = new Point(1, 55);
             menuPanel.Margin = new Padding(2);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(324, 696);
+            menuPanel.Size = new Size(259, 557);
             menuPanel.TabIndex = 18;
             // 
             // logoutButton
@@ -220,41 +200,41 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             logoutButton.ForeColor = Color.White;
-            logoutButton.Location = new Point(2, 591);
+            logoutButton.Location = new Point(2, 473);
             logoutButton.Margin = new Padding(2);
             logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(310, 81);
+            logoutButton.Size = new Size(248, 65);
             logoutButton.TabIndex = 4;
             logoutButton.Text = "➜] Logout";
             logoutButton.UseVisualStyleBackColor = false;
             // 
             // viewSummaryButton
             // 
+            viewSummaryButton.BackColor = SystemColors.WindowFrame;
             viewSummaryButton.FlatStyle = FlatStyle.Flat;
             viewSummaryButton.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            viewSummaryButton.Location = new Point(952, 112);
-            viewSummaryButton.Margin = new Padding(4, 4, 4, 4);
+            viewSummaryButton.ForeColor = SystemColors.Control;
+            viewSummaryButton.Location = new Point(777, 142);
+            viewSummaryButton.Margin = new Padding(2, 2, 2, 2);
             viewSummaryButton.Name = "viewSummaryButton";
-            viewSummaryButton.Size = new Size(204, 40);
+            viewSummaryButton.Size = new Size(163, 32);
             viewSummaryButton.TabIndex = 20;
             viewSummaryButton.Text = "View Summary";
-            viewSummaryButton.UseVisualStyleBackColor = true;
+            viewSummaryButton.UseVisualStyleBackColor = false;
             viewSummaryButton.Click += viewAppointment_Click;
             // 
             // ViewAppointmentsPage
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1332, 764);
+            ClientSize = new Size(1066, 611);
             Controls.Add(viewSummaryButton);
             Controls.Add(panel1);
             Controls.Add(menuPanel);
             Controls.Add(editButton);
             Controls.Add(label1);
-            Controls.Add(bookAppointmentButton);
             Controls.Add(searchAppointmentTextBox);
             Controls.Add(appointmentList);
-            Margin = new Padding(4, 4, 4, 4);
             Name = "ViewAppointmentsPage";
             Text = "ViewAppointmentsPage";
             Load += ViewAppointmentsPage_Load;
@@ -268,7 +248,6 @@
         #endregion
         private Button editButton;
         private Label label1;
-        private Button bookAppointmentButton;
         private TextBox searchAppointmentTextBox;
         private ListView appointmentList;
         private Button appointmentButton;
