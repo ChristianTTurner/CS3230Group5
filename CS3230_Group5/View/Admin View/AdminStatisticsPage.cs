@@ -6,6 +6,10 @@ using CS3230_Group5.Model;
 
 namespace CS3230_Group5.View.Admin_View
 {
+    /// <summary>
+    /// Shows the administrator statistics report for a chosen date range.
+    /// Only administrators can open this page.
+    /// </summary>
     public partial class AdminStatisticsPage : Form
     {
         private readonly AdminStatisticsDal _statisticsDal =
@@ -13,10 +17,17 @@ namespace CS3230_Group5.View.Admin_View
 
         private readonly Form? _previousPage;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminStatisticsPage"/> class.
+        /// </summary>
         public AdminStatisticsPage() : this(null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminStatisticsPage"/> class.
+        /// </summary>
+        /// <param name="previousPage">The previous page.</param>
         public AdminStatisticsPage(Form? previousPage)
         {
             InitializeComponent();

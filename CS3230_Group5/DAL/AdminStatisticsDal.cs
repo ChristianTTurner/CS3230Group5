@@ -6,6 +6,10 @@ using MySqlConnector;
 
 namespace CS3230_Group5.DAL
 {
+    /// <summary>
+    /// Provides database access for the administrator statistics report.
+    /// Counts appointments, patients, check-ups, and tests for a date range.
+    /// </summary>
     public class AdminStatisticsDal
     {
         public AdminStatistics GetStatistics(
