@@ -38,48 +38,27 @@ namespace CS3230_Group5.DAL
             }
 
             var adminStats = new AdminStatistics();
-            adminStats.TotalTestsPerformed = Convert.ToInt32(reader["performed_all_tests_n_times"]);
-            adminStats.NumAbnormalResults = Convert.ToInt32(reader["num_abnormal_results"]);
-            adminStats.NumNormalResults = Convert.ToInt32(reader["num_normal_results"]);
+            var testInfo = new TestInfo();
+
 
             while (reader.Read())
             {
-                var testCode = Convert.ToString(reader["test_code"]);
+                testInfo.Code = Convert.ToString(reader["test_code"]);
+                testInfo.Name = Convert.ToString(reader["test_name"]);
+                testInfo.NumPerformed = Convert.ToInt32(reader["performed_num_times"]);
+                testInfo.Percentage = Convert.ToInt32(reader["percentage"]);
 
-                if (testCode == null)
-                {
-                    continue;
-                }
+                adminStats.TotalTestsPerformed = Convert.ToInt32(reader["performed_all_tests_n_times"]);
+                adminStats.NumAbnormalResults = Convert.ToInt32(reader["num_abnormal_results"]);
+                adminStats.NumNormalResults = Convert.ToInt32(reader["num_normal_results"]);
 
-                getTestStatistics(reader, adminStats, testCode);
+                adminStats.TestStatistics.Add(testInfo);
             }
 
             return adminStats;
         }
 
-        private static void getTestStatistics(MySqlDataReader reader, AdminStatistics adminStats, string testCode)
-        {
-            if (testCode.Equals("HEPA"))
-            {
-                adminStats.TotalHEPATestsPerformed = Convert.ToInt32(reader["performed_num_times"]);
-                adminStats.HEPATestPercentage = Convert.ToDouble(reader["percentage"]);
-            }
-            if (testCode.Equals("HEPB"))
-            {
-                adminStats.TotalHEPBTestsPerformed = Convert.ToInt32(reader["performed_num_times"]);
-                adminStats.HEPBTestPercentage = Convert.ToDouble(reader["percentage"]);
-            }
-            if (testCode.Equals("LDL"))
-            {
-                adminStats.TotalLDLTestsPerformed = Convert.ToInt32(reader["performed_num_times"]);
-                adminStats.LDLTestPercentage = Convert.ToDouble(reader["percentage"]);
-            }
-            if (testCode.Equals("WBC"))
-            {
-                adminStats.TotalWBCTestsPerformed = Convert.ToInt32(reader["performed_num_times"]);
-                adminStats.WBCTestPercentage = Convert.ToDouble(reader["percentage"]);
-            }
-        }
+        
     }
 }
 

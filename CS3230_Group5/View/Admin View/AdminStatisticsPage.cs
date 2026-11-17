@@ -25,6 +25,16 @@ namespace CS3230_Group5.View.Admin_View
 
             generateStatsButton.Click += GenerateStatsButton_Click;
             backButton.Click += BackButton_Click;
+
+            testStatsListView.View = System.Windows.Forms.View.Details;
+            testStatsListView.FullRowSelect = true;
+            testStatsListView.MultiSelect = false;
+            testStatsListView.Columns.Clear();
+
+            testStatsListView.Columns.Add("Code", 60, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Name", 120, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Times Performed", 120, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Percentage", 100, HorizontalAlignment.Left);
         }
 
         private void AdminStatisticsPage_Load(object sender, EventArgs e)
@@ -80,6 +90,7 @@ namespace CS3230_Group5.View.Admin_View
                 totalNormalResultsValueLabel.Text =
                     statistics.NumNormalResults.ToString();
 
+                populateTestStatsGridView(statistics);
             }
             catch (Exception ex)
             {
@@ -93,26 +104,23 @@ namespace CS3230_Group5.View.Admin_View
 
         private void populateTestStatsGridView(AdminStatistics stats)
         {
-            testStatisticsGridView.Rows.Add(new object[] { "Code", "Name", "Times Performed", "Percentage" });
+            foreach (var stat in stats.TestStatistics)
+            {
+                var item = new ListViewItem(stat.Code);
 
-            var hepaStats = new object[] { "HEPA", "Hepatitis A Test", stats.TotalHEPATestsPerformed, stats.HEPATestPercentage };
-            var hepbStats = new object[] { "HEPB", "Hepatitis B Test", stats.TotalHEPBTestsPerformed, stats.HEPBTestPercentage };
-            var LDLStats = new object[] { "LDL", "Low Density Lipoproteins", stats.TotalLDLTestsPerformed, stats.LDLTestPercentage };
-            var WBCStats = new object[] { "WBC", "White Blood Cell Count", stats.TotalWBCTestsPerformed, stats.WBCTestPercentage};
+                item.SubItems.Add(stat.Name);
+                item.SubItems.Add(stat.NumPerformed.ToString());
+                item.SubItems.Add($"{stat.Percentage}%");
 
-            var testStats = new object[] { hepaStats, hepbStats, LDLStats, WBCStats};
-
-            testStatisticsGridView.Rows.Add(hepaStats);
-            testStatisticsGridView.Rows.Add(hepbStats);
-            testStatisticsGridView.Rows.Add(LDLStats);
-            testStatisticsGridView.Rows.Add(WBCStats);
+                testStatsListView.Items.Add(item);
+            }
         }
         private void ResetStatistics()
         {
             totalTestsPerformedValueLabel.Text = "0";
             totalAbnormalResultsValueLabel.Text = "0";
             totalNormalResultsValueLabel.Text = "0";
-            testStatisticsGridView.Rows.Clear();
+            testStatsListView.Items.Clear();
         }
 
         private void BackButton_Click(object? sender, EventArgs e)

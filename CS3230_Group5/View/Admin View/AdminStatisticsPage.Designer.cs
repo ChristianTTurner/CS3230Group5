@@ -47,15 +47,14 @@
             totalNormalResultsPanel = new Panel();
             totalNormalResultsValueLabel = new Label();
             totalNormalResultsLabel = new Label();
-            testStatisticsGridView = new DataGridView();
             testStatsPanel = new Panel();
             testStatsLabel = new Label();
+            testStatsListView = new ListView();
             panel1.SuspendLayout();
             dateFilterPanel.SuspendLayout();
             totalTestsPerformedPanel.SuspendLayout();
             totalAbnormalResultsPanel.SuspendLayout();
             totalNormalResultsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)testStatisticsGridView).BeginInit();
             testStatsPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -64,7 +63,7 @@
             panel1.BackColor = Color.DarkBlue;
             panel1.Controls.Add(dashboardTitle);
             panel1.Location = new Point(1, 0);
-            panel1.Margin = new Padding(2, 2, 2, 2);
+            panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
             panel1.Size = new Size(716, 50);
             panel1.TabIndex = 13;
@@ -110,7 +109,7 @@
             dateFilterPanel.Controls.Add(startDateLabel);
             dateFilterPanel.Controls.Add(startDateTimePicker);
             dateFilterPanel.Location = new Point(10, 123);
-            dateFilterPanel.Margin = new Padding(2, 2, 2, 2);
+            dateFilterPanel.Margin = new Padding(2);
             dateFilterPanel.Name = "dateFilterPanel";
             dateFilterPanel.Size = new Size(690, 163);
             dateFilterPanel.TabIndex = 16;
@@ -122,7 +121,7 @@
             generateStatsButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             generateStatsButton.ForeColor = Color.White;
             generateStatsButton.Location = new Point(27, 105);
-            generateStatsButton.Margin = new Padding(2, 2, 2, 2);
+            generateStatsButton.Margin = new Padding(2);
             generateStatsButton.Name = "generateStatsButton";
             generateStatsButton.Size = new Size(637, 40);
             generateStatsButton.TabIndex = 4;
@@ -135,7 +134,7 @@
             endDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             endDateTimePicker.Format = DateTimePickerFormat.Short;
             endDateTimePicker.Location = new Point(371, 42);
-            endDateTimePicker.Margin = new Padding(2, 2, 2, 2);
+            endDateTimePicker.Margin = new Padding(2);
             endDateTimePicker.Name = "endDateTimePicker";
             endDateTimePicker.Size = new Size(218, 34);
             endDateTimePicker.TabIndex = 3;
@@ -168,7 +167,7 @@
             startDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             startDateTimePicker.Format = DateTimePickerFormat.Short;
             startDateTimePicker.Location = new Point(27, 42);
-            startDateTimePicker.Margin = new Padding(2, 2, 2, 2);
+            startDateTimePicker.Margin = new Padding(2);
             startDateTimePicker.Name = "startDateTimePicker";
             startDateTimePicker.Size = new Size(218, 34);
             startDateTimePicker.TabIndex = 0;
@@ -180,7 +179,7 @@
             totalTestsPerformedPanel.Controls.Add(totalTestsPerformedValueLabel);
             totalTestsPerformedPanel.Controls.Add(totalTestsPerformedLabel);
             totalTestsPerformedPanel.Location = new Point(237, 305);
-            totalTestsPerformedPanel.Margin = new Padding(2, 2, 2, 2);
+            totalTestsPerformedPanel.Margin = new Padding(2);
             totalTestsPerformedPanel.Name = "totalTestsPerformedPanel";
             totalTestsPerformedPanel.Size = new Size(232, 120);
             totalTestsPerformedPanel.TabIndex = 17;
@@ -217,7 +216,7 @@
             totalAbnormalResultsPanel.Controls.Add(totalAbnormalResultsValueLabel);
             totalAbnormalResultsPanel.Controls.Add(totalAbnormalResultsLabel);
             totalAbnormalResultsPanel.Location = new Point(10, 305);
-            totalAbnormalResultsPanel.Margin = new Padding(2, 2, 2, 2);
+            totalAbnormalResultsPanel.Margin = new Padding(2);
             totalAbnormalResultsPanel.Name = "totalAbnormalResultsPanel";
             totalAbnormalResultsPanel.Size = new Size(223, 120);
             totalAbnormalResultsPanel.TabIndex = 18;
@@ -254,7 +253,7 @@
             totalNormalResultsPanel.Controls.Add(totalNormalResultsValueLabel);
             totalNormalResultsPanel.Controls.Add(totalNormalResultsLabel);
             totalNormalResultsPanel.Location = new Point(473, 305);
-            totalNormalResultsPanel.Margin = new Padding(2, 2, 2, 2);
+            totalNormalResultsPanel.Margin = new Padding(2);
             totalNormalResultsPanel.Name = "totalNormalResultsPanel";
             totalNormalResultsPanel.Size = new Size(227, 120);
             totalNormalResultsPanel.TabIndex = 19;
@@ -284,23 +283,14 @@
             totalNormalResultsLabel.TabIndex = 4;
             totalNormalResultsLabel.Text = "Total Normal Results";
             // 
-            // testStatisticsGridView
-            // 
-            testStatisticsGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            testStatisticsGridView.Location = new Point(3, 31);
-            testStatisticsGridView.Name = "testStatisticsGridView";
-            testStatisticsGridView.RowHeadersWidth = 51;
-            testStatisticsGridView.Size = new Size(684, 157);
-            testStatisticsGridView.TabIndex = 20;
-            // 
             // testStatsPanel
             // 
             testStatsPanel.BackColor = Color.FromArgb(255, 192, 192);
-            testStatsPanel.Controls.Add(testStatisticsGridView);
+            testStatsPanel.Controls.Add(testStatsListView);
             testStatsPanel.Controls.Add(testStatsLabel);
             testStatsPanel.Location = new Point(10, 439);
             testStatsPanel.Name = "testStatsPanel";
-            testStatsPanel.Size = new Size(690, 197);
+            testStatsPanel.Size = new Size(690, 168);
             testStatsPanel.TabIndex = 21;
             // 
             // testStatsLabel
@@ -314,6 +304,14 @@
             testStatsLabel.Size = new Size(125, 25);
             testStatsLabel.TabIndex = 22;
             testStatsLabel.Text = "Test Statistics";
+            // 
+            // testStatsListView
+            // 
+            testStatsListView.Location = new Point(3, 31);
+            testStatsListView.Name = "testStatsListView";
+            testStatsListView.Size = new Size(684, 131);
+            testStatsListView.TabIndex = 23;
+            testStatsListView.UseCompatibleStateImageBehavior = false;
             // 
             // AdminStatisticsPage
             // 
@@ -329,7 +327,7 @@
             Controls.Add(adminStatsHeaderLabel);
             Controls.Add(backButton);
             Controls.Add(panel1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "AdminStatisticsPage";
             Text = "AdminStatisticsPage";
             Load += AdminStatisticsPage_Load;
@@ -343,7 +341,6 @@
             totalAbnormalResultsPanel.PerformLayout();
             totalNormalResultsPanel.ResumeLayout(false);
             totalNormalResultsPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)testStatisticsGridView).EndInit();
             testStatsPanel.ResumeLayout(false);
             testStatsPanel.PerformLayout();
             ResumeLayout(false);
@@ -371,8 +368,8 @@
         private Label totalAbnormalResultsLabel;
         private Label totalNormalResultsValueLabel;
         private Label totalNormalResultsLabel;
-        private DataGridView testStatisticsGridView;
         private Panel testStatsPanel;
         private Label testStatsLabel;
+        private ListView testStatsListView;
     }
 }

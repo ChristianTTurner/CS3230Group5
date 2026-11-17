@@ -13,25 +13,19 @@ namespace CS3230_Group5.Model
     {
         public int TotalTestsPerformed { get; set; }
 
-        public int TotalHEPATestsPerformed { get; set; }
-
-        public double HEPATestPercentage {  get; set; }
-
-        public int TotalHEPBTestsPerformed { get; set; }
-
-        public double HEPBTestPercentage { get; set; }
-
-        public int TotalLDLTestsPerformed { get; set; }
-
-        public double LDLTestPercentage { get; set; }
-
-        public int TotalWBCTestsPerformed { get; set; }
-
-        public double WBCTestPercentage { get; set; }
-
         public int NumAbnormalResults { get; set; }
 
         public int NumNormalResults { get; set; }
+
+        public List<TestInfo> TestStatistics { get; set; }
+
+        public AdminStatistics() 
+        {
+            TotalTestsPerformed = 0;
+            NumAbnormalResults = 0;
+            NumNormalResults = 0;
+            TestStatistics = new List<TestInfo>();
+        }
 
     }
 }
