@@ -26,8 +26,7 @@ namespace CS3230_Group5
         public homePageButton()
         {
             InitializeComponent();
-
-            nurseButton.Visible = SignedInUser.IsAdmin;
+            disableNurseFeatures(SignedInUser.IsAdmin);
 
             homeButton.Click += HomeButton_Click;
             nurseButton.Click += NurseButton_Click;
@@ -50,7 +49,26 @@ namespace CS3230_Group5
             adminStats.Visible = SignedInUser.IsAdmin;
             adminStatsLabel.Visible = SignedInUser.IsAdmin;
 
+            nurseButton.Visible = SignedInUser.IsAdmin;
+
             adminStatsLabel.BringToFront();
+        }
+
+        private void disableNurseFeatures(bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                appointmentButton.Visible = false;
+                patientsButton.Visible = false;
+
+                manageAppointments.Visible = false;
+                manageAppointmentLabel.Visible = false;
+                managePatients.Visible = false;
+                managePatientLabel.Visible = false;
+            } else
+            {
+                adminStats.Enabled = false;
+            }
         }
 
         private void HomeButton_Click(object? sender, EventArgs e)
