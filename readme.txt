@@ -148,3 +148,37 @@ BEGIN
     select 1 as result;
 END$$
 DELIMITER ;
+3. get_most_performed_tests_duringdates
+ - Gets the Test Statistics during a time frame
+ Implemented in AdminStatisticsDal.cs class in GetStatistics(DateTime startDate, DateTime endDate) method.
+ How it works:
+  - Accepts two DateTime parameters to define the time frame for the test results
+  - Returns a table containing statistics for each qualifying test and the general test results
+  C# Integration:
+  - The stored procedure is called from AdminStatisticsDal.GetStatistics() using MySqlCommand with CommandType.StoredProcedure. The id parameter is passed in using MySQL parameters.
+SQL:
+DELIMITER $$
+CREATE DEFINER=`cs3230f26_g5`@`%` PROCEDURE `get_most_performed_tests_duringdates`(IN startDate datetime, IN endDate datetime)
+BEGIN
+	SELECT ot.test_code, test_name, COUNT(*) as performed_num_times,
+    (SELECT COUNT(*) 
+		FROM ordered_test
+		WHERE performed_datetime >= startDate
+		AND performed_datetime < endDate) as performed_all_tests_n_times, 
+	COUNT(ot.test_code)* 100.0 / (SELECT COUNT(*) FROM ordered_test) as percentage,
+    (SELECT COUNT(*) 
+		FROM ordered_test 
+        WHERE abnormal = 0 AND performed_datetime >= startDate
+		AND performed_datetime < endDate) as num_normal_results,
+	(SELECT COUNT(*) 
+		FROM ordered_test 
+        WHERE abnormal = 1 AND performed_datetime >= startDate
+		AND performed_datetime < endDate) as num_abnormal_results
+	FROM ordered_test ot JOIN test t ON ot.test_code = t.test_code
+    WHERE performed_datetime >= startDate
+	AND performed_datetime < endDate
+	GROUP BY test_code,test_name
+    HAVING performed_num_times >= 2
+    ORDER BY performed_num_times DESC;
+END$$
+DELIMITER ;
