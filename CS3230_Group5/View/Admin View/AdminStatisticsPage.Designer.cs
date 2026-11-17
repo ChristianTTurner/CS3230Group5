@@ -33,37 +33,30 @@
             backButton = new Button();
             adminStatsHeaderLabel = new Label();
             dateFilterPanel = new Panel();
-            startDateTimePicker = new DateTimePicker();
-            startDateLabel = new Label();
-            endDateLabel = new Label();
-            endDateTimePicker = new DateTimePicker();
             generateStatsButton = new Button();
-            appointmentsPanel = new Panel();
-            patientsPanel = new Panel();
-            checkupsPanel = new Panel();
-            orderedTestsPanel = new Panel();
-            performedTestsPanel = new Panel();
-            abnormalResultsPanel = new Panel();
-            totalAppointmentsLabel = new Label();
-            totalAppointmentsValueLabel = new Label();
-            uniquePatientsValueLabel = new Label();
-            uniquePatientsLabel = new Label();
-            completedCheckupsValueLabel = new Label();
-            completedCheckupsLabel = new Label();
-            testsOrderedValueLabel = new Label();
-            testsOrderedLabel = new Label();
-            testsPerformedValueLabel = new Label();
-            testsPerformedLabel = new Label();
-            abnormalResultsValueLabel = new Label();
-            abnormalResultsLabel = new Label();
+            endDateTimePicker = new DateTimePicker();
+            endDateLabel = new Label();
+            startDateLabel = new Label();
+            startDateTimePicker = new DateTimePicker();
+            totalTestsPerformedPanel = new Panel();
+            totalTestsPerformedValueLabel = new Label();
+            totalTestsPerformedLabel = new Label();
+            totalAbnormalResultsPanel = new Panel();
+            totalAbnormalResultsValueLabel = new Label();
+            totalAbnormalResultsLabel = new Label();
+            totalNormalResultsPanel = new Panel();
+            totalNormalResultsValueLabel = new Label();
+            totalNormalResultsLabel = new Label();
+            testStatisticsGridView = new DataGridView();
+            testStatsPanel = new Panel();
+            testStatsLabel = new Label();
             panel1.SuspendLayout();
             dateFilterPanel.SuspendLayout();
-            appointmentsPanel.SuspendLayout();
-            patientsPanel.SuspendLayout();
-            checkupsPanel.SuspendLayout();
-            orderedTestsPanel.SuspendLayout();
-            performedTestsPanel.SuspendLayout();
-            abnormalResultsPanel.SuspendLayout();
+            totalTestsPerformedPanel.SuspendLayout();
+            totalAbnormalResultsPanel.SuspendLayout();
+            totalNormalResultsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)testStatisticsGridView).BeginInit();
+            testStatsPanel.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -71,8 +64,9 @@
             panel1.BackColor = Color.DarkBlue;
             panel1.Controls.Add(dashboardTitle);
             panel1.Location = new Point(1, 0);
+            panel1.Margin = new Padding(2, 2, 2, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(895, 62);
+            panel1.Size = new Size(716, 50);
             panel1.TabIndex = 13;
             // 
             // dashboardTitle
@@ -80,19 +74,19 @@
             dashboardTitle.AutoSize = true;
             dashboardTitle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dashboardTitle.ForeColor = Color.White;
-            dashboardTitle.Location = new Point(11, 18);
+            dashboardTitle.Location = new Point(9, 14);
+            dashboardTitle.Margin = new Padding(2, 0, 2, 0);
             dashboardTitle.Name = "dashboardTitle";
-            dashboardTitle.Size = new Size(308, 28);
+            dashboardTitle.Size = new Size(261, 23);
             dashboardTitle.TabIndex = 0;
             dashboardTitle.Text = "Healthcare Management System";
             // 
             // backButton
             // 
             backButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            backButton.Location = new Point(13, 69);
-            backButton.Margin = new Padding(4);
+            backButton.Location = new Point(10, 55);
             backButton.Name = "backButton";
-            backButton.Size = new Size(141, 51);
+            backButton.Size = new Size(113, 41);
             backButton.TabIndex = 14;
             backButton.Text = "🡠 Back";
             backButton.UseVisualStyleBackColor = true;
@@ -101,10 +95,9 @@
             // 
             adminStatsHeaderLabel.AutoSize = true;
             adminStatsHeaderLabel.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            adminStatsHeaderLabel.Location = new Point(162, 65);
-            adminStatsHeaderLabel.Margin = new Padding(4, 0, 4, 0);
+            adminStatsHeaderLabel.Location = new Point(130, 52);
             adminStatsHeaderLabel.Name = "adminStatsHeaderLabel";
-            adminStatsHeaderLabel.Size = new Size(394, 65);
+            adminStatsHeaderLabel.Size = new Size(327, 54);
             adminStatsHeaderLabel.TabIndex = 15;
             adminStatsHeaderLabel.Text = "Admin Statistics";
             // 
@@ -116,50 +109,11 @@
             dateFilterPanel.Controls.Add(endDateLabel);
             dateFilterPanel.Controls.Add(startDateLabel);
             dateFilterPanel.Controls.Add(startDateTimePicker);
-            dateFilterPanel.Location = new Point(13, 154);
+            dateFilterPanel.Location = new Point(10, 123);
+            dateFilterPanel.Margin = new Padding(2, 2, 2, 2);
             dateFilterPanel.Name = "dateFilterPanel";
-            dateFilterPanel.Size = new Size(862, 204);
+            dateFilterPanel.Size = new Size(690, 163);
             dateFilterPanel.TabIndex = 16;
-            // 
-            // startDateTimePicker
-            // 
-            startDateTimePicker.CalendarFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startDateTimePicker.Format = DateTimePickerFormat.Short;
-            startDateTimePicker.Location = new Point(34, 52);
-            startDateTimePicker.Name = "startDateTimePicker";
-            startDateTimePicker.Size = new Size(272, 39);
-            startDateTimePicker.TabIndex = 0;
-            // 
-            // startDateLabel
-            // 
-            startDateLabel.AutoSize = true;
-            startDateLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            startDateLabel.Location = new Point(34, 21);
-            startDateLabel.Name = "startDateLabel";
-            startDateLabel.Size = new Size(115, 28);
-            startDateLabel.TabIndex = 1;
-            startDateLabel.Text = "Start Date:";
-            // 
-            // endDateLabel
-            // 
-            endDateLabel.AutoSize = true;
-            endDateLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            endDateLabel.Location = new Point(464, 21);
-            endDateLabel.Name = "endDateLabel";
-            endDateLabel.Size = new Size(103, 28);
-            endDateLabel.TabIndex = 2;
-            endDateLabel.Text = "End Date:";
-            // 
-            // endDateTimePicker
-            // 
-            endDateTimePicker.CalendarFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            endDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            endDateTimePicker.Format = DateTimePickerFormat.Short;
-            endDateTimePicker.Location = new Point(464, 52);
-            endDateTimePicker.Name = "endDateTimePicker";
-            endDateTimePicker.Size = new Size(272, 39);
-            endDateTimePicker.TabIndex = 3;
             // 
             // generateStatsButton
             // 
@@ -167,233 +121,215 @@
             generateStatsButton.FlatStyle = FlatStyle.Flat;
             generateStatsButton.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             generateStatsButton.ForeColor = Color.White;
-            generateStatsButton.Location = new Point(34, 131);
+            generateStatsButton.Location = new Point(27, 105);
+            generateStatsButton.Margin = new Padding(2, 2, 2, 2);
             generateStatsButton.Name = "generateStatsButton";
-            generateStatsButton.Size = new Size(796, 50);
+            generateStatsButton.Size = new Size(637, 40);
             generateStatsButton.TabIndex = 4;
             generateStatsButton.Text = "Generate Statistics";
             generateStatsButton.UseVisualStyleBackColor = false;
             // 
-            // appointmentsPanel
+            // endDateTimePicker
             // 
-            appointmentsPanel.BackColor = Color.LightSteelBlue;
-            appointmentsPanel.BorderStyle = BorderStyle.FixedSingle;
-            appointmentsPanel.Controls.Add(totalAppointmentsValueLabel);
-            appointmentsPanel.Controls.Add(totalAppointmentsLabel);
-            appointmentsPanel.Location = new Point(13, 381);
-            appointmentsPanel.Name = "appointmentsPanel";
-            appointmentsPanel.Size = new Size(418, 150);
-            appointmentsPanel.TabIndex = 17;
+            endDateTimePicker.CalendarFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            endDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            endDateTimePicker.Format = DateTimePickerFormat.Short;
+            endDateTimePicker.Location = new Point(371, 42);
+            endDateTimePicker.Margin = new Padding(2, 2, 2, 2);
+            endDateTimePicker.Name = "endDateTimePicker";
+            endDateTimePicker.Size = new Size(218, 34);
+            endDateTimePicker.TabIndex = 3;
             // 
-            // patientsPanel
+            // endDateLabel
             // 
-            patientsPanel.BackColor = Color.Wheat;
-            patientsPanel.BorderStyle = BorderStyle.FixedSingle;
-            patientsPanel.Controls.Add(uniquePatientsValueLabel);
-            patientsPanel.Controls.Add(uniquePatientsLabel);
-            patientsPanel.Location = new Point(456, 381);
-            patientsPanel.Name = "patientsPanel";
-            patientsPanel.Size = new Size(419, 150);
-            patientsPanel.TabIndex = 18;
+            endDateLabel.AutoSize = true;
+            endDateLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            endDateLabel.Location = new Point(371, 17);
+            endDateLabel.Margin = new Padding(2, 0, 2, 0);
+            endDateLabel.Name = "endDateLabel";
+            endDateLabel.Size = new Size(88, 23);
+            endDateLabel.TabIndex = 2;
+            endDateLabel.Text = "End Date:";
             // 
-            // checkupsPanel
+            // startDateLabel
             // 
-            checkupsPanel.BackColor = Color.FromArgb(217, 231, 193);
-            checkupsPanel.BorderStyle = BorderStyle.FixedSingle;
-            checkupsPanel.Controls.Add(completedCheckupsValueLabel);
-            checkupsPanel.Controls.Add(completedCheckupsLabel);
-            checkupsPanel.Location = new Point(13, 557);
-            checkupsPanel.Name = "checkupsPanel";
-            checkupsPanel.Size = new Size(419, 150);
-            checkupsPanel.TabIndex = 19;
+            startDateLabel.AutoSize = true;
+            startDateLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            startDateLabel.Location = new Point(27, 17);
+            startDateLabel.Margin = new Padding(2, 0, 2, 0);
+            startDateLabel.Name = "startDateLabel";
+            startDateLabel.Size = new Size(98, 23);
+            startDateLabel.TabIndex = 1;
+            startDateLabel.Text = "Start Date:";
             // 
-            // orderedTestsPanel
+            // startDateTimePicker
             // 
-            orderedTestsPanel.BackColor = Color.FromArgb(221, 211, 238);
-            orderedTestsPanel.BorderStyle = BorderStyle.FixedSingle;
-            orderedTestsPanel.Controls.Add(testsOrderedValueLabel);
-            orderedTestsPanel.Controls.Add(testsOrderedLabel);
-            orderedTestsPanel.Location = new Point(456, 557);
-            orderedTestsPanel.Name = "orderedTestsPanel";
-            orderedTestsPanel.Size = new Size(419, 150);
-            orderedTestsPanel.TabIndex = 20;
+            startDateTimePicker.CalendarFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            startDateTimePicker.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            startDateTimePicker.Format = DateTimePickerFormat.Short;
+            startDateTimePicker.Location = new Point(27, 42);
+            startDateTimePicker.Margin = new Padding(2, 2, 2, 2);
+            startDateTimePicker.Name = "startDateTimePicker";
+            startDateTimePicker.Size = new Size(218, 34);
+            startDateTimePicker.TabIndex = 0;
             // 
-            // performedTestsPanel
+            // totalTestsPerformedPanel
             // 
-            performedTestsPanel.BackColor = Color.FromArgb(220, 211, 203);
-            performedTestsPanel.BorderStyle = BorderStyle.FixedSingle;
-            performedTestsPanel.Controls.Add(testsPerformedValueLabel);
-            performedTestsPanel.Controls.Add(testsPerformedLabel);
-            performedTestsPanel.Location = new Point(13, 739);
-            performedTestsPanel.Name = "performedTestsPanel";
-            performedTestsPanel.Size = new Size(419, 150);
-            performedTestsPanel.TabIndex = 21;
+            totalTestsPerformedPanel.BackColor = Color.LightSteelBlue;
+            totalTestsPerformedPanel.BorderStyle = BorderStyle.FixedSingle;
+            totalTestsPerformedPanel.Controls.Add(totalTestsPerformedValueLabel);
+            totalTestsPerformedPanel.Controls.Add(totalTestsPerformedLabel);
+            totalTestsPerformedPanel.Location = new Point(237, 305);
+            totalTestsPerformedPanel.Margin = new Padding(2, 2, 2, 2);
+            totalTestsPerformedPanel.Name = "totalTestsPerformedPanel";
+            totalTestsPerformedPanel.Size = new Size(232, 120);
+            totalTestsPerformedPanel.TabIndex = 17;
             // 
-            // abnormalResultsPanel
+            // totalTestsPerformedValueLabel
             // 
-            abnormalResultsPanel.BackColor = Color.FromArgb(255, 227, 226);
-            abnormalResultsPanel.BorderStyle = BorderStyle.FixedSingle;
-            abnormalResultsPanel.Controls.Add(abnormalResultsValueLabel);
-            abnormalResultsPanel.Controls.Add(abnormalResultsLabel);
-            abnormalResultsPanel.Location = new Point(456, 739);
-            abnormalResultsPanel.Name = "abnormalResultsPanel";
-            abnormalResultsPanel.Size = new Size(419, 150);
-            abnormalResultsPanel.TabIndex = 22;
+            totalTestsPerformedValueLabel.AutoSize = true;
+            totalTestsPerformedValueLabel.BackColor = Color.Transparent;
+            totalTestsPerformedValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalTestsPerformedValueLabel.ForeColor = Color.DarkBlue;
+            totalTestsPerformedValueLabel.Location = new Point(13, 52);
+            totalTestsPerformedValueLabel.Margin = new Padding(2, 0, 2, 0);
+            totalTestsPerformedValueLabel.Name = "totalTestsPerformedValueLabel";
+            totalTestsPerformedValueLabel.Size = new Size(43, 50);
+            totalTestsPerformedValueLabel.TabIndex = 1;
+            totalTestsPerformedValueLabel.Text = "0";
             // 
-            // totalAppointmentsLabel
+            // totalTestsPerformedLabel
             // 
-            totalAppointmentsLabel.AutoSize = true;
-            totalAppointmentsLabel.BackColor = Color.Transparent;
-            totalAppointmentsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            totalAppointmentsLabel.Location = new Point(16, 10);
-            totalAppointmentsLabel.Name = "totalAppointmentsLabel";
-            totalAppointmentsLabel.Size = new Size(209, 30);
-            totalAppointmentsLabel.TabIndex = 0;
-            totalAppointmentsLabel.Text = "Total Appointments";
+            totalTestsPerformedLabel.AutoSize = true;
+            totalTestsPerformedLabel.BackColor = Color.Transparent;
+            totalTestsPerformedLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalTestsPerformedLabel.Location = new Point(2, 8);
+            totalTestsPerformedLabel.Margin = new Padding(2, 0, 2, 0);
+            totalTestsPerformedLabel.Name = "totalTestsPerformedLabel";
+            totalTestsPerformedLabel.Size = new Size(194, 25);
+            totalTestsPerformedLabel.TabIndex = 0;
+            totalTestsPerformedLabel.Text = "Total Tests Performed";
             // 
-            // totalAppointmentsValueLabel
+            // totalAbnormalResultsPanel
             // 
-            totalAppointmentsValueLabel.AutoSize = true;
-            totalAppointmentsValueLabel.BackColor = Color.Transparent;
-            totalAppointmentsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            totalAppointmentsValueLabel.ForeColor = Color.DarkBlue;
-            totalAppointmentsValueLabel.Location = new Point(16, 65);
-            totalAppointmentsValueLabel.Name = "totalAppointmentsValueLabel";
-            totalAppointmentsValueLabel.Size = new Size(50, 60);
-            totalAppointmentsValueLabel.TabIndex = 1;
-            totalAppointmentsValueLabel.Text = "0";
+            totalAbnormalResultsPanel.BackColor = Color.Wheat;
+            totalAbnormalResultsPanel.BorderStyle = BorderStyle.FixedSingle;
+            totalAbnormalResultsPanel.Controls.Add(totalAbnormalResultsValueLabel);
+            totalAbnormalResultsPanel.Controls.Add(totalAbnormalResultsLabel);
+            totalAbnormalResultsPanel.Location = new Point(10, 305);
+            totalAbnormalResultsPanel.Margin = new Padding(2, 2, 2, 2);
+            totalAbnormalResultsPanel.Name = "totalAbnormalResultsPanel";
+            totalAbnormalResultsPanel.Size = new Size(223, 120);
+            totalAbnormalResultsPanel.TabIndex = 18;
             // 
-            // uniquePatientsValueLabel
+            // totalAbnormalResultsValueLabel
             // 
-            uniquePatientsValueLabel.AutoSize = true;
-            uniquePatientsValueLabel.BackColor = Color.Transparent;
-            uniquePatientsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uniquePatientsValueLabel.ForeColor = Color.DarkBlue;
-            uniquePatientsValueLabel.Location = new Point(20, 65);
-            uniquePatientsValueLabel.Name = "uniquePatientsValueLabel";
-            uniquePatientsValueLabel.Size = new Size(50, 60);
-            uniquePatientsValueLabel.TabIndex = 3;
-            uniquePatientsValueLabel.Text = "0";
+            totalAbnormalResultsValueLabel.AutoSize = true;
+            totalAbnormalResultsValueLabel.BackColor = Color.Transparent;
+            totalAbnormalResultsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalAbnormalResultsValueLabel.ForeColor = Color.DarkBlue;
+            totalAbnormalResultsValueLabel.Location = new Point(16, 52);
+            totalAbnormalResultsValueLabel.Margin = new Padding(2, 0, 2, 0);
+            totalAbnormalResultsValueLabel.Name = "totalAbnormalResultsValueLabel";
+            totalAbnormalResultsValueLabel.Size = new Size(43, 50);
+            totalAbnormalResultsValueLabel.TabIndex = 3;
+            totalAbnormalResultsValueLabel.Text = "0";
             // 
-            // uniquePatientsLabel
+            // totalAbnormalResultsLabel
             // 
-            uniquePatientsLabel.AutoSize = true;
-            uniquePatientsLabel.BackColor = Color.Transparent;
-            uniquePatientsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uniquePatientsLabel.Location = new Point(20, 10);
-            uniquePatientsLabel.Name = "uniquePatientsLabel";
-            uniquePatientsLabel.Size = new Size(170, 30);
-            uniquePatientsLabel.TabIndex = 2;
-            uniquePatientsLabel.Text = "Unique Patients";
+            totalAbnormalResultsLabel.AutoSize = true;
+            totalAbnormalResultsLabel.BackColor = Color.Transparent;
+            totalAbnormalResultsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalAbnormalResultsLabel.Location = new Point(2, 8);
+            totalAbnormalResultsLabel.Margin = new Padding(2, 0, 2, 0);
+            totalAbnormalResultsLabel.Name = "totalAbnormalResultsLabel";
+            totalAbnormalResultsLabel.Size = new Size(208, 25);
+            totalAbnormalResultsLabel.TabIndex = 2;
+            totalAbnormalResultsLabel.Text = "Total Abnormal Results";
             // 
-            // completedCheckupsValueLabel
+            // totalNormalResultsPanel
             // 
-            completedCheckupsValueLabel.AutoSize = true;
-            completedCheckupsValueLabel.BackColor = Color.Transparent;
-            completedCheckupsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            completedCheckupsValueLabel.ForeColor = Color.DarkBlue;
-            completedCheckupsValueLabel.Location = new Point(16, 74);
-            completedCheckupsValueLabel.Name = "completedCheckupsValueLabel";
-            completedCheckupsValueLabel.Size = new Size(50, 60);
-            completedCheckupsValueLabel.TabIndex = 5;
-            completedCheckupsValueLabel.Text = "0";
+            totalNormalResultsPanel.BackColor = Color.FromArgb(217, 231, 193);
+            totalNormalResultsPanel.BorderStyle = BorderStyle.FixedSingle;
+            totalNormalResultsPanel.Controls.Add(totalNormalResultsValueLabel);
+            totalNormalResultsPanel.Controls.Add(totalNormalResultsLabel);
+            totalNormalResultsPanel.Location = new Point(473, 305);
+            totalNormalResultsPanel.Margin = new Padding(2, 2, 2, 2);
+            totalNormalResultsPanel.Name = "totalNormalResultsPanel";
+            totalNormalResultsPanel.Size = new Size(227, 120);
+            totalNormalResultsPanel.TabIndex = 19;
             // 
-            // completedCheckupsLabel
+            // totalNormalResultsValueLabel
             // 
-            completedCheckupsLabel.AutoSize = true;
-            completedCheckupsLabel.BackColor = Color.Transparent;
-            completedCheckupsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            completedCheckupsLabel.Location = new Point(16, 19);
-            completedCheckupsLabel.Name = "completedCheckupsLabel";
-            completedCheckupsLabel.Size = new Size(225, 30);
-            completedCheckupsLabel.TabIndex = 4;
-            completedCheckupsLabel.Text = "Completed Checkups";
+            totalNormalResultsValueLabel.AutoSize = true;
+            totalNormalResultsValueLabel.BackColor = Color.Transparent;
+            totalNormalResultsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalNormalResultsValueLabel.ForeColor = Color.DarkBlue;
+            totalNormalResultsValueLabel.Location = new Point(13, 59);
+            totalNormalResultsValueLabel.Margin = new Padding(2, 0, 2, 0);
+            totalNormalResultsValueLabel.Name = "totalNormalResultsValueLabel";
+            totalNormalResultsValueLabel.Size = new Size(43, 50);
+            totalNormalResultsValueLabel.TabIndex = 5;
+            totalNormalResultsValueLabel.Text = "0";
             // 
-            // testsOrderedValueLabel
+            // totalNormalResultsLabel
             // 
-            testsOrderedValueLabel.AutoSize = true;
-            testsOrderedValueLabel.BackColor = Color.Transparent;
-            testsOrderedValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            testsOrderedValueLabel.ForeColor = Color.DarkBlue;
-            testsOrderedValueLabel.Location = new Point(20, 74);
-            testsOrderedValueLabel.Name = "testsOrderedValueLabel";
-            testsOrderedValueLabel.Size = new Size(50, 60);
-            testsOrderedValueLabel.TabIndex = 7;
-            testsOrderedValueLabel.Text = "0";
+            totalNormalResultsLabel.AutoSize = true;
+            totalNormalResultsLabel.BackColor = Color.Transparent;
+            totalNormalResultsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            totalNormalResultsLabel.Location = new Point(2, 8);
+            totalNormalResultsLabel.Margin = new Padding(2, 0, 2, 0);
+            totalNormalResultsLabel.Name = "totalNormalResultsLabel";
+            totalNormalResultsLabel.Size = new Size(188, 25);
+            totalNormalResultsLabel.TabIndex = 4;
+            totalNormalResultsLabel.Text = "Total Normal Results";
             // 
-            // testsOrderedLabel
+            // testStatisticsGridView
             // 
-            testsOrderedLabel.AutoSize = true;
-            testsOrderedLabel.BackColor = Color.Transparent;
-            testsOrderedLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            testsOrderedLabel.Location = new Point(20, 19);
-            testsOrderedLabel.Name = "testsOrderedLabel";
-            testsOrderedLabel.Size = new Size(150, 30);
-            testsOrderedLabel.TabIndex = 6;
-            testsOrderedLabel.Text = "Tests Ordered";
+            testStatisticsGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            testStatisticsGridView.Location = new Point(3, 31);
+            testStatisticsGridView.Name = "testStatisticsGridView";
+            testStatisticsGridView.RowHeadersWidth = 51;
+            testStatisticsGridView.Size = new Size(684, 157);
+            testStatisticsGridView.TabIndex = 20;
             // 
-            // testsPerformedValueLabel
+            // testStatsPanel
             // 
-            testsPerformedValueLabel.AutoSize = true;
-            testsPerformedValueLabel.BackColor = Color.Transparent;
-            testsPerformedValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            testsPerformedValueLabel.ForeColor = Color.DarkBlue;
-            testsPerformedValueLabel.Location = new Point(16, 70);
-            testsPerformedValueLabel.Name = "testsPerformedValueLabel";
-            testsPerformedValueLabel.Size = new Size(50, 60);
-            testsPerformedValueLabel.TabIndex = 9;
-            testsPerformedValueLabel.Text = "0";
+            testStatsPanel.BackColor = Color.FromArgb(255, 192, 192);
+            testStatsPanel.Controls.Add(testStatisticsGridView);
+            testStatsPanel.Controls.Add(testStatsLabel);
+            testStatsPanel.Location = new Point(10, 439);
+            testStatsPanel.Name = "testStatsPanel";
+            testStatsPanel.Size = new Size(690, 197);
+            testStatsPanel.TabIndex = 21;
             // 
-            // testsPerformedLabel
+            // testStatsLabel
             // 
-            testsPerformedLabel.AutoSize = true;
-            testsPerformedLabel.BackColor = Color.Transparent;
-            testsPerformedLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            testsPerformedLabel.Location = new Point(16, 15);
-            testsPerformedLabel.Name = "testsPerformedLabel";
-            testsPerformedLabel.Size = new Size(172, 30);
-            testsPerformedLabel.TabIndex = 8;
-            testsPerformedLabel.Text = "Tests Performed";
-            // 
-            // abnormalResultsValueLabel
-            // 
-            abnormalResultsValueLabel.AutoSize = true;
-            abnormalResultsValueLabel.BackColor = Color.Transparent;
-            abnormalResultsValueLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            abnormalResultsValueLabel.ForeColor = Color.DarkBlue;
-            abnormalResultsValueLabel.Location = new Point(20, 70);
-            abnormalResultsValueLabel.Name = "abnormalResultsValueLabel";
-            abnormalResultsValueLabel.Size = new Size(50, 60);
-            abnormalResultsValueLabel.TabIndex = 11;
-            abnormalResultsValueLabel.Text = "0";
-            // 
-            // abnormalResultsLabel
-            // 
-            abnormalResultsLabel.AutoSize = true;
-            abnormalResultsLabel.BackColor = Color.Transparent;
-            abnormalResultsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            abnormalResultsLabel.Location = new Point(20, 15);
-            abnormalResultsLabel.Name = "abnormalResultsLabel";
-            abnormalResultsLabel.Size = new Size(187, 30);
-            abnormalResultsLabel.TabIndex = 10;
-            abnormalResultsLabel.Text = "Abnormal Results";
+            testStatsLabel.AutoSize = true;
+            testStatsLabel.BackColor = Color.Transparent;
+            testStatsLabel.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            testStatsLabel.Location = new Point(2, 3);
+            testStatsLabel.Margin = new Padding(2, 0, 2, 0);
+            testStatsLabel.Name = "testStatsLabel";
+            testStatsLabel.Size = new Size(125, 25);
+            testStatsLabel.TabIndex = 22;
+            testStatsLabel.Text = "Test Statistics";
             // 
             // AdminStatisticsPage
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(891, 911);
-            Controls.Add(abnormalResultsPanel);
-            Controls.Add(performedTestsPanel);
-            Controls.Add(orderedTestsPanel);
-            Controls.Add(checkupsPanel);
-            Controls.Add(patientsPanel);
-            Controls.Add(appointmentsPanel);
+            ClientSize = new Size(713, 673);
+            Controls.Add(testStatsPanel);
+            Controls.Add(totalNormalResultsPanel);
+            Controls.Add(totalAbnormalResultsPanel);
+            Controls.Add(totalTestsPerformedPanel);
             Controls.Add(dateFilterPanel);
             Controls.Add(adminStatsHeaderLabel);
             Controls.Add(backButton);
             Controls.Add(panel1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "AdminStatisticsPage";
             Text = "AdminStatisticsPage";
             Load += AdminStatisticsPage_Load;
@@ -401,18 +337,15 @@
             panel1.PerformLayout();
             dateFilterPanel.ResumeLayout(false);
             dateFilterPanel.PerformLayout();
-            appointmentsPanel.ResumeLayout(false);
-            appointmentsPanel.PerformLayout();
-            patientsPanel.ResumeLayout(false);
-            patientsPanel.PerformLayout();
-            checkupsPanel.ResumeLayout(false);
-            checkupsPanel.PerformLayout();
-            orderedTestsPanel.ResumeLayout(false);
-            orderedTestsPanel.PerformLayout();
-            performedTestsPanel.ResumeLayout(false);
-            performedTestsPanel.PerformLayout();
-            abnormalResultsPanel.ResumeLayout(false);
-            abnormalResultsPanel.PerformLayout();
+            totalTestsPerformedPanel.ResumeLayout(false);
+            totalTestsPerformedPanel.PerformLayout();
+            totalAbnormalResultsPanel.ResumeLayout(false);
+            totalAbnormalResultsPanel.PerformLayout();
+            totalNormalResultsPanel.ResumeLayout(false);
+            totalNormalResultsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)testStatisticsGridView).EndInit();
+            testStatsPanel.ResumeLayout(false);
+            testStatsPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -429,23 +362,17 @@
         private Button generateStatsButton;
         private DateTimePicker endDateTimePicker;
         private Label endDateLabel;
-        private Panel appointmentsPanel;
-        private Panel patientsPanel;
-        private Panel checkupsPanel;
-        private Panel orderedTestsPanel;
-        private Panel performedTestsPanel;
-        private Panel abnormalResultsPanel;
-        private Label totalAppointmentsValueLabel;
-        private Label totalAppointmentsLabel;
-        private Label uniquePatientsValueLabel;
-        private Label uniquePatientsLabel;
-        private Label completedCheckupsValueLabel;
-        private Label completedCheckupsLabel;
-        private Label testsOrderedValueLabel;
-        private Label testsOrderedLabel;
-        private Label testsPerformedValueLabel;
-        private Label testsPerformedLabel;
-        private Label abnormalResultsValueLabel;
-        private Label abnormalResultsLabel;
+        private Panel totalTestsPerformedPanel;
+        private Panel totalAbnormalResultsPanel;
+        private Panel totalNormalResultsPanel;
+        private Label totalTestsPerformedValueLabel;
+        private Label totalTestsPerformedLabel;
+        private Label totalAbnormalResultsValueLabel;
+        private Label totalAbnormalResultsLabel;
+        private Label totalNormalResultsValueLabel;
+        private Label totalNormalResultsLabel;
+        private DataGridView testStatisticsGridView;
+        private Panel testStatsPanel;
+        private Label testStatsLabel;
     }
 }

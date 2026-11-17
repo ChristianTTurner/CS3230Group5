@@ -71,23 +71,15 @@ namespace CS3230_Group5.View.Admin_View
                 AdminStatistics statistics =
                     _statisticsDal.GetStatistics(startDate, endDate);
 
-                totalAppointmentsValueLabel.Text =
-                    statistics.TotalAppointments.ToString();
+                totalTestsPerformedValueLabel.Text =
+                    statistics.TotalTestsPerformed.ToString();
 
-                uniquePatientsValueLabel.Text =
-                    statistics.UniquePatients.ToString();
+                totalAbnormalResultsValueLabel.Text =
+                    statistics.NumAbnormalResults.ToString();
 
-                completedCheckupsValueLabel.Text =
-                    statistics.CompletedCheckups.ToString();
+                totalNormalResultsValueLabel.Text =
+                    statistics.NumNormalResults.ToString();
 
-                testsOrderedValueLabel.Text =
-                    statistics.TotalLDLTestsPerformed.ToString();
-
-                testsPerformedValueLabel.Text =
-                    statistics.TotalWBCTestsPerformed.ToString();
-
-                abnormalResultsValueLabel.Text =
-                    statistics.AbnormalResults.ToString();
             }
             catch (Exception ex)
             {
@@ -99,14 +91,28 @@ namespace CS3230_Group5.View.Admin_View
             }
         }
 
+        private void populateTestStatsGridView(AdminStatistics stats)
+        {
+            testStatisticsGridView.Rows.Add(new object[] { "Code", "Name", "Times Performed", "Percentage" });
+
+            var hepaStats = new object[] { "HEPA", "Hepatitis A Test", stats.TotalHEPATestsPerformed, stats.HEPATestPercentage };
+            var hepbStats = new object[] { "HEPB", "Hepatitis B Test", stats.TotalHEPBTestsPerformed, stats.HEPBTestPercentage };
+            var LDLStats = new object[] { "LDL", "Low Density Lipoproteins", stats.TotalLDLTestsPerformed, stats.LDLTestPercentage };
+            var WBCStats = new object[] { "WBC", "White Blood Cell Count", stats.TotalWBCTestsPerformed, stats.WBCTestPercentage};
+
+            var testStats = new object[] { hepaStats, hepbStats, LDLStats, WBCStats};
+
+            testStatisticsGridView.Rows.Add(hepaStats);
+            testStatisticsGridView.Rows.Add(hepbStats);
+            testStatisticsGridView.Rows.Add(LDLStats);
+            testStatisticsGridView.Rows.Add(WBCStats);
+        }
         private void ResetStatistics()
         {
-            totalAppointmentsValueLabel.Text = "0";
-            uniquePatientsValueLabel.Text = "0";
-            completedCheckupsValueLabel.Text = "0";
-            testsOrderedValueLabel.Text = "0";
-            testsPerformedValueLabel.Text = "0";
-            abnormalResultsValueLabel.Text = "0";
+            totalTestsPerformedValueLabel.Text = "0";
+            totalAbnormalResultsValueLabel.Text = "0";
+            totalNormalResultsValueLabel.Text = "0";
+            testStatisticsGridView.Rows.Clear();
         }
 
         private void BackButton_Click(object? sender, EventArgs e)
