@@ -48,8 +48,8 @@
             totalNormalResultsValueLabel = new Label();
             totalNormalResultsLabel = new Label();
             testStatsPanel = new Panel();
-            testStatsLabel = new Label();
             testStatsListView = new ListView();
+            testStatsLabel = new Label();
             panel1.SuspendLayout();
             dateFilterPanel.SuspendLayout();
             totalTestsPerformedPanel.SuspendLayout();
@@ -293,6 +293,15 @@
             testStatsPanel.Size = new Size(690, 168);
             testStatsPanel.TabIndex = 21;
             // 
+            // testStatsListView
+            // 
+            testStatsListView.Enabled = false;
+            testStatsListView.Location = new Point(3, 31);
+            testStatsListView.Name = "testStatsListView";
+            testStatsListView.Size = new Size(684, 131);
+            testStatsListView.TabIndex = 23;
+            testStatsListView.UseCompatibleStateImageBehavior = false;
+            // 
             // testStatsLabel
             // 
             testStatsLabel.AutoSize = true;
@@ -304,14 +313,6 @@
             testStatsLabel.Size = new Size(125, 25);
             testStatsLabel.TabIndex = 22;
             testStatsLabel.Text = "Test Statistics";
-            // 
-            // testStatsListView
-            // 
-            testStatsListView.Location = new Point(3, 31);
-            testStatsListView.Name = "testStatsListView";
-            testStatsListView.Size = new Size(684, 131);
-            testStatsListView.TabIndex = 23;
-            testStatsListView.UseCompatibleStateImageBehavior = false;
             // 
             // AdminStatisticsPage
             // 

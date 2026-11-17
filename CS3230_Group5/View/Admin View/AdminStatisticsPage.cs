@@ -32,9 +32,10 @@ namespace CS3230_Group5.View.Admin_View
             testStatsListView.Columns.Clear();
 
             testStatsListView.Columns.Add("Code", 60, HorizontalAlignment.Left);
-            testStatsListView.Columns.Add("Name", 120, HorizontalAlignment.Left);
-            testStatsListView.Columns.Add("Times Performed", 120, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Name", 220, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Times Performed", 140, HorizontalAlignment.Left);
             testStatsListView.Columns.Add("Percentage", 100, HorizontalAlignment.Left);
+
         }
 
         private void AdminStatisticsPage_Load(object sender, EventArgs e)
@@ -59,9 +60,9 @@ namespace CS3230_Group5.View.Admin_View
             ResetStatistics();
         }
 
-        private void GenerateStatsButton_Click(
-            object? sender, EventArgs e)
+        private void GenerateStatsButton_Click(object? sender, EventArgs e)
         {
+            testStatsListView.Items.Clear();
             DateTime startDate = startDateTimePicker.Value.Date;
             DateTime endDate = endDateTimePicker.Value.Date;
 
@@ -114,6 +115,7 @@ namespace CS3230_Group5.View.Admin_View
 
                 testStatsListView.Items.Add(item);
             }
+
         }
         private void ResetStatistics()
         {
