@@ -11,16 +11,21 @@ namespace CS3230_Group5.Model
     /// </summary>
     public class AdminStatistics
     {
-        public int TotalAppointments { get; set; }
+        public int TotalTestsPerformed { get; set; }
 
-        public int UniquePatients { get; set; }
+        public int NumAbnormalResults { get; set; }
 
-        public int CompletedCheckups { get; set; }
+        public int NumNormalResults { get; set; }
 
-        public int TestsOrdered { get; set; }
+        public List<TestInfo> TestStatistics { get; set; }
 
-        public int TestsPerformed { get; set; }
+        public AdminStatistics() 
+        {
+            TotalTestsPerformed = 0;
+            NumAbnormalResults = 0;
+            NumNormalResults = 0;
+            TestStatistics = new List<TestInfo>();
+        }
 
-        public int AbnormalResults { get; set; }
     }
 }

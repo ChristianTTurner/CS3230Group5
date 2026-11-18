@@ -12,9 +12,7 @@ namespace CS3230_Group5.DAL
     /// </summary>
     public class AdminStatisticsDal
     {
-        public AdminStatistics GetStatistics(
-            DateTime startDate,
-            DateTime endDate)
+        public AdminStatistics GetStatistics(DateTime startDate, DateTime endDate)
         {
             if (startDate.Date > endDate.Date)
             {
@@ -22,108 +20,47 @@ namespace CS3230_Group5.DAL
                     "Start date cannot be after the end date.");
             }
 
-            const string query = @"
-                SELECT
-
-                    -- Total appointments
-                    (
-                        SELECT COUNT(*)
-                        FROM appointment
-                        WHERE datetime >= @startDate
-                          AND datetime < @endDate
-                    ) AS total_appointments,
-
-                    -- Unique patients
-                    (
-                        SELECT COUNT(DISTINCT patient_id)
-                        FROM appointment
-                        WHERE datetime >= @startDate
-                          AND datetime < @endDate
-                    ) AS unique_patients,
-
-                    -- Completed checkups
-                    (
-                        SELECT COUNT(*)
-                        FROM appointment_summary s
-                        INNER JOIN appointment a
-                            ON s.appointment_id = a.appointment_id
-                        WHERE a.datetime >= @startDate
-                          AND a.datetime < @endDate
-                    ) AS completed_checkups,
-
-                    -- Tests ordered for appointments in the date range
-                    (
-                        SELECT COUNT(*)
-                        FROM ordered_test ot
-                        INNER JOIN appointment a
-                            ON ot.appointment_id = a.appointment_id
-                        WHERE a.datetime >= @startDate
-                          AND a.datetime < @endDate
-                    ) AS tests_ordered,
-
-                    -- Tests performed during the date range
-                    (
-                        SELECT COUNT(*)
-                        FROM ordered_test
-                        WHERE performed_datetime >= @startDate
-                          AND performed_datetime < @endDate
-                    ) AS tests_performed,
-
-                    -- Abnormal results recorded during the date range
-                    (
-                        SELECT COUNT(*)
-                        FROM ordered_test
-                        WHERE performed_datetime >= @startDate
-                          AND performed_datetime < @endDate
-                          AND abnormal = TRUE
-                    ) AS abnormal_results;
-            ";
+            var storedProcedure = @"call get_most_performed_tests_duringdates(@startDate, @endDate)";
 
             using var connection =
                 new MySqlConnection(Connection.ConnectionString());
-
             using var command =
-                new MySqlCommand(query, connection);
+                new MySqlCommand(storedProcedure, connection);
 
             command.Parameters.Add(
-                    "@startDate", MySqlDbType.DateTime).Value =
-                startDate.Date;
-
+                    "@startDate", MySqlDbType.DateTime).Value = startDate.Date;
             command.Parameters.Add(
-                    "@endDate", MySqlDbType.DateTime).Value =
-                endDate.Date.AddDays(1);
+                    "@endDate", MySqlDbType.DateTime).Value = endDate.Date.AddDays(1);
 
             connection.Open();
-
             using var reader = command.ExecuteReader();
 
-            if (!reader.Read())
+
+
+            var adminStats = new AdminStatistics();
+
+            while (reader.Read())
             {
-                throw new InvalidOperationException(
-                    "Unable to retrieve administrator statistics.");
+                var testInfo = new TestInfo();
+
+                testInfo.Code = Convert.ToString(reader["test_code"]);
+                testInfo.Name = Convert.ToString(reader["test_name"]);
+                testInfo.NumPerformed = Convert.ToInt32(reader["performed_num_times"]);
+                testInfo.Percentage = Convert.ToDouble(reader["percentage"]);
+                testInfo.NumAbnormalResults = Convert.ToInt32(reader["num_abnormal_result"]);
+                testInfo.NumNormalResults = Convert.ToInt32(reader["num_normal_result"]);
+
+                adminStats.TotalTestsPerformed = Convert.ToInt32(reader["performed_all_tests_n_times"]);
+                adminStats.NumAbnormalResults = Convert.ToInt32(reader["total_abnormal_results"]);
+                adminStats.NumNormalResults = Convert.ToInt32(reader["total_normal_results"]);
+
+                adminStats.TestStatistics.Add(testInfo);
             }
 
-            return new AdminStatistics
-            {
-                TotalAppointments =
-                    Convert.ToInt32(reader["total_appointments"]),
-
-                UniquePatients =
-                    Convert.ToInt32(reader["unique_patients"]),
-
-                CompletedCheckups =
-                    Convert.ToInt32(reader["completed_checkups"]),
-
-                TestsOrdered =
-                    Convert.ToInt32(reader["tests_ordered"]),
-
-                TestsPerformed =
-                    Convert.ToInt32(reader["tests_performed"]),
-
-                AbnormalResults =
-                    Convert.ToInt32(reader["abnormal_results"])
-            };
+            return adminStats;
         }
+
+        
     }
 }
 

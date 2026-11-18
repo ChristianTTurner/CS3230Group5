@@ -36,6 +36,19 @@ namespace CS3230_Group5.View.Admin_View
 
             generateStatsButton.Click += GenerateStatsButton_Click;
             backButton.Click += BackButton_Click;
+
+            testStatsListView.View = System.Windows.Forms.View.Details;
+            testStatsListView.FullRowSelect = true;
+            testStatsListView.MultiSelect = false;
+            testStatsListView.Columns.Clear();
+
+            testStatsListView.Columns.Add("Code", 60, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Name", 200, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Times Performed", 140, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Percentage", 100, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Normal", 80, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("AbNormal", 100, HorizontalAlignment.Left);
+
         }
 
         private void AdminStatisticsPage_Load(object sender, EventArgs e)
@@ -60,9 +73,9 @@ namespace CS3230_Group5.View.Admin_View
             ResetStatistics();
         }
 
-        private void GenerateStatsButton_Click(
-            object? sender, EventArgs e)
+        private void GenerateStatsButton_Click(object? sender, EventArgs e)
         {
+            testStatsListView.Items.Clear();
             DateTime startDate = startDateTimePicker.Value.Date;
             DateTime endDate = endDateTimePicker.Value.Date;
 
@@ -82,23 +95,25 @@ namespace CS3230_Group5.View.Admin_View
                 AdminStatistics statistics =
                     _statisticsDal.GetStatistics(startDate, endDate);
 
-                totalAppointmentsValueLabel.Text =
-                    statistics.TotalAppointments.ToString();
+                totalTestsPerformedValueLabel.Text =
+                    statistics.TotalTestsPerformed.ToString();
 
-                uniquePatientsValueLabel.Text =
-                    statistics.UniquePatients.ToString();
+                totalAbnormalResultsValueLabel.Text =
+                    statistics.NumAbnormalResults.ToString();
 
-                completedCheckupsValueLabel.Text =
-                    statistics.CompletedCheckups.ToString();
+                totalNormalResultsValueLabel.Text =
+                    statistics.NumNormalResults.ToString();
 
-                testsOrderedValueLabel.Text =
-                    statistics.TestsOrdered.ToString();
+                populateTestStatsGridView(statistics);
 
-                testsPerformedValueLabel.Text =
-                    statistics.TestsPerformed.ToString();
-
-                abnormalResultsValueLabel.Text =
-                    statistics.AbnormalResults.ToString();
+                if (testStatsListView.Items.Count == 0)
+                {
+                    MessageBox.Show(
+                    "No tests performed during this time period.\n\n",
+                    "No qualifying tests",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -110,14 +125,28 @@ namespace CS3230_Group5.View.Admin_View
             }
         }
 
+        private void populateTestStatsGridView(AdminStatistics stats)
+        {
+            foreach (var stat in stats.TestStatistics)
+            {
+                var item = new ListViewItem(stat.Code);
+
+                item.SubItems.Add(stat.Name);
+                item.SubItems.Add(stat.NumPerformed.ToString());
+                item.SubItems.Add($"{Math.Round(stat.Percentage, 2)}%");
+                item.SubItems.Add(stat.NumNormalResults.ToString());
+                item.SubItems.Add(stat.NumAbnormalResults.ToString());
+
+                testStatsListView.Items.Add(item);
+            }
+
+        }
         private void ResetStatistics()
         {
-            totalAppointmentsValueLabel.Text = "0";
-            uniquePatientsValueLabel.Text = "0";
-            completedCheckupsValueLabel.Text = "0";
-            testsOrderedValueLabel.Text = "0";
-            testsPerformedValueLabel.Text = "0";
-            abnormalResultsValueLabel.Text = "0";
+            totalTestsPerformedValueLabel.Text = "0";
+            totalAbnormalResultsValueLabel.Text = "0";
+            totalNormalResultsValueLabel.Text = "0";
+            testStatsListView.Items.Clear();
         }
 
         private void BackButton_Click(object? sender, EventArgs e)
