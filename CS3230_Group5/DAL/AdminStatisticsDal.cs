@@ -42,11 +42,13 @@ namespace CS3230_Group5.DAL
                 testInfo.Code = Convert.ToString(reader["test_code"]);
                 testInfo.Name = Convert.ToString(reader["test_name"]);
                 testInfo.NumPerformed = Convert.ToInt32(reader["performed_num_times"]);
-                testInfo.Percentage = Convert.ToInt32(reader["percentage"]);
+                testInfo.Percentage = Convert.ToDouble(reader["percentage"]);
+                testInfo.NumAbnormalResults = Convert.ToInt32(reader["num_abnormal_result"]);
+                testInfo.NumNormalResults = Convert.ToInt32(reader["num_normal_result"]);
 
                 adminStats.TotalTestsPerformed = Convert.ToInt32(reader["performed_all_tests_n_times"]);
-                adminStats.NumAbnormalResults = Convert.ToInt32(reader["num_abnormal_results"]);
-                adminStats.NumNormalResults = Convert.ToInt32(reader["num_normal_results"]);
+                adminStats.NumAbnormalResults = Convert.ToInt32(reader["total_abnormal_results"]);
+                adminStats.NumNormalResults = Convert.ToInt32(reader["total_normal_results"]);
 
                 adminStats.TestStatistics.Add(testInfo);
             }

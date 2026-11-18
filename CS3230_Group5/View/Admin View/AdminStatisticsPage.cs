@@ -32,9 +32,11 @@ namespace CS3230_Group5.View.Admin_View
             testStatsListView.Columns.Clear();
 
             testStatsListView.Columns.Add("Code", 60, HorizontalAlignment.Left);
-            testStatsListView.Columns.Add("Name", 220, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Name", 200, HorizontalAlignment.Left);
             testStatsListView.Columns.Add("Times Performed", 140, HorizontalAlignment.Left);
             testStatsListView.Columns.Add("Percentage", 100, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("Normal", 80, HorizontalAlignment.Left);
+            testStatsListView.Columns.Add("AbNormal", 100, HorizontalAlignment.Left);
 
         }
 
@@ -92,6 +94,15 @@ namespace CS3230_Group5.View.Admin_View
                     statistics.NumNormalResults.ToString();
 
                 populateTestStatsGridView(statistics);
+
+                if (testStatsListView.Items.Count == 0)
+                {
+                    MessageBox.Show(
+                    "No tests performed during this time period.\n\n",
+                    "No qualifying tests",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -111,7 +122,9 @@ namespace CS3230_Group5.View.Admin_View
 
                 item.SubItems.Add(stat.Name);
                 item.SubItems.Add(stat.NumPerformed.ToString());
-                item.SubItems.Add($"{stat.Percentage}%");
+                item.SubItems.Add($"{Math.Round(stat.Percentage, 2)}%");
+                item.SubItems.Add(stat.NumNormalResults.ToString());
+                item.SubItems.Add(stat.NumAbnormalResults.ToString());
 
                 testStatsListView.Items.Add(item);
             }

@@ -14,12 +14,18 @@ namespace CS3230_Group5.Model
 
         public double Percentage { get; set; }
 
+        public int NumNormalResults {  get; set; }
+
+        public int NumAbnormalResults { get; set; }
+
         public TestInfo()
         {
             Code = "";
             Name = "";
             NumPerformed = 0;
             Percentage = 0;
+            NumNormalResults = 0;
+            NumAbnormalResults = 0;
         }
     }
 }
